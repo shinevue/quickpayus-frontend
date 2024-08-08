@@ -17,6 +17,7 @@ export const fetchTickets = async (
           params: payload,
         }
       );
+      console.log(response.data)
       if (response.data.success) {
         resolve(response.data);
       }
