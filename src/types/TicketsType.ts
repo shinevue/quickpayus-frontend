@@ -1,12 +1,16 @@
 export interface TicketType {
   id: string;
-  title: string;
   description: string;
-  status: string;
+  image: string;
   priority: string;
+  status: string;
+  title: string;
   createdAt: string;
-  createdBy: string;
-  image?: string;
+  createdBy: {
+    avatarBg: string;
+    id: string;
+    username: string;
+  }
 }
 
 export interface FetchTicketResponse {
