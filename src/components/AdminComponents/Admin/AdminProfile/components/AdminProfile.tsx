@@ -11,6 +11,9 @@ import { RoleValues } from "../../UserPermissionAndRoles/components/UserPermissi
 
 import * as Styled from '../../../Style/AdminProfile.styled';
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { selectPermission } from "@/components/AdminComponents/Auth/authSlice";
+import { isAccessible } from "@/utils/utils";
 
 const {Title, Text} = Typography;
 
@@ -50,6 +53,7 @@ const ProfileItem: React.FC<{
   );
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const permissions = useSelector(selectPermission);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -94,9 +98,9 @@ const ProfileItem: React.FC<{
           <Text className="text-lg mb-4">{profile.role}</Text>
           <br/>
           <Space>
-            <Button style={{borderRadius: "8px"}} type="primary" onClick={handleEdit}>
+            { isAccessible(permissions || [], 'Edit User') && <Button style={{borderRadius: "8px"}} type="primary" onClick={handleEdit}>
               Edit
-            </Button>
+            </Button>}
             <Button style={{borderRadius: "8px"}} type="primary" danger onClick={handleDelete}>
               Delete
             </Button>

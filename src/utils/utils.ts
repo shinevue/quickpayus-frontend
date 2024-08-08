@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { DEF_PERMISSIONS } from "@/constants";
+import sidebarItems from "@/textContent/sidebarContent.json";
 
 /**
  *
@@ -32,4 +33,15 @@ export function getRoleFromToken(): string {
     } catch (error) {}
   }
   return "";
+}
+
+export function getRequirementForPath(path:string): string {
+  for (const section of sidebarItems) {
+    for (const item of section.items) {
+      if (item.path === path) {
+        return section.require; // Return the require of the section
+      }
+    }
+  }
+  return 'null'; // Return null if the path is not found
 }
