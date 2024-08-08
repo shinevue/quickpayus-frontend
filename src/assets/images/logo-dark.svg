@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="212.4536 135.1298 41.6826 15.4547" width="41.6826" height="15.4547" xmlns="http://www.w3.org/2000/svg">
+  <g id="layer1" transform="matrix(1, 0, 0, 1, 192.294921875, 117.80130004882812)">
+    <g id="g181" style="fill:#f00000;fill-opacity:1;stroke-width:2.3282" transform="matrix(0.42951615,0,0,0.42951615,-33.673631,42.279651)">
+      <path id="path21" style="fill-opacity: 1; fill-rule: evenodd; stroke-width: 2.79387; stroke-linecap: round; stroke-linejoin: round; fill: rgb(255, 255, 255);" d="m 173.85526,-39.37088 16.17792,-18.72044 32.34483,35.98168 -32.25048,10e-6 a 7.2043219,7.2043219 0 0 1 -5.81673,-2.95365 z"/>
+      <path id="path22" style="fill-opacity: 1; fill-rule: evenodd; stroke-width: 2.79387; stroke-linecap: round; stroke-linejoin: round; fill: rgb(255, 255, 255);" d="m 173.85526,-39.37088 -16.178,-18.72044 -32.34478,35.98168 32.25048,10e-6 a 7.2043219,7.2043219 0 0 0 5.8167,-2.95365 z"/>
+    </g>
+  </g>
+</svg>

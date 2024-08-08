@@ -1,0 +1,125 @@
+[
+  {
+    "id": "",
+    "title": "",
+    "require": "",
+    "items": [
+      {
+        "title": "Dashboard",
+        "path": "/admin/dashboard",
+        "icon": "<i class='ri-map-pin-user-line'></i>",
+        "require": "View Dashboard"
+      }
+    ]
+  },
+  {
+    "id": "admin-roles",
+    "title": "Admin Roles",
+    "require": "all",
+    "items": [
+      {
+        "title": "Manage User Roles",
+        "path": "/admin/user-permission",
+        "icon": "<i class='ri-map-pin-user-line'></i>"
+      },
+      {
+        "title": "Security Features",
+        "path": "/admin/two-factor-authentication",
+        "icon": "<i class='ri-verified-badge-line'></i>"
+      },
+      {
+        "title": "Admin Profile",
+        "path": "/admin/profile",
+        "icon": "<i class='ri-verified-badge-line'></i>"
+      }
+    ]
+  },
+  {
+    "id": "user-management",
+    "title": "User Management",
+    "require": "Create User|Edit User|Delete User",
+    "items": [
+      {
+        "title": "Users",
+        "path": "/admin/user-details",
+        "icon": "<i class='ri-map-pin-user-line'></i>"
+      },
+      {
+        "title": "KYC Management",
+        "path": "/admin/kyc",
+        "icon": "<i class='ri-verified-badge-line'></i>"
+      }
+    ]
+  },
+  {
+    "id": "financial-transactions",
+    "title": "Financial Transactions",
+    "require": "Manage Content",
+    "items": [
+      {
+        "title": "Transactions",
+        "path": "/admin/transactions",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      },
+      {
+        "title": "Profit Settings",
+        "path": "/admin/profit-configuration",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      },
+      {
+        "title": "Referral Settings",
+        "path": "/admin/referral-program",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      },
+      {
+        "title": " User Referral Details",
+        "path": "/admin/user-referrals",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      },
+      {
+        "title": "Rank Settings",
+        "path": "/admin/rank-management",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      },
+      {
+        "title": "Address Management",
+        "path": "/admin/receiver-address-management",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      }
+    ]
+  },
+  {
+    "id": "Receiver-address-managemnet",
+    "title": "Support",
+    "require": "Manage Content",
+    "items": [
+      {
+        "title": "Tickets",
+        "path": "/admin/user-problems",
+        "icon": "<i class='ri-spam-2-line'></i>"
+      },
+      {
+        "title": "Feedback",
+        "path": "/admin/feedbacks",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      }
+    ]
+  },
+  {
+    "id": "communications",
+    "title": "Communications",
+    "require": "Manage Content",
+    "items": [
+      {
+        "title": "Announcements",
+        "path": "/admin/announcement",
+        "icon": "<i class='ri-megaphone-line'></i>"
+      },
+      {
+        "title": "Notifications",
+        "path": "/admin/user-notifications",
+        "icon": "<i class='ri-exchange-dollar-line'></i>"
+      }
+    ]
+  }
+]

@@ -1,0 +1,4 @@
+export const REFERRAL_TYPE = {
+  DIRECT: "DIRECT",
+  INDIRECT: "INDIRECT",
+};
