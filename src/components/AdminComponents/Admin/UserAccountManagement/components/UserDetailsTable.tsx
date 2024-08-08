@@ -8,6 +8,7 @@ import { User } from "@/types/UserType";
 import { STATUS } from "@/constants";
 interface Props {
   users: User[];
+  paginationProps: any;
   handleViewUser: (id: number) => void;
   handleEditUser: (id: number) => void;
   handleSuspendUser: (id: number) => void;
@@ -17,6 +18,7 @@ interface Props {
 
 const UsersTable: React.FC<Props> = ({
   users,
+  paginationProps,
   handleViewUser,
   handleEditUser,
   handleSuspendUser,
@@ -237,7 +239,13 @@ const UsersTable: React.FC<Props> = ({
 
   return (
     <>
-      <Table bordered dataSource={users} columns={columns} rowKey="id" />
+      <Table
+        bordered
+        dataSource={users}
+        columns={columns}
+        rowKey="id"
+        pagination={paginationProps}
+      />
       <Modal
         title="Confirm Deletion"
         open={modalDelete}

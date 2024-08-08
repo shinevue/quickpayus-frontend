@@ -48,11 +48,15 @@ const UserNotifications: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <div style={{borderRadius: "18px", backgroundColor: "var(--color-bg-container)", padding: "30px"}}>
-        <Title level={2} style={{ textAlign: "center", marginBottom: "16px" }}>
-          Notifications
-        </Title>
+    <div style={{ padding: "25px" }}>
+      <div
+        style={{
+          borderRadius: "18px",
+          backgroundColor: "var(--color-bg-container)",
+          padding: "25px",
+        }}
+      >
+        <Title className="title">Notifications</Title>
         <Form
           layout="vertical"
           onFinish={handleNotificationSubmit}
@@ -84,32 +88,41 @@ const UserNotifications: React.FC = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" style={{borderRadius: "8px"}} htmlType="submit">
+            <Button
+              type="primary"
+              style={{ borderRadius: "8px" }}
+              htmlType="submit"
+            >
               Send Notification
             </Button>
           </Form.Item>
         </Form>
-        <div style={{ marginTop: "32px" }}>
-          <Title level={2} style={{ marginBottom: "16px" }}>
-            Notification Log
-          </Title>
-          <List
-            dataSource={notifications}
-            locale={{ emptyText: "No notifications sent yet." }}
-            renderItem={(notification: Notification) => (
-              <List.Item>
-                <div>
-                  <Title level={4}>{notification.title}</Title>
-                  <Text>
-                    Sent by Admin: {notification.userId} |
-                    {moment(notification.createdAt).format("MMM-DD-yyyy")}
-                  </Text>
-                </div>
-                <Text className="mt-2">{notification.message}</Text>
-              </List.Item>
-            )}
-          />
-        </div>
+      </div>
+      <div
+        style={{
+          borderRadius: "18px",
+          backgroundColor: "var(--color-bg-container)",
+          padding: "25px",
+          marginTop: "25px",
+        }}
+      >
+        <Title className="title">Notification Log</Title>
+        <List
+          dataSource={notifications}
+          locale={{ emptyText: "No notifications sent yet." }}
+          renderItem={(notification: Notification) => (
+            <List.Item>
+              <div>
+                <Title level={4}>{notification.title}</Title>
+                <Text>
+                  Sent by Admin: {notification.userId} |
+                  {moment(notification.createdAt).format("MMM-DD-yyyy")}
+                </Text>
+              </div>
+              <Text className="mt-2">{notification.message}</Text>
+            </List.Item>
+          )}
+        />
       </div>
     </div>
   );

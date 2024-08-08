@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Row } from "antd";
+import { Flex, Row, Typography } from "antd";
+const {Title} = Typography;
 
 export const Layout = styled.div`
   padding: 24px;
@@ -8,17 +9,20 @@ export const Layout = styled.div`
   border-radius: 18px;
 `;
 
-export const Header = styled.h1`
-  font-size: 1.875rem /* 30px */;
-  line-height: 2.25rem /* 36px */;
-  margin: 20px 0;
-  font-weight: 700;
-  color: var(--color-text);
+export const Header = styled(Title)`
+  font-size: 21px !important;
+  margin-bottom: 20px !important;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
-export const StyledRow = styled(Row)`
+export const StyledRow = styled(Flex)`
   margin-bottom: 16px;
   gap: 10px;
+  @media (max-width: 768px) {
+    flex-wrap : wrap;
+  }
 `;
 
 export const Container = styled.div`

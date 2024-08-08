@@ -10,8 +10,7 @@ export const Layout = styled.div`
     border-radius: 18px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     @media (max-width: 768px) {
-        margin: 0;
-        margin-top: 40px;
+        margin: 40px 25px;
     }
 `;
 
@@ -19,7 +18,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 20px;
+    gap: 10px;
     @media (max-width: 768px) {
         align-items: center;
     }
@@ -34,7 +33,10 @@ export const StyledInput = styled(Input)`
 `
 
 export const Header = styled(Title)`
+    margin-top: 25px;
+    margin-left: 25px;
     margin-bottom: 20px !important;
+    font-size: 21px !important;
     font-weight: 700 !important;
     @media (max-width: 768px) {
         text-align: center;

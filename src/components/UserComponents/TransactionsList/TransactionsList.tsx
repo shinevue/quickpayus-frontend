@@ -81,13 +81,12 @@ const TransactionsList: React.FC = () => {
       </Styled.ListHeader>
       {isLoading || isFetching ? (
         <>
-          <Skeleton active />
-          <Skeleton active />
-          <Skeleton active />
+          <Skeleton active paragraph={{ rows: 5 }} />
         </>
       ) : (
         <Styled.TableWrapper>
           <Table
+            rowKey="_id"
             columns={columns}
             dataSource={currentData}
             pagination={false}

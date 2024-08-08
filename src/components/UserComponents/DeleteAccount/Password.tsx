@@ -82,7 +82,6 @@ const AccountDelete: React.FC = () => {
   const signOut = useCallback(() => {
     localStorage.removeItem("token");
     dispatch(updateProfileField({ field: "username", value: null }));
-    navigate('/signin');
   }, []);
 
   const handleFinalDeleteAccount = async () => {

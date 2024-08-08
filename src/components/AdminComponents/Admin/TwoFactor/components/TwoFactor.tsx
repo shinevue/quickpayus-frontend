@@ -1,11 +1,17 @@
-import React, { useState } from "react";
-import { Button, Steps, Form, Input, Modal, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Steps, Form, Input, Modal, Typography, Result } from "antd";
 
 import { requireOTP, sendAuthPayload, verifyOTP } from "../TwoFactorAPI";
 
-import * as Styled from './TwoFactor.styled';
+import * as Styled from "./TwoFactor.styled";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProfile, selectTwoFactor } from "@/app/selectors";
+import { API } from "@/utils/api";
+import { AppDispatch } from "@/app/store";
+import { updateProfileField } from "@/app/profileSlice";
+import { InputOTP } from "antd-input-otp";
 
-const {Title} = Typography; 
+const { Title } = Typography;
 
 const { Step } = Steps;
 
@@ -30,19 +36,30 @@ const initpay = {
   otp: "",
 };
 
-
-
 const App: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [authPayload, setAuthPayload] = useState<AuthPayload>(initpay);
   const [error, setError] = useState<AuthPayload>(initpay);
 
-  const validationCurrentStep = () => {
+  const profile = useSelector(selectProfile);
+  const twofactor = useSelector(selectTwoFactor);
+
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    if (twofactor) setCurrent(Object.keys(STEP).length - 1);
+  }, [twofactor]);
+
+  const validationCurrentStep = async () => {
     switch (current) {
       case STEP.ENTERUSERNAME:
         if (authPayload.username.length === 0) {
           setError({ ...initpay, username: "Enter the username" });
           return false;
+        }
+        if (profile.username !== authPayload.username) {
+          setError({ ...initpay, username: "Invalid username" });
+          return;
         }
         break;
       case STEP.ENTERPASSWORD:
@@ -50,6 +67,21 @@ const App: React.FC = () => {
           setError({ ...initpay, password: "Enter the password" });
           return false;
         }
+        try {
+          const response = await API.post("/auth/signin", {
+            email: profile.username,
+            password: authPayload.password,
+          });
+
+          if (!response?.data.success) {
+            setError({ ...initpay, password: "Invalid password" });
+            return false;
+          }
+        } catch (error) {
+          setError({ ...initpay, password: "Invalid password" });
+          return false;
+        }
+
         break;
       case STEP.ENTEREMAIL:
         if (authPayload.email.length === 0) {
@@ -64,6 +96,10 @@ const App: React.FC = () => {
           setError({ ...initpay, email: "Enter the valid email" });
           return false;
         }
+        if (authPayload.email !== profile.email) {
+          setError({ ...initpay, email: "Invalid email" });
+          return false;
+        }
 
         break;
     }
@@ -72,7 +108,7 @@ const App: React.FC = () => {
 
   const next = async () => {
     setError(initpay);
-    if (validationCurrentStep()) {
+    if (await validationCurrentStep()) {
       if (current === STEP.ENTEROTP) {
         const result = await verifyOTP(authPayload.otp);
         if (!result.success) {
@@ -80,11 +116,13 @@ const App: React.FC = () => {
           setError({ ...initpay, otp: result.message || "Invalid OTP" });
           return;
         }
+
         Modal.success({
           title: "Two Factor Authentication",
           content: `Your authentication process has been completed successfully!`,
         });
-        return;
+
+        dispatch(updateProfileField({ field: "twofactor", value: true }));
       }
       if (current === STEP.ENTEREMAIL) {
         const result = await sendAuthPayload(authPayload);
@@ -108,18 +146,21 @@ const App: React.FC = () => {
           return;
         }
       }
-
       setCurrent(current + 1);
     }
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
   };
 
   const handleChange = (e: any) => {
     setAuthPayload({ ...authPayload, [e.target.name]: e.target.value });
   };
+
+  const handleOtpChange = async (e: any) => {
+    if (e.length === 6) {
+      await next();
+    }
+    setAuthPayload({ ...authPayload, otp: e.join("") });
+  };
+
   const steps = [
     {
       title: "Enter Username",
@@ -187,40 +228,63 @@ const App: React.FC = () => {
             validateStatus={error.otp.length > 0 ? "error" : "success"}
             help={error.otp}
           >
-            <Input placeholder="Enter OTP" name="otp" onChange={handleChange} />
+            <InputOTP onChange={handleOtpChange} />
           </Form.Item>
-          <Button type="primary" htmlType="submit" className="mt-7" style={{borderRadius: "8px"}}>
+          {/* <Button
+            type="primary"
+            htmlType="submit"
+            className="mt-7"
+            style={{ borderRadius: "8px" }}
+          >
             Submit
-          </Button>
+          </Button> */}
         </Form>
+      ),
+    },
+    {
+      title: "Verify OTP",
+      content: (
+        <Result
+          status="success"
+          title="Successfully verified!"
+          // subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+          // extra={[
+          //   <Button type="primary" key="console">
+          //     Go Console
+          //   </Button>,
+          //   <Button key="buy">Buy Again</Button>,
+          // ]}
+        />
       ),
     },
   ];
 
   return (
     <Styled.Layout>
-      <Title level={1}>
-        Security Features
-      </Title>
-
-      <Steps current={current}>
-        {steps.map((item) => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </Steps>
-      <div className="steps-content p-10">{steps[current].content}</div>
-      <Styled.ActionContainer>
-        {current > 0 && (
-          <Button style={{ margin: "0 8px", borderRadius: "8px" }} onClick={prev}>
-            Previous
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={next}  style={{borderRadius: "8px"}}>
-            Next
-          </Button>
-        )}
-      </Styled.ActionContainer>
+      <Styled.Header level={1}>Security Features</Styled.Header>
+      <Styled.Container>
+        <Steps current={current}>
+          {steps.map((item) => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+        <div className="steps-content p-10">{steps[current].content}</div>
+        <Styled.ActionContainer>
+          {/* {current > 0 && (
+            <Button
+              style={{ margin: "0 8px", borderRadius: "8px" }}
+              onClick={prev}
+            >
+              Previous
+            </Button>
+          )} */}
+          {current < steps.length - 1 && (
+            <Button type="primary" onClick={next} style={{ borderRadius: "8px" }}>
+              Next
+            </Button>
+          )}
+        </Styled.ActionContainer>
+      </Styled.Container>
     </Styled.Layout>
   );
 };

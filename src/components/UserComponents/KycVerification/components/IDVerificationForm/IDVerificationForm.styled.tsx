@@ -79,7 +79,7 @@ export const RadioCard = styled.div`
   border: 1px solid var(--color-border-primary);
   border-radius: var(--border-radius-container);
   cursor: pointer;
-  transition: all 0.3s ease,
+  transition: all 0.2s ease,
     border var(--transition-time-when-switch-theme-mode);
   &:hover {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);

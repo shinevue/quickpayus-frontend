@@ -27,7 +27,7 @@ const Deposit: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [formValues, setFormValues] = useState<FormProps>({
     receiverAddress: "",
-    senderAddress: "TCCh4m1Hjerfd3bd5AbXFfAriYVndFzSvY",
+    senderAddress: "",
     investmentAmount: 500,
   });
   const [address, setAddress] = useState<string>("");
@@ -181,7 +181,7 @@ const Deposit: React.FC = () => {
                               value={address}
                               disabled
                             />
-                            <CopyToClipboard text={field.value} onCopy={onCopy}>
+                            <CopyToClipboard text={address} onCopy={onCopy}>
                               <Styled.CopyToClipboardContent>
                                 {copied ? (
                                   <CheckCircleOutlined />

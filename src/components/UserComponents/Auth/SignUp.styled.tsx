@@ -92,7 +92,7 @@ export const PrivacyTxt2 = styled.p`
   font-size: 12px;
   // color: #121212;
   opacity: 0;
-  transition: height 0.5s ease, opacity 0.5s ease;
+  transition: height 0.2s ease, opacity 0.2s ease;
   visibility: hidden;
   padding: 0 10px;
 `;

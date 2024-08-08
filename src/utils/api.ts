@@ -9,3 +9,8 @@ export const API = axios.create({
     token: token ? token : "",
   },
 });
+
+export const setToken = (token) => {
+  localStorage.setItem("token", token);
+  API.defaults.headers.token = token;
+};

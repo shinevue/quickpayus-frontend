@@ -45,6 +45,7 @@ const MyComponent: React.FC = () => {
     API.post("/reward/claim-reward")
       .then((response) => {
         setClaimResult(response.data);
+        callRank();
       })
       .catch((error) => {
         setClaimResult(error.response.data);
@@ -197,13 +198,15 @@ const MyComponent: React.FC = () => {
         <Styled.RankDataDescription>
           {claimResult.success ? (
             <>
-              <b>Congratulations!</b><br/> You have achieved your milestone. You can
-              claim your rewards.
+              <b>Congratulations!</b>
+              <br /> You have achieved your milestone. You can claim your
+              rewards.
               <Fireworks autorun={{ speed: 2, duration: 1000 }} />
             </>
           ) : (
             <>
-              <b>Announcement!</b><br/> {claimResult.message}
+              <b>Announcement!</b>
+              <br /> {claimResult.message}
             </>
           )}
         </Styled.RankDataDescription>

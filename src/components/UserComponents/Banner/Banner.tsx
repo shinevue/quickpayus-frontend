@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 // antd
@@ -19,15 +19,24 @@ import logoDark from "@/assets/images/logo-dark.svg";
 import VerifiedBadge from "@/assets/images/verified.svg";
 
 // redux
-import { useGetUnreadNotificationsCountQuery } from "@/app/slice";
+import {
+  useGetNotificationsQuery,
+  useGetUnreadNotificationsCountQuery,
+} from "@/app/slice";
 import { updateSettingField } from "@/app/settingSlice";
-import { selectSetting, selectProfile } from "@/app/selectors";
+import {
+  selectSetting,
+  selectProfile,
+  selectIsNewNotification,
+} from "@/app/selectors";
 import { updateProfileField } from "@/app/profileSlice";
-import { updateOtpStatus } from '@/app/slices/otpSlice';
+import { updateOtpStatus } from "@/app/slices/otpSlice";
 
 // styles
 import * as Styled from "./Banner.styled";
 import { APP_BASE_URL } from "@/utils/constants";
+import { setNotifications } from "@/app/slices/notificationsSlice";
+import { authPaths } from "@/constants";
 
 const AnnouncementIcon = () => (
   <svg
@@ -60,7 +69,10 @@ export const CopyToClipBoard = ({
   onCopy: () => void;
   name: string;
 }) => {
-  const link = APP_BASE_URL + "refer/" + name;
+  const { protocol, hostname, port } = window.location;
+
+  const link =
+    `${protocol}//${hostname}${port ? `:${port}` : ""}` + "/refer/" + name;
   return (
     <>
       <QRCode
@@ -105,7 +117,12 @@ export const Banner = () => {
   const navbarheight = useNavbarheight();
   const { themeMode } = useThemeMode();
   const isSignin = useIsSignin();
+
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const isAuthPath = authPaths.indexOf(location.pathname) > -1;
 
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -228,27 +245,39 @@ export const Banner = () => {
     setOpenCloseNav(!openCloseNav);
   };
 
-  const [counter, setCounter] = useState(0);
   const {
-    data: notifications,
+    data: notificationsList,
+    error,
     isError,
-    isFetching,
-    isLoading,
     isSuccess,
-  } = useGetUnreadNotificationsCountQuery(null);
+    isLoading: isNotificationsLoading,
+    isFetching,
+    refetch,
+  } = useGetNotificationsQuery({ page: 1 });
 
   useEffect(() => {
-    if (isFetching || isLoading) {
-      return;
+    if (notificationsList) {
+      if (notificationsList.success) {
+        dispatch(setNotifications(notificationsList));
+      } else {
+        dispatch(setNotifications({ data: [], total: 0 }));
+      }
     }
-    if (isError) {
-      return;
-    }
+  }, [
+    isFetching,
+    isError,
+    isSuccess,
+    error,
+    isNotificationsLoading,
+    notificationsList?.data,
+    dispatch,
+    notificationsList,
+  ]);
 
-    if (isSuccess) {
-      setCounter(notifications?.total);
-    }
-  }, [isError, isFetching, isLoading, isSuccess, notifications]);
+  useEffect(() => {
+    refetch();
+  }, []);
+  const isUnReadNotification = useSelector(selectIsNewNotification);
 
   const [copied, setCopied] = useState(false);
 
@@ -269,7 +298,7 @@ export const Banner = () => {
               />
             </Link>
           </Styled.PcLogoWrapper>
-          {isSignin && (
+          {isSignin&& !isAuthPath && (
             <Styled.CtaContainer>
               <Popover
                 trigger="click"
@@ -302,7 +331,7 @@ export const Banner = () => {
                 />
               </Link>
               <Link to="/notifications">
-                <Badge dot={counter ? true : false} size="default">
+                <Badge dot={isUnReadNotification} size="default">
                   <Styled.BellOutlinedNew />
                 </Badge>
               </Link>
@@ -327,7 +356,11 @@ export const Banner = () => {
                   <Styled.AvatarInfo id="avatarMenu1">
                     <Styled.AvatarInfoP1>
                       {profile.firstName} {profile.lastName}
-                      {profile.kyc.status === "APPROVED" ? <Styled.Verified src={VerifiedBadge} /> :  <></>}
+                      {profile.kyc.status === "APPROVED" ? (
+                        <Styled.Verified src={VerifiedBadge} />
+                      ) : (
+                        <></>
+                      )}
                     </Styled.AvatarInfoP1>
                     <Styled.AvatarInfoP2>
                       Level: {profile.investmentLevel || "A"}
@@ -346,7 +379,7 @@ export const Banner = () => {
           }`}
         >
           <nav>
-            {isSignin && (
+            {isSignin && !isAuthPath && (
               <ul className="mobile-nav ps-0 ">
                 <li>
                   <div
@@ -420,7 +453,7 @@ export const Banner = () => {
                       }`}
                     >
                       <Link to="/notifications">
-                        <Badge dot={counter ? true : false} size="default">
+                        <Badge dot={isUnReadNotification} size="default">
                           <Styled.BellOutlinedNew />
                         </Badge>
                       </Link>
@@ -445,10 +478,16 @@ export const Banner = () => {
                         content={<>{userMenu}</>}
                       >
                         <Styled.AvatarWrapper id="mobileAvatarMenu">
-                          <Styled.StyledAvatar style={{ background: profile?.avatarBg }}>
+                          <Styled.StyledAvatar
+                            style={{ background: profile?.avatarBg }}
+                          >
                             {profile?.firstName[0]?.toUpperCase()}
                           </Styled.StyledAvatar>
-                          {profile.kyc.status === "APPROVED" ? <Styled.Verified src={VerifiedBadge} /> : <></> }
+                          {profile.kyc.status === "APPROVED" ? (
+                            <Styled.Verified src={VerifiedBadge} />
+                          ) : (
+                            <></>
+                          )}
                         </Styled.AvatarWrapper>
                       </Popover>
                     </li>

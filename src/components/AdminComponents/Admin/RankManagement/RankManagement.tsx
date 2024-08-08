@@ -111,7 +111,7 @@ const RankPage: React.FC = () => {
     <Styled.Layout>
       <Styled.Header>Rank Settings</Styled.Header>
       <Styled.Container>
-        <Styled.StyledRow align="middle" justify="space-between">
+        <Styled.StyledRow>
           <Select
             value={criteria}
             onChange={(value) => handleCriteriaChange(value)}
@@ -142,6 +142,7 @@ const RankPage: React.FC = () => {
             <Select.Option value={STATUS.APPROVED}>Approved</Select.Option>
             <Select.Option value={STATUS.REJECTED}>Rejected</Select.Option>
           </Select>
+          <div style={{flexGrow: "1"}}></div>
           <Button
             onClick={exportToCSV}
             icon={<DownloadOutlined />}

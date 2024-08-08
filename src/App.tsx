@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { Layout } from "antd";
 import AdminBanner from "./components/AdminComponents/Banner/Banner";
@@ -30,11 +30,23 @@ const App: React.FC = () => {
   const isAuthPath = authPaths.indexOf(location.pathname) > -1;
   const profile = useSelector(selectProfile);
   const device = useDevice();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('hello!',location.pathname);
+    console.log(profile.role);
+    console.log(location.pathname.indexOf('admin') >= 0)
+    if(!isAuthPath&&profile.role === 'admin' && location.pathname.indexOf('admin') < 0) {
+      navigate('/404');
+      return;
+    }
+    if(!isAuthPath&&profile.role === 'user' && location.pathname.indexOf('admin') >= 0) {
+      navigate('/404');
+      return;
+    }
     dispatch(GetPermissionAsync());
     dispatch(checkAuthAsync());
-  }, [location.pathname]);
+  }, [location.pathname, profile.role]);
 
   
   const layoutStyle = {
@@ -63,7 +75,7 @@ const App: React.FC = () => {
            <ToastContainer />
            <Layout
              style={{
-               transition: "background 0.5s",
+               transition: "background 0.2s",
              }}
            >
              {!isAuthPath && <Sider />}

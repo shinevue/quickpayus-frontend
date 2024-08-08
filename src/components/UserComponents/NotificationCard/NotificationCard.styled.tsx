@@ -41,7 +41,7 @@ export const NotificationCardContainer = styled.div<NotificationCardContainerPro
         return "gray";
     }
   }};
-  transition: all 0.3s ease,
+  transition: all 0.2s ease,
     background var(--transition-time-when-switch-theme-mode),
     border var(--transition-time-when-switch-theme-mode);
 

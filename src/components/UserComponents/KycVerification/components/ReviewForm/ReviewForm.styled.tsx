@@ -52,7 +52,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   gap: 16px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1500px) {
     flex-direction: column;
   }
   color: #0a0a0a;

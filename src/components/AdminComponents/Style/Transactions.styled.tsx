@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { Table, Typography } from "antd";
+
+const {Title} = Typography;
 
 export const Layout = styled.div`
     margin: 25px;
@@ -7,18 +10,19 @@ export const Layout = styled.div`
     background-color: var(--color-bg-container);
 `;
 
-export const Header = styled.h1`
-    font-size: 1.875rem /* 30px */;
-    line-height: 2.25rem /* 36px */;
-    margin: 20px 0;
-    color: var(--color-text);
-    font-weight: 700;
+export const Header = styled(Title)`
+    font-size: 21px !important;
+    margin: 20px 0px !important;
+    @media (max-width: 768px) {
+        text-align: center;
+    }
 `;
 
 export const Container = styled.div`
     display: flex;
+    flex-wrap: wrap;
     gap: 40px;
-    margin: 40px 0;
+    margin: 20px 0;
 `;
 
 export const StyledLabel = styled.label`

@@ -91,7 +91,6 @@ export const AvatarWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   user-select: none;
-
 `;
 export const AvatarInfo = styled.div`
   padding-left: 10px;
@@ -147,7 +146,7 @@ export const StyledHeader = styled(Header)<StyledHeaderProps>`
   line-height: unset;
   z-index: 30;
   background: var(--color-bg-container);
-  transition: background 0.5s, border 0.5s;
+  transition: background 0.2s, border 0.2s;
   ${breakpoint.md} {
     position: relative;
     border-bottom: 1px solid var(--color-border-primary);
@@ -218,9 +217,9 @@ export const Verified = styled.img`
   height: 10px;
   z-index: 999;
   margin-left: 5px;
-//   @media screen and (max-width: 768px) {
-//     position: absolute;
-//     right: -2px;
-//     bottom: 0px;
-//   }
+  //   @media screen and (max-width: 768px) {
+  //     position: absolute;
+  //     right: -2px;
+  //     bottom: 0px;
+  //   }
 `;

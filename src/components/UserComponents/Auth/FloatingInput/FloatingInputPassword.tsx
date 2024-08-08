@@ -15,7 +15,7 @@ const FloatingLabelInputPassword = ({ label, field, name }) => {
       <Styled.StyledLabel
         style={{
           fontSize: "16px",
-          transition: "all 0.3s ease-out",
+          transition: "all 0.2s ease-out",
            transform:
              isFocused || field.value ? "translate(calc(calc(0% + 0.625rem) * -1),calc(calc(50% + 0.875rem /2 - 6px) * -1)) rotate(0) skewX(0) skewY(0) scaleX(0.85) scaleY(0.85) " : "translate(0%,calc(0% + 9px)) rotate(0) skewX(0) skewY(0) scaleX(1) scaleY(1)",
           zIndex: 999,

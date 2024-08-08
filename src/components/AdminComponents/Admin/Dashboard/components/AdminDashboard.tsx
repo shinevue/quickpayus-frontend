@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Spin, Typography } from "antd";
-import { Bar, Pie } from "@ant-design/charts";
 
 import { analytics } from "../AdminDashboardApi";
+import { BarOption, inventLevel, PieOption, RadarOption } from "../ChartConfig";
+import ReactApexChart from "react-apexcharts";
 
 const { Title } = Typography;
 
@@ -43,12 +44,12 @@ interface TopCountry {
 }
 
 interface TopBrowser {
-  browser: string;
+  browsers: string;
   users: number;
 }
 
 interface TopOS {
-  os: string;
+  oss: string;
   users: number;
 }
 
@@ -59,16 +60,27 @@ interface UserDemographics {
 }
 
 const AdminDashboard: React.FC = () => {
-  const [userMetrics, setUserMetrics] = useState(null);
-  const [kycMetrics, setKYCMetrics] = useState(null);
-  const [depositMetrics, setDepositMetrics] = useState(null);
-  const [ticketMetrics, setTicketMetrics] = useState(null);
-  const [programEngagementStats, setProgramEngagementStats] = useState(null);
-  const [userDemographics, setUserDemographics] = useState(null);
+  const [userMetrics, setUserMetrics] = useState<UserMetrics | null>(null);
+  const [userMetricsConfig, setUserMetricsConfig] = useState<any>(null);
+  const [kycMetrics, setKYCMetrics] = useState<KYCMetrics | null>(null);
+  const [kycMetricsConfig, setKYCMetricsConfig] = useState<any>(null);
+  const [depositMetrics, setDepositMetrics] = useState<DepositMetrics | null>(
+    null
+  );
+  const [depositMetricsConfig, setDepositMetricsConfig] = useState<any>(null);
+  const [ticketMetrics, setTicketMetrics] = useState<TicketMetrics | null>(
+    null
+  );
+  const [ticketMetricsConfig, setTicketMetricsConfig] = useState<any>(null);
+  const [programEngagementStats, setProgramEngagementStats] =
+    useState<ProgramEngagementStats | null>(null);
+  const [programEngagementStatsConfig, setProgramEngagementStatsConfig] =
+    useState<any>(null);
+  const [userDemographics, setUserDemographics] =
+    useState<UserDemographics | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
   const config = {
-    paddingRight: 80,
     innerRadius: 0.6,
     label: {
       text: "value",
@@ -83,83 +95,72 @@ const AdminDashboard: React.FC = () => {
         rowPadding: 5,
       },
     },
-    annotations: [
-      {
-        type: "text",
-        style: {
-          text: "AntV\nCharts",
-          x: "50%",
-          y: "50%",
-          textAlign: "center",
-          fontSize: 40,
-          fontStyle: "bold",
-        },
-      },
-    ],
   };
   useEffect(() => {
     const fetchData = async () => {
       const result = await analytics();
       if (Object.keys(result).length) {
-        if (result.hasOwnProperty("userMetrics"))
-          setUserMetrics({
-            ...config,
-            data: [
-              { status: "activeUsers", value: result.userMetrics.activeUsers },
-              {
-                status: "inactiveUsers",
-                value: result.userMetrics.inactiveUsers,
-              },
-              {
-                status: "totalReferrals",
-                value: result.userMetrics.totalReferrals,
-              },
-            ],
-            angleField: "value",
-            colorField: "status",
-          });
-        if (result.hasOwnProperty("kycMetrics")) {
-          setKYCMetrics({
-            ...config,
-            data: [
-              { status: "approved", value: result.kycMetrics.approved },
-              { status: "pending", value: result.kycMetrics.pending },
-              { status: "rejected", value: result.kycMetrics.rejected },
-            ],
-            angleField: "value",
-            colorField: "status",
-          });
+        if (result.hasOwnProperty("userMetrics")) {
+          setUserMetrics(result.userMetrics);
+          setUserMetricsConfig([
+            {
+              name: "Series1",
+              data: [
+                result.userMetrics.activeUsers   +
+                  result.userMetrics.inactiveUsers,
+                result.userMetrics.activeUsers,
+                result.userMetrics.inactiveUsers,
+                result.userMetrics.totalReferrals,
+              ],
+            },
+          ]);
         }
-        if (result.hasOwnProperty("programStatistics"))
-          setProgramEngagementStats({
-            ...config,
-            data: result.programStatistics,
-            angleField: "users",
-            colorField: "level",
-          });
-        if (result.hasOwnProperty("ticketMetrics"))
-          setTicketMetrics({
-            ...config,
-            data: [
-              { status: "resolved", value: result.ticketMetrics.resolved },
-              { status: "pending", value: result.ticketMetrics.pending },
-            ],
-            angleField: "value",
-            colorField: "status",
-          });
-        if (result.hasOwnProperty("depositMetrics"))
-          setDepositMetrics({
-            ...config,
-            data: [
-              { status: "approved", value: result.depositMetrics.approved },
-              { status: "pending", value: result.depositMetrics.pending },
-              { status: "rejected", value: result.depositMetrics.rejected },
-            ],
-            angleField: "value",
-            colorField: "status",
-          });
+        if (result.hasOwnProperty("kycMetrics")) {
+          setKYCMetrics(result.kycMetrics);
+          setKYCMetricsConfig([
+            {
+              name: "Series1",
+              data: [
+                result.kycMetrics.approved,
+                result.kycMetrics.rejected,
+                result.kycMetrics.pending,
+              ],
+            },
+          ]);
+        }
+        if (result.hasOwnProperty("programStatistics")) {
+          const resProgramStatistics = result.programStatistics.sort((a, b) =>
+            a.level > b.level ? 1 : -1
+          );
+          setProgramEngagementStats(resProgramStatistics);
+
+          setProgramEngagementStatsConfig(
+            resProgramStatistics.map((item) => item.users)
+          );
+          if (result.hasOwnProperty("ticketMetrics")) {
+            setTicketMetrics(result.ticketMetrics);
+            setTicketMetricsConfig([
+              result.ticketMetrics.pending,
+              result.ticketMetrics.resolved,
+            ]);
+          }
+        }
+        if (result.hasOwnProperty("depositMetrics")) {
+          setDepositMetrics(result.depositMetrics);
+          setDepositMetricsConfig([
+            {
+              name: "series1",
+              data: [
+                result.depositMetrics.approved,
+                result.depositMetrics.rejected,
+                result.depositMetrics.pending,
+              ],
+            },
+          ]);
+        }
         if (result.hasOwnProperty("userDemographics"))
-          setUserDemographics(result.userDemographics);
+          console.log(result.userDemographics);
+        setUserDemographics(result.userDemographics);
       }
     };
     setLoading(true);
@@ -171,85 +172,206 @@ const AdminDashboard: React.FC = () => {
     <div className="admin-dashboard-container md:py-5 pt-[60px] px-6">
       <div className="admin-dashboard-content">
         <Title
-          level={1}
+          style={{ fontSize: "21px" }}
           className=" md:text-left text-center block admin-dashboard-title "
         >
           Dashboard
         </Title>
         <Spin spinning={loading}>
           <Row gutter={[16, 16]} justify="space-around">
-            {userMetrics && (
-              <Col xs={24} sm={12} lg={8} xl={8}>
-                <Card
-                  title={
-                    <Title style={{ marginBottom: "0px" }} level={4}>
-                      User Metrics
-                    </Title>
-                  }
-                  className="dashboard-card"
-                  style={{ borderRadius: "18px" }}
-                >
-                  <Pie {...userMetrics} />
-                </Card>
-              </Col>
-            )}
             {kycMetrics && (
-              <Col xs={24} sm={12} lg={8} xl={8}>
+              <Col xs={24} sm={24} lg={12} xl={8}>
                 <Card
                   title={
-                    <Title style={{ marginBottom: "0px" }} level={4}>
+                    <Title style={{ marginBottom: "0px", fontSize: "19px" }}>
                       KYC Metrics
                     </Title>
                   }
                   className="dashboard-card"
                   style={{ borderRadius: "18px" }}
                 >
-                  <Pie {...kycMetrics} />
+                  <Row className="text-[14px] flex gap-2">
+                    Approved:
+                    <span className="font-bold">{kycMetrics.approved}</span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Rejected:
+                    <span className="font-bold">{kycMetrics.rejected}</span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Pending:
+                    <span className="font-bold">{kycMetrics.pending}</span>
+                  </Row>
+                  <ReactApexChart
+                    options={RadarOption}
+                    type="radar"
+                    height={350}
+                    width="100%"
+                    series={kycMetricsConfig}
+                  />
+                </Card>
+              </Col>
+            )}
+            {userMetrics && (
+              <Col xs={24} sm={24} lg={12} xl={8}>
+                <Card
+                  title={
+                    <Title
+                      style={{ marginBottom: "0px", fontSize: "19px" }}
+                      level={4}
+                    >
+                      User Metrics
+                    </Title>
+                  }
+                  className="dashboard-card"
+                  style={{ borderRadius: "18px" }}
+                >
+                  <Row className="text-[14px] flex gap-2">
+                    Total Registered Users:
+                    <span className="font-bold">
+                      {userMetrics.totalRegisteredUsers}
+                    </span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Active Users:
+                    <span className="font-bold">{userMetrics.activeUsers}</span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Inactive Users:
+                    <span className="font-bold">
+                      {userMetrics.inactiveUsers}
+                    </span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Total Referrals:
+                    <span className="font-bold">
+                      {userMetrics.totalReferrals}
+                    </span>
+                  </Row>
+                  <ReactApexChart
+                    options={BarOption}
+                    type="bar"
+                    height={350}
+                    width="100%"
+                    series={userMetricsConfig}
+                  />
                 </Card>
               </Col>
             )}
             {depositMetrics && (
-              <Col xs={24} sm={12} lg={8} xl={8}>
+              <Col xs={24} sm={24} lg={12} xl={8}>
                 <Card
                   title={
-                    <Title style={{ marginBottom: "0px" }} level={4}>
+                    <Title
+                      style={{ marginBottom: "0px", fontSize: "19px" }}
+                      level={4}
+                    >
                       Deposit Metrics
                     </Title>
                   }
                   className="dashboard-card"
                   style={{ borderRadius: "18px" }}
                 >
-                  <Pie {...depositMetrics} />
+                  <Row className="text-[14px] flex gap-2">
+                    Approved:
+                    <span className="font-bold">{depositMetrics.approved}</span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Rejected:
+                    <span className="font-bold">{depositMetrics.rejected}</span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Pending:
+                    <span className="font-bold">{depositMetrics.pending}</span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Total Credits Dispatched:
+                    <span className="font-bold">
+                      {depositMetrics.totalCreditsDispatched}
+                    </span>
+                  </Row>
+                  <ReactApexChart
+                    options={RadarOption}
+                    type="radar"
+                    height={350}
+                    width="100%"
+                    series={depositMetricsConfig}
+                  />
                 </Card>
               </Col>
             )}
             {ticketMetrics && (
-              <Col xs={24} sm={12} lg={12} xl={12}>
+              <Col xs={24} sm={24} lg={12} xl={12}>
                 <Card
                   title={
-                    <Title style={{ marginBottom: "0px" }} level={4}>
+                    <Title
+                      style={{ marginBottom: "0px", fontSize: "19px" }}
+                      level={4}
+                    >
                       Ticket Metrics
                     </Title>
                   }
                   className="dashboard-card"
                   style={{ borderRadius: "18px" }}
                 >
-                  <Pie {...ticketMetrics} />
+                  <ReactApexChart
+                    options={PieOption}
+                    type="pie"
+                    height={350}
+                    width="100%"
+                    series={ticketMetricsConfig}
+                  />
+                  <Row className="text-[14px] flex gap-2">
+                    Resolved:
+                    <span className="font-bold">{ticketMetrics.resolved}</span>
+                  </Row>
+                  <Row className="text-[14px] flex gap-2">
+                    Pending:
+                    <span className="font-bold">{ticketMetrics.pending}</span>
+                  </Row>
                 </Card>
               </Col>
             )}
             {programEngagementStats && (
-              <Col xs={24} sm={24} lg={12} xl={12}>
+              <Col xs={24} sm={24} lg={24} xl={12}>
                 <Card
                   title={
-                    <Title style={{ marginBottom: "0px" }} level={4}>
+                    <Title
+                      style={{ marginBottom: "0px", fontSize: "19px" }}
+                      level={4}
+                    >
                       Program Engagement Statistics
                     </Title>
                   }
                   bordered={false}
+                  className="dashboard-card"
                   style={{ borderRadius: "18px" }}
                 >
-                  <Pie {...programEngagementStats} />
+                  <ReactApexChart
+                    options={{
+                      ...PieOption,
+                      labels: programEngagementStats.map((item) => item.level),
+                      legend: {
+                        labels: {
+                          colors: programEngagementStats.map(
+                            (_) => "var(--color-text)"
+                          ),
+                        },
+                      },
+                    }}
+                    type="pie"
+                    height={350}
+                    width="100%"
+                    series={programEngagementStatsConfig}
+                  />
+                  {programEngagementStats.map((item, index) => (
+                    <Row className="text-xl flex gap-2" key={index}>
+                      <span className="w-48">
+                        {item.level} ({inventLevel[item.level]}) :
+                      </span>
+                      <span className="font-bold">{item.users}</span>
+                    </Row>
+                  ))}
                 </Card>
               </Col>
             )}
@@ -257,7 +379,7 @@ const AdminDashboard: React.FC = () => {
               <Col xs={24}>
                 <Card
                   title={
-                    <Title style={{ marginBottom: "0px" }} level={4}>
+                    <Title style={{ marginBottom: "0px", fontSize: "19px" }}>
                       User Demographics
                     </Title>
                   }
@@ -265,70 +387,95 @@ const AdminDashboard: React.FC = () => {
                   style={{ borderRadius: "18px" }}
                 >
                   <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={8}>
-                      <Card
-                        title="Top Countries"
-                        className="demographics-chart"
-                        style={{ borderRadius: "18px" }}
-                      >
-                        <Pie
-                          data={userDemographics.topCountries}
-                          angleField="users"
-                          colorField="country"
-                          radius={0.8}
-                          label={{
-                            offset: "-30%",
-                            content: "{users}",
+                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                      <div style={{ borderRadius: "18px", padding: "24px" }}>
+                        <Title
+                          style={{ marginBottom: "0px", fontSize: "14px" }}
+                        >
+                          Top Countries
+                        </Title>
+                        <ReactApexChart
+                          options={{
+                            ...PieOption,
+                            labels: userDemographics.topCountries.map((item) =>
+                              item.country ? item.country : "N/A"
+                            ),
+                            legend: {
+                              labels: {
+                                colors: userDemographics.topCountries.map(
+                                  (_) => "var(--color-text)"
+                                ),
+                              },
+                            },
                           }}
-                          legend= {{
-                            color: { size: 72, autoWrap: true, maxRows: 3, cols: 6, fill: "#ff0000" },
-                          }}
+                          type="pie"
+                          height={350}
+                          width="100%"
+                          series={userDemographics.topCountries.map(
+                            (item) => item.users
+                          )}
                         />
-                      </Card>
+                      </div>
                     </Col>
-                    <Col xs={24} sm={24} md={8}>
-                      <Card
-                        title={
-                          <Title style={{ marginBottom: "0px" }} level={4}>
-                            Top Browsers
-                          </Title>
-                        }
-                        className="demographics-chart"
-                        style={{ borderRadius: "18px" }}
-                      >
-                        <Pie
-                          data={userDemographics.topBrowsers}
-                          angleField="users"
-                          colorField="browsers"
-                          radius={0.8}
-                          label={{
-                            offset: "-30%",
-                            content: "{users}",
+                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                      <div style={{ borderRadius: "18px", padding: "24px" }}>
+                        <Title
+                          style={{ marginBottom: "0px", fontSize: "14px" }}
+                        >
+                          Top Browsers
+                        </Title>
+                        <ReactApexChart
+                          options={{
+                            ...PieOption,
+                            labels: userDemographics.topBrowsers.map((item) =>
+                              item.browsers ? item.browsers : "N/A"
+                            ),
+                            legend: {
+                              labels: {
+                                colors: userDemographics.topBrowsers.map(
+                                  (_) => "var(--color-text)"
+                                ),
+                              },
+                            },
                           }}
+                          type="pie"
+                          height={350}
+                          width="100%"
+                          series={userDemographics.topBrowsers.map(
+                            (item) => item.users
+                          )}
                         />
-                      </Card>
+                      </div>
                     </Col>
-                    <Col xs={24} sm={24} md={8}>
-                      <Card
-                        title={
-                          <Title style={{ marginBottom: "0px" }} level={4}>
-                            Top Operating Systems
-                          </Title>
-                        }
-                        className="demographics-chart"
-                        style={{ borderRadius: "18px" }}
-                      >
-                        <Pie
-                          data={userDemographics.topOS}
-                          angleField="users"
-                          colorField="oss"
-                          radius={0.8}
-                          label={{
-                            offset: "-30%",
-                            content: "{users}",
+                    <Col xs={24} sm={24} md={24} lg={12} xl={8}>
+                      <div style={{ borderRadius: "18px", padding: "24px" }}>
+                        <Title
+                          style={{ marginBottom: "0px", fontSize: "14px" }}
+                        >
+                          Top Operating Systems
+                        </Title>
+                        <ReactApexChart
+                          options={{
+                            ...PieOption,
+                            labels: userDemographics.topOS.map((item) =>
+                              item.oss ? item.oss : "N/A"
+                            ),
+                            legend: {
+                              labels: {
+                                colors: userDemographics.topBrowsers.map(
+                                  (_) => "var(--color-text)"
+                                ),
+                              },
+                            },
                           }}
+                          type="pie"
+                          height={350}
+                          width="100%"
+                          series={userDemographics.topOS.map(
+                            (item) => item.users
+                          )}
                         />
-                      </Card>
+                      </div>
                     </Col>
                   </Row>
                 </Card>

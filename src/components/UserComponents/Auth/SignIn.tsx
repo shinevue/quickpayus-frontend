@@ -9,7 +9,7 @@ import useNavbarheight from "@/utils/Hooks/useNavbarheight";
 
 // redux
 import { updateProfile } from "@/app/profileSlice";
-import { updateOtpStatus } from "@/app/otpSlice";
+import { updateOtpStatus } from "@/app/slices/otpSlice";
 import { updateKyc } from "@/app/slices/KycVerificationSlice";
 
 // styled components
@@ -136,19 +136,30 @@ const SignIn: React.FC = () => {
 
       API.defaults.headers.token = token;
 
-      if (user.isEnableMFA) {
-        setMode("otp");
-        setResData({ user, token });
-      } else {
+      if(user.role === 'admin') {
         localStorage.setItem("token", token);
         API.defaults.headers.token = token;
         // Save user data in redux
         dispatch(updateProfile({ data: { ...user } }));
-        dispatch(updateKyc({ data: user?.kyc }));
-        dispatch(updateOtpStatus("verified"));
 
-        setSubmitting(false);
-        navigate("/dashboard");
+        navigate('/admin/dashboard');
+       return; 
+      }
+      else {
+        if (user.isEnableMFA) {
+          setMode("otp");
+          setResData({ user, token });
+        } else {
+          localStorage.setItem("token", token);
+          API.defaults.headers.token = token;
+          // Save user data in redux
+          dispatch(updateProfile({ data: { ...user } }));
+          dispatch(updateKyc({ data: user?.kyc }));
+          dispatch(updateOtpStatus("verified"));
+  
+          setSubmitting(false);
+          navigate("/dashboard");
+        }
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

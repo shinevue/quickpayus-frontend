@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Announcement {
-  id: string; // Assuming each announcement has a unique ID
-  readStatus: boolean;
-  // Include other relevant properties of an announcement
+  _id: string; // Assuming each announcement has a unique ID
+  isRead: boolean;
+  title: string;
+  description: string;
 }
 
 interface AnnouncementsState {
@@ -27,14 +28,21 @@ interface SetAnnouncementsPayload {
   data: Announcement[];
 }
 
-//TODO: create entities for announcements so that we can update the read status of a notification using an id
-
 const announcementsSlice = createSlice({
   name: "announcements",
   initialState: initialState,
 
   reducers: {
-    setAnnouncements: (state, action: PayloadAction<SetAnnouncementsPayload>) => {
+    deleteOne: (state, action) => {
+      const announcementId = action.payload;
+      state.data = state.data.filter(
+        (announcement) => announcement._id !== announcementId
+      );
+    },
+    setAnnouncements: (
+      state,
+      action: PayloadAction<SetAnnouncementsPayload>
+    ) => {
       const { success, total, totalPages, data } = action.payload;
       return {
         ...state,
@@ -45,21 +53,23 @@ const announcementsSlice = createSlice({
       };
     },
     resetAnnouncements: () => initialState,
-    setAnnouncementsReadStatus: (state, action: PayloadAction<{ id: string; readStatus: boolean }>) => {
-      const { id, readStatus } = action.payload;
-      const announcementIndex = state.data.findIndex(announcement => announcement.id === id);
-      if (announcementIndex !== -1) {
-        // Example: toggling read status or setting it
-        state.data[announcementIndex].readStatus = readStatus;
+    readOne: (state, action) => {
+      const announcementId = action.payload;
+      const index = state.data.findIndex(
+        (announcement) => announcement._id === announcementId
+      );
+      if (index !== -1) {
+        state.data[index].isRead = true;
       }
     },
   },
 });
 
 export const {
+  readOne,
+  deleteOne,
   setAnnouncements,
   resetAnnouncements,
-  setAnnouncementsReadStatus,
 } = announcementsSlice.actions;
 
 export default announcementsSlice.reducer;

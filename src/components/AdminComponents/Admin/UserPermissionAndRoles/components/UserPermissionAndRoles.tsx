@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Input, Button, Radio, Checkbox, Popconfirm, message, Layout, Typography } from "antd";
+import {
+  Input,
+  Button,
+  Radio,
+  Checkbox,
+  Popconfirm,
+  message,
+  Layout,
+  Typography,
+} from "antd";
 import {
   addRole,
   delRole,
   editRole,
   getRole,
 } from "../AdminUserPermissionAndRolesApi";
-const {Title, Text} = Typography;
+const { Title, Text } = Typography;
 
-import * as Styled from './style.styled';
-import { DEF_PERMISSIONS } from "@/constants/index.ts"
+import * as Styled from "./style.styled";
+import { DEF_PERMISSIONS } from "@/constants/index.ts";
 
 export interface RoleValues {
   _id: string;
@@ -84,15 +93,12 @@ const UserPermissionAndRoles: React.FC = () => {
   };
 
   return (
-    <Layout style={{padding: "25px"}} className="max-h-[calc(100vh-50px)]">
+    <Layout style={{ padding: "25px" }} className="max-h-[calc(100vh-50px)]">
+      <Styled.Header>Manage User Roles</Styled.Header>
       <Styled.Card>
-        <Title level={2} className="text-2xl md:text-3xl font-bold mb-4 text-center">
-          Manage User Roles
-        </Title>
-
         <div className="mb-6 w-full flex items-center md:justify-start justify-center">
           <div className="flex flex-col md:flex-row items-center    gap-6">
-            <Text style={{minWidth: "40px"}}>Roles:</Text>
+            <Text style={{ minWidth: "40px" }}>Roles:</Text>
             <div className="flex flex-col md:flex-row items-center gap-4 w-full">
               <Input
                 placeholder="Enter role name"
@@ -103,7 +109,7 @@ const UserPermissionAndRoles: React.FC = () => {
               <Button
                 type="primary"
                 onClick={handleAddRole}
-                style={{borderRadius: "8px"}}
+                style={{ borderRadius: "8px" }}
                 className="w-full md:w-auto"
               >
                 Add Role

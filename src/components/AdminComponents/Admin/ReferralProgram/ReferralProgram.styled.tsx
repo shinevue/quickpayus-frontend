@@ -1,4 +1,6 @@
+import { Typography } from "antd";
 import styled from "styled-components";
+const {Title} = Typography
 
 export const Layout = styled.div`
   padding: 25px;
@@ -6,12 +8,12 @@ export const Layout = styled.div`
   overflow: auto;
 `;
 
-export const Header = styled.h1`
-  font-size: 1.875rem /* 30px */;
-  line-height: 2.25rem /* 36px */;
-  margin-bottom: 20px;
-  font-weight: 700;
-  color: var(--color-text);
+export const Header = styled(Title)`
+  font-size: 21px !important;
+  margin-bottom: 20px !important;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 export const Container = styled.div`

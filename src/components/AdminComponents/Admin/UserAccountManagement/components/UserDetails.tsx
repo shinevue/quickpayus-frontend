@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
-import { DatePicker, Select, Typography } from "antd";
+import { DatePicker, Select, TablePaginationConfig, Typography } from "antd";
 import UserDetailsTable from "./UserDetailsTable";
 import moment from "moment";
 
@@ -16,6 +16,8 @@ import { User } from "@/types/UserType";
 import * as Styled from "../../../Style/UserDetails.styled";
 import UserEditModal from "./UserEditModal";
 import UserViewModal from "./UserViewModal";
+import { useSelector } from "react-redux";
+import { selectTotalUsers } from "@/app/slices/userSlice";
 
 const { Title } = Typography;
 
@@ -44,6 +46,22 @@ const UserDetails: React.FC = () => {
     creditBalance: 0,
     profitBalance: 0,
   });
+  const total = useSelector(selectTotalUsers);
+
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
+
+  const paginationProps: TablePaginationConfig = {
+    position: ["bottomRight"],
+    total: total,
+    showSizeChanger: false,
+    current: page,
+    pageSize: pageSize,
+    onChange(page: number, pageSize: number) {
+      setPage(page);
+      setPageSize(pageSize);
+    },
+  };
 
   useEffect(() => {
     (async () => {
@@ -54,6 +72,8 @@ const UserDetails: React.FC = () => {
         criteria: searchCriteria,
         startDate: dateRange[0],
         endDate: dateRange[1],
+        page,
+        pageSize,
       };
       const users = await getAllGuests(query);
 
@@ -95,7 +115,7 @@ const UserDetails: React.FC = () => {
 
       setSortedUsers(sorted);
     })();
-  }, [dateRange, searchTerm, searchCriteria]);
+  }, [dateRange, searchTerm, searchCriteria, page, pageSize]);
 
   const handleExportCSV = () => {
     const csvData = [
@@ -209,7 +229,7 @@ const UserDetails: React.FC = () => {
   return (
     <Styled.Layout>
       <Styled.Card>
-        <Title level={2}>Users</Title>
+        <Styled.Header>Users</Styled.Header>
         <Styled.Container>
           <Styled.SearchWrapper>
             <Styled.StyledSelect
@@ -248,6 +268,7 @@ const UserDetails: React.FC = () => {
         <Styled.TableWrapper>
           <UserDetailsTable
             users={sortedUsers} // Pass the sorted array of user objects
+            paginationProps={paginationProps}
             handleViewUser={handleViewUser} // Pass the callback function for viewing a user
             handleEditUser={handleEditUser} // Pass the callback function for editing a user
             handleSuspendUser={handleSuspendUser} // Pass the callback function for suspending a user

@@ -8,32 +8,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPermission } from "./Auth/authSlice";
 import { API } from "@/utils/api";
 import { updateProfileField } from "@/app/profileSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
-
   const permissions = useSelector(selectPermission);
 
   const dispatch = useDispatch();
-
-  const navigate = useNavigate();
+  const location = useLocation();
 
   const signOut = () => {
     dispatch(updateProfileField({ field: "username", value: null }));
     localStorage.removeItem("token");
     API.defaults.headers.token = "";
-    navigate('/signin');
-  }
+  };
 
   return (
     <>
-      <Styled.Nav
-        id="main-sidebar"
-        className={`max-md:hidden`}
-      >
-        <div
-          className="text-2xl md:hidden block cursor-pointer fixed z-50 "
-        >
+      <Styled.Nav id="main-sidebar" className={`max-md:hidden`}>
+        <div className="text-2xl md:hidden block cursor-pointer fixed z-50 ">
           <div className="menu-icon-container">
             <div className="menu-icon">
               <span
@@ -52,27 +44,19 @@ const Sidebar: React.FC = () => {
           {sidebarItems.map(
             (section: any, index) =>
               isAccessible(permissions || [], section.require) && (
-                <div key={index} className="py-4">
+                <div key={index} className="">
                   {section?.title && (
                     <p className="text-xs text-[#0A84FF] font-bold my-2 uppercase">
                       {section.title}
                     </p>
                   )}
-                  {section?.title && <hr />}
                   {section.items.map(
                     (item: any, idx: number) =>
                       isAccessible(permissions || [], item.require) && (
                         <Styled.StyledNavLink
                           to={item.path}
                           key={idx}
-                          className={({ isActive }) =>
-                            `
-                    ${
-                      isActive
-                        ? "text-blue-700 font-bold"
-                        : "text-black font-semibold"
-                    }`
-                          }
+                          style={location.pathname.indexOf(item.path) >= 0 ? {backgroundColor: "var(--background-affix-hover)"} : {}}
                         >
                           {item.title}
                         </Styled.StyledNavLink>
@@ -82,7 +66,7 @@ const Sidebar: React.FC = () => {
               )
           )}
         </div>
-        <div
+        {/* <div
           id="setting"
           className="px-4"
           style={{ color: "var(--color-text)" }}
@@ -93,7 +77,7 @@ const Sidebar: React.FC = () => {
           >
             Sign out <LogoutOutlined />
           </h4>
-        </div>
+        </div> */}
       </Styled.Nav>
     </>
   );
