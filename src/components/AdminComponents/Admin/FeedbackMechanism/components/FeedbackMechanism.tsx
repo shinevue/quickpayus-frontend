@@ -82,11 +82,8 @@ const FeedbackMechanism: React.FC = () => {
 
   return (
     <Styled.Layout>
-      <Card
-        title={<Typography.Title level={3}>Feedbacks</Typography.Title>}
-        bordered={false}
-        style={{ borderRadius: "18px" }}
-      >
+      <Typography.Title className="title">Feedbacks</Typography.Title>
+      <Card style={{ borderRadius: "18px", borderColor: "var(--color-border-primary)" }}>
         <Flex justify="space-between" gap="middle" wrap flex={5}>
           <Flex flex={3}>
             <Input

@@ -12,6 +12,7 @@ import {
   Space,
   Pagination,
   Button,
+  message,
 } from "antd";
 
 const { Text, Title, Paragraph } = Typography;
@@ -38,6 +39,8 @@ const SupportAndCommunication: React.FC = () => {
 
   const [selectedTicketIndex, setSelectedTicketIndex] = useState<number>(-1);
   const [replyModalVisible, setReplyModalVisible] = useState<boolean>(false);
+
+  const [messageApi, contextHolder] = message.useMessage();
 
   const fetch = (payload: {
     page: number;
@@ -98,11 +101,20 @@ const SupportAndCommunication: React.FC = () => {
     if (result.success) {
       tickets[selectedTicketIndex].status = "RESOLVED";
       setTickets([...tickets]);
+      messageApi.open({
+        type: "success",
+        content:
+          "Message sent successfully!",
+      });
     }
   };
 
   return (
-    <div style={{ marginTop: "50px", padding: "0 50px" }} id="no-selection">
+    <div style={{ padding: "25px" }} id="no-selection">
+      {contextHolder}
+      <Title className="title">
+        Support and Communication
+      </Title>
       <div
         style={{
           padding: "25px 25px",
@@ -111,10 +123,6 @@ const SupportAndCommunication: React.FC = () => {
           overflow: "auto",
         }}
       >
-        <Title level={3} style={{ textAlign: "center", marginBottom: "20px" }}>
-          Support and Communication
-        </Title>
-
         <Modal
           open={modalVisible}
           onCancel={() => setModalVisible(false)}
@@ -138,7 +146,7 @@ const SupportAndCommunication: React.FC = () => {
           <Title level={4} style={{ marginBottom: "10px" }}>
             Tickets
           </Title>
-          <Flex justify="center" gap="middle" wrap flex={5}>
+          <Flex justify="center" gap="middle" wrap flex={5} style={{marginBottom: "20px"}}>
             <Flex flex={6}>
               <Input
                 value={keyword}
@@ -150,7 +158,6 @@ const SupportAndCommunication: React.FC = () => {
               <RangePicker onChange={handleDateRangeChange} />
             </Flex>
           </Flex>
-          <Divider />
           <Space
             align="center"
             style={{ justifyContent: "center", width: "100%" }}
@@ -180,7 +187,7 @@ const SupportAndCommunication: React.FC = () => {
         <List
           style={{ marginTop: "25px" }}
           dataSource={tickets}
-          renderItem={(ticket) => (
+          renderItem={(ticket, index) => (
             <List.Item
               key={ticket.id}
               style={{
@@ -222,18 +229,21 @@ const SupportAndCommunication: React.FC = () => {
                 <Divider />
                 <Paragraph>
                   <ExpandableText text={ticket.description} maxLength={100} />
-                  {ticket.image && (
-                    <div>
-                      <Text
-                        style={{ color: "blue", cursor: "pointer" }}
-                        onClick={() =>
-                          handleImageClick(baseApiUrl + ticket.image!)
-                        }
-                      >
-                        Image provided
-                      </Text>
-                    </div>
-                  )}
+                  <Flex justify="space-between">
+                    {!ticket.image && (
+                      <div>
+                        <Text
+                          style={{ color: "blue", cursor: "pointer" }}
+                          onClick={() =>
+                            handleImageClick(baseApiUrl + ticket.image!)
+                          }
+                        >
+                          Image provided
+                        </Text>
+                      </div>
+                    )}
+                    <Button type="primary" onClick={() => handleReply(index)}> Reply </Button>
+                  </Flex>
                 </Paragraph>
               </div>
             </List.Item>

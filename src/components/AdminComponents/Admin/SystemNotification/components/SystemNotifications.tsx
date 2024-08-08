@@ -1,56 +1,49 @@
-import React, { useState } from "react";
-import { Modal, Button, Typography  } from "antd";
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Typography } from "antd";
 import { FileImageOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 
-import * as Styled from './SystemNotifications.styled';
+import * as Styled from "../../../SystemNotifications.styled";
+import {
+  delSystemNotification,
+  getSystemNotification,
+} from "../SystemNotificationApi";
+import moment from "moment";
 
-const {Text} = Typography;
+const { Text } = Typography;
 
 interface Notification {
-  id: number;
+  _id: number;
+  title: string;
   message: string;
-  time: string;
-  content: string;
+  updatedAt: string;
+  during: number;
 }
 
 const SystemNotifications: React.FC = () => {
   // Dummy system notifications data
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: 1,
-      message: "New user registered",
-      time: "5 minutes ago",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: 2,
-      message: "Order #123 shipped",
-      time: "1 hour ago",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: 3,
-      message: "Payment received",
-      time: "2 hours ago",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: 4,
-      message: "Server maintenance scheduled",
-      time: "1 day ago",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      id: 5,
-      message: "Product out of stock",
-      time: "2 days ago",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-  ]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [selectedNotification, setSelectedNotification] =
     useState<Notification | null>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getSystemNotification();
+      if (res.data)
+        setNotifications(
+          res.data.map((item) => {
+            return {
+              ...item,
+              during: moment(new Date()).diff(
+                new Date(item.updatedAt),
+                "hours"
+              ),
+            };
+          })
+        );
+    })();
+  }, []);
 
   // Function to open the modal and set the selected notification
   const handleNotificationClick = (notification: Notification) => {
@@ -62,40 +55,48 @@ const SystemNotifications: React.FC = () => {
   const deleteNotification = (notificationId: number) => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter(
-        (notification) => notification.id !== notificationId
+        (notification) => notification._id !== notificationId
       )
     );
+    delSystemNotification(notificationId);
     setModalVisible(false);
   };
 
   return (
     <div id="no-selection" className="w-full px-6">
-      <Title level={2} className="text-2xl font-semibold mb-4">System Notifications</Title>
+      <Title style={{fontSize: '21px', marginBottom: "20px"}}>
+        System Notifications
+      </Title>
       {notifications.length > 0 ? (
         <Styled.Card className="dashboard-card">
           <ul>
             {notifications.map((notification) => (
               <li
-                key={notification.id}
+                key={notification._id}
                 className="flex justify-between border-b py-2"
               >
                 <div
                   className="cursor-pointer"
                   onClick={() => handleNotificationClick(notification)}
                 >
-                  <Text className="text-lg font-semibold">
+                  <Text className="text-[14px] font-semibold">
                     {notification.message}
                   </Text>
-                  <p className="text-sm text-gray-500">{notification.time}</p>
+                  <p className="text-sm text-gray-500">
+                    {notification.during < 24
+                      ? `${notification.during}h`
+                      : `${Math.floor(notification.during / 24)}d ${Math.floor(
+                          notification.during % 24
+                        )}h`}{" "}
+                    ago
+                  </p>
                 </div>
-                <Button
+                <Styled.DangerButton
                   type="primary"
-                  danger
-                  style={{borderRadius: "8px"}}
-                  onClick={() => deleteNotification(notification.id)}
+                  onClick={() => deleteNotification(notification._id)}
                 >
                   Delete
-                </Button>
+                </Styled.DangerButton>
               </li>
             ))}
           </ul>
@@ -107,24 +108,22 @@ const SystemNotifications: React.FC = () => {
         </h2>
       )}
       <Modal
-        title={selectedNotification ? selectedNotification.message : ""}
+        title={selectedNotification ? selectedNotification.title : ""}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={[
-          <Button
+          <Styled.DangerButton
             key="deleteModal"
             type="primary"
-            danger
-            onClick={() => deleteNotification(selectedNotification?.id || 0)}
+            onClick={() => deleteNotification(selectedNotification?._id || 0)}
           >
             Delete
-          </Button>,
+          </Styled.DangerButton>,
         ]}
       >
         {selectedNotification && (
           <div>
-            <p>{selectedNotification.time}</p>
-            <p>{selectedNotification.content}</p>
+            <p>{selectedNotification.message}</p>
           </div>
         )}
       </Modal>

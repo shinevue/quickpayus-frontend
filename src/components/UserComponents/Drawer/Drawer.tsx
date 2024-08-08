@@ -1,9 +1,8 @@
+import { useEffect, useMemo } from "react";
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { Button, Layout, Result } from "antd";
-
+import { Button, Layout } from "antd";
 // hooks
 import { useDevice } from "@/utils/Hooks/useDevice";
-
 // components
 import UserDashboard from "../Dashboard/UserDashboard";
 import Settings from "../Settings/Settings";
@@ -40,16 +39,33 @@ import AutoSignOut from "../Auth/AutoSignOut";
 const { Content } = Layout;
 
 const App = () => {
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.setItem("lastPath", window.location.pathname);
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   const location = useLocation();
   const device = useDevice();
 
-  const isSignInRoute =
-    location.pathname === "/signin" ||
-    location.pathname === "/signup" ||
-    location.pathname === "/forgot-password" ||
-    location.pathname === "/404" ||
-    location.pathname === "/403" ||
-    location.pathname === "/500";
+  const isSignInRoute = useMemo(() => {
+    const signInRoutes = [
+      "/signin",
+      "/signup",
+      "/forgot-password",
+      "/404",
+      "/403",
+      "/500",
+    ];
+    return (
+      signInRoutes.includes(location.pathname) ||
+      location.pathname.includes("/refer/")
+    );
+  }, [location.pathname]);
 
   const contentStyle = {
     marginLeft: device?.isBreakpoint("MD") && !isSignInRoute ? "250px" : "0px",
@@ -57,12 +73,43 @@ const App = () => {
     marginTop: "44px",
     padding: "var(--padding-content)",
   };
+
   const layoutStyle = {
-    // borderRadius: 8,
     overflow: "hidden",
     width: "100%",
     maxWidth: "100%",
   };
+
+  const routes = [
+    { path: "/", element: <Navigate to={"/signin"} /> },
+    { path: "/dashboard", element: <UserDashboard /> },
+    { path: "/referrals", element: <ReferralsList /> },
+    { path: "/transaction", element: <TransactionsList /> },
+    { path: "/settings", element: <Settings /> },
+    { path: "/settings/change-name", element: <ChangeName /> },
+    { path: "/settings/change-email", element: <ChangeEmail /> },
+    { path: "/settings/deactivate-account", element: <DeactivateAccount /> },
+    { path: "/support", element: <Support /> },
+    { path: "/rank", element: <Rank /> },
+    { path: "/deposit", element: <Deposit /> },
+    { path: "/withdrawal", element: <Withdrawal /> },
+    { path: "/change-password", element: <ChangePassword /> },
+    { path: "/notifications", element: <Notifications /> },
+    { path: "/profile", element: <Profile /> },
+    { path: "/announcements", element: <Announcements /> },
+    { path: "/verification", element: <KycVerification /> },
+    { path: "/support/ticket", element: <CustomTicket /> },
+    { path: "/support/feedback", element: <Feedback /> },
+    { path: "/settings/account-deletion", element: <DeleteAccount /> },
+    { path: "/signin", element: <SignIn /> },
+    { path: "/signup", element: <SignupForm /> },
+    { path: "/forgot-password", element: <ForgotPassword /> },
+    { path: "/refer/:username", element: <SignupForm /> },
+    { path: "403", element: <ForbiddenPage /> },
+    { path: "404", element: <NotFoundPage /> },
+    { path: "500", element: <MethodNotAllowedPage /> },
+    // { path: "*", element: <Navigate to="/404" /> },
+  ];
 
   return (
     <>
@@ -72,193 +119,15 @@ const App = () => {
         <ToastContainer />
         <Layout
           style={{
-            transition: "background 0.5s",
+            transition: "background 0.2s",
           }}
         >
           {!isSignInRoute && <Sider />}
           <Content style={contentStyle}>
             <Routes>
-              <Route path="/" element={<Navigate to={"/signin"} />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <PrivateRoute>
-                    <UserDashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/referrals"
-                element={
-                  <PrivateRoute>
-                    <ReferralsList />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/transaction"
-                element={
-                  <PrivateRoute>
-                    <TransactionsList />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/settings"
-                element={
-                  <PrivateRoute>
-                    <Settings />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/settings/change-name"
-                element={
-                  <PrivateRoute>
-                    <ChangeName />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/settings/change-email"
-                element={
-                  <PrivateRoute>
-                    <ChangeEmail />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/settings/deactivate-account"
-                element={
-                  <PrivateRoute>
-                    <DeactivateAccount />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/support"
-                element={
-                  <PrivateRoute>
-                    <Support />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/rank"
-                element={
-                  <PrivateRoute>
-                    <Rank />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/deposit"
-                element={
-                  <PrivateRoute>
-                    <Deposit />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/withdrawal"
-                element={
-                  <PrivateRoute>
-                    <Withdrawal />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/change-password"
-                element={
-                  <PrivateRoute>
-                    <ChangePassword />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/notifications"
-                element={
-                  <PrivateRoute>
-                    <Notifications />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <PrivateRoute>
-                    <Profile />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/announcements"
-                element={
-                  <PrivateRoute>
-                    <Announcements />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/verification"
-                element={
-                  <PrivateRoute>
-                    <KycVerification />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/support/ticket"
-                element={
-                  <PrivateRoute>
-                    <CustomTicket />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/support/feedback"
-                element={
-                  <PrivateRoute>
-                    <Feedback />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/settings/account-deletion"
-                element={
-                  <PrivateRoute>
-                    <DeleteAccount />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/signin"
-                element={
-                  <PrivateRoute>
-                    <SignIn />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/signup"
-                element={
-                  <PrivateRoute>
-                    <SignupForm />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/forgot-password"
-                element={
-                  <PrivateRoute>
-                    <ForgotPassword />
-                  </PrivateRoute>
-                }
-              />
-              <Route path="*" element={<Navigate to="/404" />} />
-              <Route path="403" element={<ForbiddenPage />} />
-              <Route path="404" element={<NotFoundPage />} />
-              <Route path="500" element={<MethodNotAllowedPage />} />
+              {routes.map((route, index) => (
+                <Route key={index} path={route.path} element={route.element} />
+              ))}
             </Routes>
           </Content>
         </Layout>

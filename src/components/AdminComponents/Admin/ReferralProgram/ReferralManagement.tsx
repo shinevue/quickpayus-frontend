@@ -129,7 +129,7 @@ const ReferralReports: React.FC = () => {
       <Styled2.Container style={{ marginTop: "40px" }}>
         <Styled.Header>User Referral Details</Styled.Header>
 
-        <Styled.SearchWrapper>
+        <Styled.SearchWrapper style={{marginBottom: "20px"}}>
           <Styled.StyledSelect
             style={{ width: "150px" }}
             value={searchCriteria}
@@ -156,7 +156,6 @@ const ReferralReports: React.FC = () => {
             }}
           />
         </Styled.SearchWrapper>
-        <Divider />
         <Table
           rowKey="id"
           columns={userDataColumns}

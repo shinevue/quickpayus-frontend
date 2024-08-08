@@ -80,6 +80,8 @@ export const StyledButton = styled(Button)`
 
 export const Header = styled(Title)`
     text-align: left;
+    font-size: 21px !important;
+    margin-bottom: 20px !important;
     @media (max-width: 768px) {
         text-align: center;
     }

@@ -36,21 +36,25 @@ const KYCVerification = () => {
             {kyc.status === "APPROVED" ? (
               <Styled.KycBtn type="dashed">KYC verified</Styled.KycBtn>
             ) : kyc.status === "PENDING" ? (
-              <Styled.KycBtn type="default">
-                <Link to="/verification">Pending</Link>
-                <Spin
-                  style={{ marginLeft: "10px" }}
-                  indicator={<LoadingOutlined spin />}
-                />
-              </Styled.KycBtn>
+              <Link to="/verification">
+                <Styled.KycBtn type="default">
+                  Pending
+                  <Spin
+                    style={{ marginLeft: "10px" }}
+                    indicator={<LoadingOutlined spin />}
+                  />
+                </Styled.KycBtn>
+              </Link>
             ) : kyc.status === "REJECTED" ? (
-              <Styled.KycBtn type="primary" danger>
-                <Link to="/verification">Re-Verify</Link>
-              </Styled.KycBtn>
+              <Link to="/verification">
+                <Styled.KycBtn type="primary" danger>
+                  Re-Verify
+                </Styled.KycBtn>
+              </Link>
             ) : (
-              <Styled.KycBtn type="primary">
-                <Link to="/verification">Get Verified</Link>
-              </Styled.KycBtn>
+              <Link to="/verification">
+                <Styled.KycBtn type="primary">Get Verified</Styled.KycBtn>
+              </Link>
             )}
           </Styled.KycBox>
         </Styled.StyledKYCCol>

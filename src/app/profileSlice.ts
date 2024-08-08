@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { checkAuthAsync } from "@/components/AdminComponents/Auth/authSlice";
 
 const initialState = {
   firstName: "",
   lastName: "",
   username: "",
+  password: "",
   email: "",
   gender: "male",
   countryCode: "+93",
@@ -11,8 +13,9 @@ const initialState = {
   alertNotifications: true,
   emailNotifications: true,
   avatarBg: "",
+  kyc: {},
   role: "",
-  kyc: {}
+  twofactor: false,
 };
 
 const profileSlice = createSlice({
@@ -37,8 +40,22 @@ const profileSlice = createSlice({
       return initialState;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(checkAuthAsync.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        return {
+          ...state,
+          ...data,
+        };
+      })
+      .addCase(checkAuthAsync.rejected, () => {
+        return initialState;
+      });
+  },
 });
 
-export const { updateProfileField, updateProfile } = profileSlice.actions;
+export const { updateProfileField, updateProfile, resetForm } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;

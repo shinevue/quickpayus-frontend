@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Formik, Field, ErrorMessage } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { InputOTP } from "antd-input-otp";
 
@@ -15,6 +15,7 @@ import useNavbarheight from "@/utils/Hooks/useNavbarheight";
 import { FloatingInput } from "./FloatingInput/FloatingInput";
 import { AntPhone } from "./AntPhone";
 import { ReferralInput } from "./ReferralInput";
+import { deviceInfo } from "@/utils/deviceInfo";
 
 // styled components
 import * as Styled from "./SignUp.styled";
@@ -47,20 +48,6 @@ interface FormErrors {
 }
 
 const { Step } = Steps;
-
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  username: "",
-  password: "",
-  confirmPassword: "",
-  referral: "",
-  phoneNumber: "",
-  countryCode: "",
-  question: "",
-  answer: "",
-};
 
 export const steps = [
   "Get Started",
@@ -99,6 +86,8 @@ const SignupForm = () => {
   //   setDial(dial);
   // };
 
+  const { username } = useParams();
+  const clientInfo = deviceInfo();
   const handleRequireOTP = async () => {
     setCountDownValue(5);
     const otpResult = await axios.post(
@@ -134,7 +123,7 @@ const SignupForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post("/api/v1/auth/signup", values);
+      const response = await axios.post("/api/v1/auth/signup", {...values, ...clientInfo});
       if (response.data.success) {
         Modal.info({
           title: "Registration successful",
@@ -260,6 +249,19 @@ const SignupForm = () => {
     return () => clearInterval(interval);
   }, [countDownValue]);
 
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    referral: username || "",
+    phoneNumber: "",
+    countryCode: "",
+    question: "",
+    answer: "",
+  };
   return (
     <Styled.StyledWrapper className="signup" navbarheight={navbarheight}>
       <Styled.MainCard title="Sign Up to join QUICKPAYUS">

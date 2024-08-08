@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface Notification   {
-  id: string; // Assuming each notification has an ID
+interface Notification {
+  _id: string; // Assuming each notification has an ID
   isRead: boolean;
   // Add other notification properties here
 }
@@ -27,6 +27,21 @@ const notificationsSlice = createSlice({
   initialState: initialState,
 
   reducers: {
+    readOne: (state, action) => {
+      const notificationId = action.payload;
+      const index = state.data.findIndex(
+        (notification) => notification._id === notificationId
+      );
+      if (index !== -1) {
+        state.data[index].isRead = true;
+      }
+    },
+    deleteOne: (state, action) => {
+      const notificationId = action.payload;
+      state.data = state.data.filter(
+        (notification) => notification._id !== notificationId
+      );
+    },
     setNotifications: (state, action) => {
       const { success, total, totalPages, data } = action.payload;
       return {
@@ -34,7 +49,7 @@ const notificationsSlice = createSlice({
         success,
         total,
         totalPages,
-        data: [...state.data, ...data],
+        data,
       };
     },
     resetNotifications: () => initialState,
@@ -54,6 +69,8 @@ const notificationsSlice = createSlice({
 });
 
 export const {
+  readOne,
+  deleteOne,
   setNotifications,
   resetNotifications,
   setNotificationsReadStatus,

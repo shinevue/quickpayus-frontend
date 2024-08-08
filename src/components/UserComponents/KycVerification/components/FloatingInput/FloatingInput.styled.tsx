@@ -30,7 +30,7 @@ export const StyledFloatInput = styled(Input)`
     padding: 0 2px;
 
     position: absolute; /* Ensure label can be positioned relative to input */
-    transition: all 0.3s ease; /* Smooth transition for label movement */
+    transition: all 0.2s ease; /* Smooth transition for label movement */
     color: black; /* Set label text color */
   }
 `;
@@ -43,5 +43,5 @@ export const StyledFloatInputLabel = styled.label`
   color: var(--color-text);
   font-size: 14px;
   pointer-event: none;
-  transition: 0.3s;
+  transition: 0.2s;
 `;

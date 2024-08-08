@@ -43,7 +43,6 @@ const KYCStatusComponent: React.FC = () => {
     [string, string] | null
   >(null);
   console.log(selectedDateRange);
-  
 
   useEffect(() => {
     (async () => {
@@ -58,11 +57,11 @@ const KYCStatusComponent: React.FC = () => {
           .filter((item) => item.kyc?.status)
           .map((item) => {
             return {
-              id: item.id,
+              id: item._id,
               status: item.kyc?.status,
               documentationType: item.kyc?.documentType,
-              images: item.kyc?.images.map(item => item.name),
-              documents: item.kyc?.documents.map(item => item.name),
+              images: item.kyc?.images.map((item) => item.name),
+              documents: item.kyc?.documents.map((item) => item.name),
               userInfo: {
                 username: item.username,
                 address: item.kyc?.addressLine,
@@ -201,9 +200,8 @@ const KYCStatusComponent: React.FC = () => {
   return (
     <Styled.Layout>
       <Styled.Card>
-        <Title level={2}>KYC Management</Title>
+        <Styled.Header>KYC Management</Styled.Header>
         <Styled.Container>
-          
           <Styled.SearchWrapper>
             <Styled.SearchInput
               type="text"
@@ -225,11 +223,15 @@ const KYCStatusComponent: React.FC = () => {
               onChange={handleDateRangeChange}
               placeholder={["from", "to"]}
             />
-            <Button style={{borderRadius: "8px"}} type="primary" onClick={filterUsersByDateRange}>
+            <Button
+              style={{ borderRadius: "8px" }}
+              type="primary"
+              onClick={filterUsersByDateRange}
+            >
               Filter
             </Button>
           </Styled.FilterWrapper>
-          <div style={{flexGrow: '1'}}></div>
+          <div style={{ flexGrow: "1" }}></div>
           <Styled.StyledButton type="primary" onClick={exportToCSV}>
             Export CSV <DownloadOutlined />
           </Styled.StyledButton>

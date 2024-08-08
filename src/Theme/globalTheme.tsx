@@ -114,7 +114,7 @@ export const GlobalTheme: React.FC = () => {
         fontSizePageTitle: "20px",
         fontWeightPageTitle: "600",
         marginBottomPageTitle: "20px",
-        transitionTimeWhenSwitchThemeMode: "0.5s",
+        transitionTimeWhenSwitchThemeMode: "0.2s",
         accentBlue: currentTheme.accentBlue,
         accentBlueAffixHover: currentTheme.accentBlueAffixHover,
         accentGreen: currentTheme.accentGreen,

@@ -35,7 +35,7 @@ export const Container = styled.div`
 
 export const TableWrapper = styled.div`
     @media (max-width: 530px) {
-        width: calc(100vw - 80px);
+        // width: calc(100vw - 80px);
         overflow: auto;
     }
 `

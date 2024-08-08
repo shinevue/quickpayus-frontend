@@ -53,7 +53,7 @@ export const ReviewForm: React.FC = () => {
           </Space>
           <Space
             size={device?.isBreakpoint("MD") ? 32 : 16}
-            direction={device?.isBreakpoint("MD") ? "horizontal" : "vertical"}
+            direction={device?.isBreakpoint("LG") ? "horizontal" : "vertical"}
           >
             <div>
               <Styled.FieldTitle>Phone Number</Styled.FieldTitle>
@@ -74,7 +74,7 @@ export const ReviewForm: React.FC = () => {
         <Styled.Container>
           <Space
             size={device?.isBreakpoint("MD") ? 32 : 16}
-            direction={device?.isBreakpoint("MD") ? "horizontal" : "vertical"}
+            direction={device?.isBreakpoint("LG") ? "horizontal" : "vertical"}
           >
             <div>
               <Styled.FieldTitle>Country</Styled.FieldTitle>

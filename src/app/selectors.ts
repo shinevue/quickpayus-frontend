@@ -23,3 +23,16 @@ export const selectAnnouncements = (state: RootState) => state.announcements;
 export const selectKycVerification = (state: RootState) => state.kycVerification;
 
 export const selectOtpStatus = (state: RootState) => state.otpStatus;
+
+export const selectTwoFactor = (state: RootState) => state.profile.twofactor;
+
+export const selectIsNewNotification = (state: RootState) =>
+  state.notifications.data.some((notification) => !notification.isRead);
+
+export const selectUnreadNotificationCount = (state:RootState) => {
+  let count = 0;
+  state.notifications.data.forEach((notification) => {
+    if (!notification.isRead) count++;
+  });
+  return count;
+};

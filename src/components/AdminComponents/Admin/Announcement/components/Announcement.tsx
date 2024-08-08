@@ -43,7 +43,7 @@ const Announcement: React.FC = () => {
 
   return (
     <Styled.Container>
-      <Title level={2} style={{ textAlign: "left", marginBottom: "24px" }}>
+      <Title className="title">
         Announcements
       </Title>
       <Styled.Layout>
@@ -82,8 +82,8 @@ const Announcement: React.FC = () => {
         </Form>
       </Styled.Layout>
       <Styled.Layout>
-        <Title level={3} style={{ marginBottom: "16px" }}>
-          Announcement Logs:
+        <Title className="title">
+          Announcement Logs
         </Title>
         {announcements.length === 0 ? (
           <Text>No announcements sent yet.</Text>

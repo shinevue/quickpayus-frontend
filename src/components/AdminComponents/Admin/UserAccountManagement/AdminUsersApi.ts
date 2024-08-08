@@ -12,7 +12,7 @@ export const addGuest = async (reqData: User) => {
   }
 };
 
-export const getAllGuests = async (query) => {
+export const getAllGuests = async (query?: string) => {
   try {
     const response = await API.get(`/admin/users/`, { params: query });
 

@@ -8,7 +8,7 @@ import { ConfigProvider, theme } from "antd";
 import { lightTheme, darkTheme } from "@/constants";
 
 // redux
-import { selectSetting } from "../app/selectors";
+import { selectSetting } from "@/app/selectors";
 
 interface GetIPInfoApiResponse {
   datetime?: string;

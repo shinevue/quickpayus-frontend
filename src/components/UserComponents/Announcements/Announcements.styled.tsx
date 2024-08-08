@@ -44,7 +44,7 @@ export const ctaButton = styled.div`
   font-size: 14px;
   cursor: pointer;
   border-radius: 8px;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: gray; /* Darker Green */
@@ -69,7 +69,7 @@ export const LoadMoreButton = styled.button`
   font-size: 14px;
   cursor: pointer;
   border-radius: 8px;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
   background-color: #f00000;
 `;
 

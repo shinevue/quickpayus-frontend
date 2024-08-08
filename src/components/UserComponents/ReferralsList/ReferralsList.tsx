@@ -81,9 +81,7 @@ const Referrals: React.FC = () => {
       </Styled.ListHeader>
       {isLoading || isFetching ? ( // Show skeleton loader while data is loading
         <div>
-          <Skeleton active />
-          <Skeleton active />
-          <Skeleton active />
+          <Skeleton active paragraph={{ rows: 5 }} />
         </div>
       ) : (
         <Styled.TableWrapper>

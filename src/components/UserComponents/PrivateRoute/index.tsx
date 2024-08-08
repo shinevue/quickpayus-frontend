@@ -18,8 +18,13 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 
   useEffect(() => {
     if (isSignin) {
+      const lastPath = sessionStorage.getItem("lastPath");
       if (authPaths.indexOf(location.pathname) > -1) {
-        navigate("/dashboard");
+        navigate(lastPath || "/dashboard", {
+          state: { from: location },
+          replace: true,
+        });
+        // navigate("/signin");
       }
     } else {
       if (authPaths.indexOf(location.pathname) < 0) {

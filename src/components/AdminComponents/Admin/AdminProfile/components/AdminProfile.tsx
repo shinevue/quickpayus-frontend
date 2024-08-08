@@ -241,8 +241,8 @@ const AdminProfile: React.FC = () => {
 
   return (
     <Layout style={{ maxHeight: "calc(100vh - 50px)", padding: "25px"}}>
-      <div className="mb-10">
-        <Title>Admin Profile</Title>
+      <div style={{marginBottom: '25px'}}>
+        <Styled.MainHeader>Admin Profile</Styled.MainHeader>
         {profiles.length > 0 ? (
           profiles.map((profile) => (
             <ProfileItem
@@ -255,8 +255,8 @@ const AdminProfile: React.FC = () => {
           ))
         ) : (
           <div className="">
-            <Card>
-              <Title level={3} className="text-xl font-bold mb-4">No Profile available</Title>
+            <Card style={{borderRadius: "18px", padding: "25px"}}>
+              <Title style={{fontSize: "20px"}}>No Profile available</Title>
               <Text>
                 There is no data to display at the moment.
               </Text>

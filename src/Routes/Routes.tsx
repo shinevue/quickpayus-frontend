@@ -18,13 +18,11 @@ import UserDashboard from "@/components/AdminComponents/Users/Dashboard/UserDash
 import AdminDashboard from "@/components/AdminComponents/Admin/Dashboard/components/AdminDashboard.tsx";
 import ProfitConfig from "@/components/AdminComponents/Admin/ProfitConfig/ProfitConfig.tsx";
 import TwoFactor from "@/components/AdminComponents/Admin/TwoFactor/components/TwoFactor.tsx";
-import SignIn from "@/components/AdminComponents/Auth/SignIn.tsx";
 import ReferralProgram from "@/components/AdminComponents/Admin/ReferralProgram/ReferralProgram.tsx";
 import Transactions from "@/components/AdminComponents/Admin/Transactions/Transactions.tsx";
 import App from "@/App.tsx";
 import ProfileAbout from "@/components/AdminComponents/Profile/ProfileAbout.tsx";
 import RankManagement from "@/components/AdminComponents/Admin/RankManagement/RankManagement.tsx";
-import ForgotPassword from "@/components/AdminComponents/Auth/ForgotPassword.tsx";
 import ReferralsList from "@/components/UserComponents/ReferralsList/ReferralsList.tsx";
 import TransactionsList from "@/components/UserComponents/TransactionsList/TransactionsList.tsx";
 import Settings from "@/components/UserComponents/Settings/Settings.tsx";
@@ -48,6 +46,9 @@ import { NotFoundPage } from "@/components/AdminComponents/Auth/NotFoundPage.tsx
 import { MethodNotAllowedPage } from "@/components/AdminComponents/Auth/MethodNotAllowedPage.tsx";
 import UserProblems from "@/components/AdminComponents/Admin/UserProblem/components/UserProblems";
 import FeedbackMechanism from "@/components/AdminComponents/Admin/FeedbackMechanism/components/FeedbackMechanism";
+import SignIn from "@/components/UserComponents/Auth/SignIn";
+import ForgotPassword from "@/components/UserComponents/Auth/ForgotPassword";
+import SignupForm from "@/components/UserComponents/Auth/Signup";
 
 const router = createBrowserRouter([
   {
@@ -145,85 +146,90 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      { path: "/", element: <Navigate to={"/signin"} /> },
       {
         path: "dashboard",
-        element: <UserDashboard />
+        element: <UserDashboard />,
       },
       {
         path: "referrals",
-        element: <ReferralsList />
+        element: <ReferralsList />,
       },
       {
         path: "transaction",
-        element: <TransactionsList />
+        element: <TransactionsList />,
       },
       {
         path: "settings",
-        element: <Settings />
+        element: <Settings />,
       },
       {
         path: "settings/change-name",
-        element: <ChangeName />
+        element: <ChangeName />,
       },
       {
         path: "settings/change-email",
-        element: <ChangeEmail />
+        element: <ChangeEmail />,
       },
       {
         path: "settings/deactivate-account",
-        element: <DeactivateAccount />
+        element: <DeactivateAccount />,
       },
       {
         path: "support",
-        element: <Support />
+        element: <Support />,
       },
       {
         path: "rank",
-        element: <Rank />
+        element: <Rank />,
       },
       {
         path: "deposit",
-        element: <Deposit />
+        element: <Deposit />,
       },
       {
         path: "withdrawal",
-        element: <Withdrawal />
+        element: <Withdrawal />,
       },
       {
         path: "change-password",
-        element: <ChangePassword />
+        element: <ChangePassword />,
       },
       {
         path: "notifications",
-        element: <Notifications />
+        element: <Notifications />,
       },
       {
         path: "profile",
-        element: <Profile />
+        element: <Profile />,
       },
       {
         path: "announcements",
-        element: <Announcements />
+        element: <Announcements />,
       },
       {
         path: "verification",
-        element: <KycVerification />
+        element: <KycVerification />,
       },
       {
         path: "support/ticket",
-        element: <CustomTicket />
+        element: <CustomTicket />,
       },
       {
         path: "support/feedback",
-        element: <Feedback />
+        element: <Feedback />,
       },
       {
         path: "settings/account-deletion",
-        element: <DeleteAccount />
+        element: <DeleteAccount />,
       },
       {
         path: "signin",
         element: <SignIn />,
+      },
+      {
+        path: "signup",
+        element: <SignupForm />
       },
       {
         path: "forgot-password",

@@ -1,5 +1,7 @@
-import { Button, Select } from "antd";
+import { Button, Select, Typography } from "antd";
 import styled from "styled-components";
+
+const {Title} = Typography;
 
 export const Layout = styled.div`
     padding: 25px;
@@ -14,12 +16,12 @@ export const Card = styled.div`
     overflow-x: auto;
 `
 
-export const Header = styled.h2`
-    font-size: 1.875rem /* 30px */;
-    line-height: 2.25rem /* 36px */;
-    font-weight: 600;
-    text-align: left;
-    margin-bottom: 24px;
+export const Header = styled(Title)`
+    font-size: 21px !important;
+    margin-bottom: 20px !important;
+    @media (max-width: 768px) {
+        text-align: center;
+    }
 `
 
 export const Container = styled.div`
@@ -47,9 +49,10 @@ export const StyledButton = styled(Button)`
 
 export const SearchWrapper = styled.div`
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
+    align-items: center;
     @media (max-width: 768px) {
-        justify-content: space-between;
         width: 100%;
     }
 `
@@ -69,6 +72,7 @@ export const SearchInput = styled.input`
 export const StyledSelect = styled(Select)`
     height: 100%;
     border-radius: 4px;
+    min-width: 120px !important;
 `
 
 export const FilterWrapper = styled.div`
@@ -83,6 +87,6 @@ export const TableWrapper = styled.div`
     
     overflow: auto;
     @media (max-width: 768px) {
-        width: calc(100vw - 80px);
+        width: calc(100vw - 100px);
     }
 `

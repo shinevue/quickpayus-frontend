@@ -13,13 +13,13 @@ import {
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 
-export const NotificationCard = ({ cardItem, variant }) => {
+export const NotificationCard = ({ cardItem, variant, onRead, onDelete }) => {
   const icon =
     variant === "notification" ? (
       cardItem.type === NOTIFICATION_TYPES.GENERAL ? (
-        <BellOutlined style={{color: "#007AFF"}} />
+        <BellOutlined style={{ color: "#007AFF" }} />
       ) : cardItem.type === NOTIFICATION_TYPES.IMPORTANT ? (
-        <AlertOutlined style={{color: "#FF3B30"}}/>
+        <AlertOutlined style={{ color: "#FF3B30" }} />
       ) : (
         <InfoCircleOutlined className="color-gray" />
       )
@@ -27,11 +27,11 @@ export const NotificationCard = ({ cardItem, variant }) => {
       cardItem.type === ANNOUNCEMENT_TYPES.GENERAL ? (
         <BellOutlined twoToneColor="blue" />
       ) : cardItem.type === ANNOUNCEMENT_TYPES.IMPORTANT ? (
-        <AlertOutlined style={{color: "#FF3B30"}} />
+        <AlertOutlined style={{ color: "#FF3B30" }} />
       ) : cardItem.type === ANNOUNCEMENT_TYPES.UPDATES ? (
         <InfoCircleOutlined className="color-green" />
       ) : cardItem.type === ANNOUNCEMENT_TYPES.URGENT ? (
-        <AlertOutlined style={{color: "#FF3B30"}} />
+        <AlertOutlined style={{ color: "#FF3B30" }} />
       ) : cardItem.type === ANNOUNCEMENT_TYPES.WARNING ? (
         <WarningOutlined className="color-orange" />
       ) : (
@@ -41,9 +41,7 @@ export const NotificationCard = ({ cardItem, variant }) => {
 
   return (
     <Styled.NotificationCardContainer $type={cardItem.type}>
-      {variant === "notification"
-        ? !cardItem.isRead && <Styled.UnreadDot />
-        : null}
+      {!cardItem.isRead && <Styled.UnreadDot />}
       <Styled.NotificationIcon $variant={variant}>
         {icon}
       </Styled.NotificationIcon>
@@ -62,10 +60,25 @@ export const NotificationCard = ({ cardItem, variant }) => {
         </Styled.NotificationContent>
         <Styled.Action>
           <Styled.Time $variant={variant}>
-            <span>{dayjs(cardItem?.createdAt).format("DD-MM-YYYY hh:mm A")}</span>
+            <span>
+              {dayjs(cardItem?.createdAt).format("DD-MM-YYYY hh:mm A")}
+            </span>
           </Styled.Time>
-          <Button size="small" type="text" icon={<CheckOutlined />} />
-          <Button size="small" type="text" danger icon={<DeleteOutlined />} />
+          {!cardItem.isRead && (
+            <Button
+              size="small"
+              type="text"
+              onClick={() => onRead(cardItem._id)}
+              icon={<CheckOutlined />}
+            />
+          )}
+          <Button
+            size="small"
+            type="text"
+            onClick={() => onDelete(cardItem._id)}
+            danger
+            icon={<DeleteOutlined />}
+          />
         </Styled.Action>
       </Styled.NotificationBody>
     </Styled.NotificationCardContainer>

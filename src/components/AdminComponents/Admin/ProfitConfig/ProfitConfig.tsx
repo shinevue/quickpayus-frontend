@@ -103,54 +103,56 @@ const DailyProfitComponent: React.FC = () => {
     <div>
       <Styled.Layout>
         <Styled.Header>Profit Settings</Styled.Header>
-        <table className="min-w-full divide-y divide-gray-200 text-center">
-          <thead className="">
-            <tr>
-              <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Level
-              </th>
-              <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Profit Percentage
-              </th>
-              <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Default Range
-              </th>
-              <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Adjustment
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {dailyProfits.map((profit, index) => (
-              <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
-                  Level {profit.level}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
-                  {`${currentProfit[index]}%`}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
-                  {`${defaultRange[profit.level][0]} ~ ${
-                    defaultRange[profit.level][1]
-                  }`}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
-                  <input
-                    type="number"
-                    min={-10}
-                    max={100}
-                    className="border border-gray-300 bg-transparent rounded px-3 py-1 mr-2"
-                    value={profit.profitPercentage}
-                    onChange={(e) =>
-                      handleAdjustment(profit.level, parseInt(e.target.value))
-                    }
-                  />
-                </td>
+        <div className="profit-table-wrapper">
+          <table className="min-w-full text-center profit-table">
+            <thead>
+              <tr>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Level
+                </th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Profit Percentage
+                </th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Default Range
+                </th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Adjustment
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="p-10 flex justify-end">
+            </thead>
+            <tbody className="">
+              {dailyProfits.map((profit, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
+                    Level {profit.level}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
+                    {`${currentProfit[index]}%`}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
+                    {`${defaultRange[profit.level][0]} ~ ${
+                      defaultRange[profit.level][1]
+                    }`}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 ">
+                    <input
+                      type="number"
+                      min={-10}
+                      max={100}
+                      className="border border-gray-300 bg-transparent rounded px-3 py-1 mr-2"
+                      value={profit.profitPercentage}
+                      onChange={(e) =>
+                        handleAdjustment(profit.level, parseInt(e.target.value))
+                      }
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div style={{display: "flex", justifyContent: "end", paddingTop: "25px"}}>
           <Button
             style={{ borderRadius: "8px" }}
             type="primary"
@@ -176,9 +178,9 @@ const DailyProfitComponent: React.FC = () => {
         </Modal>
       </Styled.Layout>
       <Styled.Layout>
-        <Title level={3} style={{ marginBottom: "16px" }}>
+        <Styled.Header>
           Profit Logs:
-        </Title>
+        </Styled.Header>
         {profitHistory.length === 0 ? (
           <Text>No profit changed yet.</Text>
         ) : (

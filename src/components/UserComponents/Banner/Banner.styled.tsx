@@ -129,7 +129,7 @@ export const StyledHeader = styled(Header)<StyledHeaderProps>`
   line-height: unset;
   z-index: 99;
   background: var(--color-bg-container);
-  transition: background 0.5s, border 0.5s;
+  transition: background 0.2s, border 0.2s;
   ${breakpoint.md} {
     border-bottom: 1px solid var(--color-border-primary);
   }

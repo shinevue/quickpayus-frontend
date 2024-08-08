@@ -3,28 +3,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 // antd
-import { Layout, Skeleton, Empty, message } from "antd";
+import { Layout, Skeleton, Empty, theme } from "antd";
 
 // styled components
 import * as Styled from "./Notifications.styled";
 
 // redux
 import { api } from "@/app/slice";
-import { selectNotifications } from "@/app/selectors";
+import {
+  selectNotifications,
+  selectUnreadNotificationCount,
+} from "@/app/selectors";
 import {
   setNotifications,
   resetNotifications,
   setNotificationsReadStatus,
+  readOne,
+  deleteOne,
 } from "@/app/slices/notificationsSlice";
-import {
-  useGetNotificationsQuery,
-  useUpdateNotificationMutation,
-  useGetUnreadNotificationsCountQuery,
-} from "@/app/slice";
+import { useUpdateNotificationMutation } from "@/app/slice";
 
 // components
 import PageTitle from "../PageTitle";
 import { NotificationCard } from "../NotificationCard";
+import { API } from "@/utils/api";
+import useThemeMode from "@/utils/Hooks/useThemeMode";
 
 const { Content } = Layout;
 
@@ -32,74 +35,10 @@ export const Notifications = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const notifications = useSelector(selectNotifications);
+  const counter = useSelector(selectUnreadNotificationCount);
   const [currentPage, setCurrentPage] = useState(1);
-  const [counter, setCounter] = useState(0);
+
   const [isLoading, setIsLoading] = useState(true);
-
-  const {
-    data: notificationsList,
-    error,
-    isError,
-    isSuccess,
-    isLoading: isNotificationsLoading,
-    isFetching,
-    refetch,
-  } = useGetNotificationsQuery({ page: currentPage });
-  useEffect(() => {
-    if (isFetching || isNotificationsLoading) {
-      setIsLoading(true);
-      return;
-    }
-
-    if (isError) {
-      setIsLoading(false);
-      return;
-    }
-
-    if (isSuccess) {
-      setIsLoading(false);
-      if (notificationsList) {
-        dispatch(setNotifications(notificationsList));
-      }
-    }
-  }, [
-    isFetching,
-    isError,
-    isSuccess,
-    error,
-    isNotificationsLoading,
-    notificationsList?.data,
-    dispatch,
-    notificationsList,
-  ]);
-
-  const {
-    data: unreadNotifications,
-    isError: isUnreadError,
-    isFetching: isUnreadFetching,
-    isLoading: isUnreadLoading,
-    isSuccess: isUnreadSuccess,
-    refetch: refetchTotal,
-  } = useGetUnreadNotificationsCountQuery(null);
-
-  useEffect(() => {
-    if (isUnreadFetching || isUnreadLoading) {
-      return;
-    }
-    if (isUnreadError) {
-      return;
-    }
-
-    if (isUnreadSuccess) {
-      setCounter(unreadNotifications?.total || 0);
-    }
-  }, [
-    isUnreadError,
-    isUnreadFetching,
-    isUnreadLoading,
-    isUnreadSuccess,
-    unreadNotifications,
-  ]);
 
   useEffect(() => {
     if (location.pathname === "/notifications") {
@@ -110,10 +49,6 @@ export const Notifications = () => {
   }, [dispatch, location.pathname]);
 
   const [putData] = useUpdateNotificationMutation();
-  useEffect(() => {
-    refetch();
-    refetchTotal();
-  }, []);
 
   const handlePutData = useCallback(async () => {
     try {
@@ -121,14 +56,44 @@ export const Notifications = () => {
         data: { isRead: true },
       });
       if ("data" in result && result.data.success) {
-        refetchTotal();
+        // refetchTotal();
         dispatch(setNotificationsReadStatus());
       }
     } catch (error) {
       console.log("error", error);
     }
-  }, [dispatch, putData, refetchTotal]);
+  }, [dispatch, putData]);
 
+  const handleDeleteData = useCallback(async () => {
+    try {
+      const result = await API.delete("/notifications/");
+      if ("data" in result && result?.data.success) {
+        dispatch(setNotifications({ data: [] }));
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }, [dispatch, putData]);
+
+  const handleRead = async (id) => {
+    try {
+      const response = await API.put(`/notifications/${id}`);
+      if (response.data.success) {
+        dispatch(readOne(id));
+      }
+    } catch (error) {}
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await API.delete(`/notifications/${id}`);
+      if (response.data.success) {
+        dispatch(deleteOne(id));
+      }
+    } catch (error) {}
+  };
+
+  const { themeMode } = useThemeMode();
   return (
     <>
       <PageTitle title="Notifications" />
@@ -138,32 +103,42 @@ export const Notifications = () => {
           <Styled.ctaButton onClick={handlePutData}>
             Mark All Read
           </Styled.ctaButton>
-          <Styled.ctaButton >
+          <Styled.ctaButton onClick={handleDeleteData}>
             Delete All
           </Styled.ctaButton>
         </>
       )}
       <Content className="notification-content">
         <div>
-          {(isLoading || isFetching) && (
+          {/* {(isLoading || isFetching) && (
             <>
               <Skeleton active />
               <Skeleton active />
               <Skeleton active />
             </>
-          )}
+          )} */}
           {notifications?.data &&
             notifications?.data?.map((notification) => (
               <NotificationCard
                 cardItem={notification}
                 key={notification._id}
                 variant="notification"
+                onRead={handleRead}
+                onDelete={handleDelete}
               />
             ))}
-          {notifications?.length === 0 && (
-            <div>
-              <Empty description={"No notifications found"} />
-            </div>
+          {notifications?.data?.length === 0 && (
+            <Empty
+              description={"No notifications found"}
+              style={{
+                backgroundColor: "var(--color-bg-container)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "100px",
+                color: themeMode === "dark" ? "#fff" : "#000",
+              }}
+            />
           )}
         </div>
         <Styled.LoadMoreButtonContainer>

@@ -13,9 +13,9 @@ import EChart from "./Charts";
 import { API } from "@/utils/api";
 import { selectAnalytics } from "@/app/selectors";
 import { updateAnalytics } from "@/app/analyticsSlice";
-// import { selectAnalytics, selectProfile } from "../../Redux/selectors";
-// import { updateAnalytics } from "../../Redux/analyticsSlice";
-// import { API } from "../../Utils/api";
+// import { selectAnalytics, selectProfile } from "@/app/selectors";
+// import { updateAnalytics } from "@/app/analyticsSlice";
+// import { API } from "@/utils/api";
 
 const UserDashboard = () => {
   const dispatch = useDispatch();

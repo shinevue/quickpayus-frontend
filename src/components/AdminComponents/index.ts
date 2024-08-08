@@ -1,5 +1,5 @@
 // import AdminDashboard from './Admin/Dashboard/components/AdminDashboard'
-import SystemNotifications from "./SystemNotifications";
+import SystemNotifications from "./Admin/SystemNotification/components/SystemNotifications";
 import AdminProfile from "./Admin/AdminProfile/components/AdminProfile";
 import Announcement from "./Admin/Announcement/components/Announcement";
 import ClaimedRewards from "./ClaimedRewards";
@@ -12,6 +12,7 @@ import Sidebar from "./Sidebar";
 import UserDetails from "./Admin/UserAccountManagement/components/UserDetails";
 import UserNotifications from "./Admin/UserNotifications/components/UserNotifications";
 import UserPermissionAndRoles from "./Admin/UserPermissionAndRoles/components/UserPermissionAndRoles";
+import UserProblems from "./UserProblems";
 
 export {
   SystemNotifications,
@@ -27,4 +28,5 @@ export {
   UserDetails,
   UserNotifications,
   UserPermissionAndRoles,
+  UserProblems,
 };

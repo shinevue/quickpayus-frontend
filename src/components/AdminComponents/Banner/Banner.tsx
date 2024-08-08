@@ -279,7 +279,7 @@ export const Banner = () => {
           </div>
         </div>
         <div className={`${isOpen ? "menu-opened active" : ""} md:hidden`}>
-          <ul className="admin-desktop-nav ps-0 max-h-[calc(100vh-40px)] overflow-y-auto">
+          <ul className="desktop-nav ps-0 max-h-[calc(100vh-40px)] overflow-y-auto">
             {sidebarItems.map(
               (section: any, index) =>
                 isAccessible(permissions || [], section.require) && (
@@ -287,7 +287,12 @@ export const Banner = () => {
                     {section.items.map(
                       (item: any, idx: number) =>
                         isAccessible(permissions || [], item.require) && (
-                          <Link to={item.path} key={idx} className="mb-4" onClick={toggleMenu}>
+                          <Link
+                            to={item.path}
+                            key={idx}
+                            className="mb-4"
+                            onClick={toggleMenu}
+                          >
                             {item.title}
                           </Link>
                         )
@@ -302,13 +307,17 @@ export const Banner = () => {
             <Styled.PcLogo src={logo} alt="QUICKPAYUS" />
           </Link>
         </Styled.PcLogoWrapper>
-        <Styled.PcLogoWrapper className={`md:hidden banner-item ${isOpen ? 'banner-hidden' : ""}`}>
+        <Styled.PcLogoWrapper
+          className={`md:hidden banner-item ${isOpen ? "banner-hidden" : ""}`}
+        >
           <Link to="/dashboard">
             <Styled.PcLogo src={logo} alt="QUICKPAYUS" />
           </Link>
         </Styled.PcLogoWrapper>
         {isSignin && (
-          <Styled.CtaContainer className={`banner-item ${isOpen ? 'banner-hidden' : ""}`}>
+          <Styled.CtaContainer
+            className={`banner-item ${isOpen ? "banner-hidden" : ""}`}
+          >
             <Popover
               trigger="click"
               open={collapsed}

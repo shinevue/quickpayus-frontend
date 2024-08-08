@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Input, Row, Col } from "antd";
+import { Link } from "react-router-dom";
 const { Search } = Input;
 
 export const BgTop = styled.div`
@@ -32,6 +33,7 @@ export const StyledH2 = styled.h2`
   font-size: 16px;
   font-weight: 400;
   text-align: center;
+  color: var(--color-text);
 `;
 export const StyledH3 = styled.h3`
   font-size: 24px;
@@ -93,4 +95,9 @@ export const IconWrapper = styled(Row)`
 export const ItemTitleWrapper = styled(Row)`
   display: flex;
   justify-content: center;
+  color: var(--color-text) !important;
 `;
+
+export const StyledLink = styled(Link)`
+  color: var(--color-text);
+`

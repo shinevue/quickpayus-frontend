@@ -62,6 +62,9 @@ export const api = createApi({
     getReceiverAddressData: builder.query({
       query: () => `/transactions/receiver`,
     }),
+    checkUser: builder.query({
+      query: () => `/auth/check`,
+    }),
 
     //update
 
@@ -124,6 +127,20 @@ export const api = createApi({
       }),
       invalidatesTags: ["notifications"],
     }),
+    // updateRead: builder.mutation({
+    //   query: (data) => ({
+    //     url: `/notifications/${data}`,
+    //     method: "PUT",
+    //   }),
+    //   invalidatesTags: ["notifications"],
+    // }),
+    // deleteNote: builder.mutation({
+    //   query: (data) => ({
+    //     url: `/notifications/${data}`,
+    //     method: "DELETE",
+    //   }),
+    //   invalidatesTags: ["notifications"],
+    // }),
     updateKycVerificationData: builder.mutation({
       query: (data) => ({
         url: `/user/update/kyc`,
@@ -172,6 +189,7 @@ export const api = createApi({
 });
 
 export const {
+  useCheckUserQuery,
   useGetUserQuery,
   useGetAnnouncementsQuery,
   useGetProgramsDataQuery,
@@ -192,4 +210,6 @@ export const {
   useCreateOPTMutation,
   useVerifyOPTMutation,
   useFetchBalanceAnalticsForChartQuery,
+  // useUpdateReadMutation,
+  // useDeleteNoteMutation,
 } = api;

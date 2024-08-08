@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 // antd
 import type { SearchProps } from "antd/es/input/Search";
-import { FileProtectOutlined, QuestionCircleTwoTone } from "@ant-design/icons";
+import { FileProtectOutlined, QuestionCircleOutlined, QuestionCircleTwoTone } from "@ant-design/icons";
 
 // styles
 import * as Styled from "./Support.styled";
@@ -29,22 +29,22 @@ const Support = () => {
         </Styled.StyledH2>
         <Styled.StyledRow justify="center" style={{ gap: 10 }}>
           <Styled.StyledCol span={24} lg={7}>
-            <Link to="/support/ticket">
+            <Styled.StyledLink to="/support/ticket">
               <Styled.IconWrapper>
                 <FileProtectOutlined />
               </Styled.IconWrapper>
               <Styled.ItemTitleWrapper>
                 Ticket Submission
               </Styled.ItemTitleWrapper>
-            </Link>
+            </Styled.StyledLink>
           </Styled.StyledCol>
           <Styled.StyledCol span={24} lg={7}>
-            <Link to="/support/feedback">
+            <Styled.StyledLink to="/support/feedback">
               <Styled.IconWrapper>
-                <QuestionCircleTwoTone />
+                <QuestionCircleOutlined />
               </Styled.IconWrapper>
               <Styled.ItemTitleWrapper>Feedback</Styled.ItemTitleWrapper>
-            </Link>
+            </Styled.StyledLink>
           </Styled.StyledCol>
         </Styled.StyledRow>
       </Styled.TopicWrapper>
