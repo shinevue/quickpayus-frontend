@@ -14,7 +14,7 @@ import {
   UserPermissionAndRoles,
 } from "@/components/AdminComponents/index";
 
-import UserDashboard from "@/components/AdminComponents/Users/Dashboard/UserDashboard.tsx";
+import UserDashboard from "@/components/UserComponents/Dashboard/UserDashboard";
 import AdminDashboard from "@/components/AdminComponents/Admin/Dashboard/components/AdminDashboard.tsx";
 import ProfitConfig from "@/components/AdminComponents/Admin/ProfitConfig/ProfitConfig.tsx";
 import TwoFactor from "@/components/AdminComponents/Admin/TwoFactor/components/TwoFactor.tsx";
