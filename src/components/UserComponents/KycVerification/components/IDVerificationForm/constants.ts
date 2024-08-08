@@ -1,0 +1,5 @@
+export const DOCUMENT_TYPES = {
+  PASSPORT: "PASSPORT",
+  ID_CARD: "ID_CARD",
+  LICENSE: "LICENSE",
+};
