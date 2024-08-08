@@ -38,4 +38,4 @@ export const darkTheme = {
   colorBgLayout: "#000000",
 };
 
-export const authPaths = ["/signin", "/signup", "/forgot-password"];
+export const authPaths = ["/signin", "/signup", "/forgot-password", "/"];

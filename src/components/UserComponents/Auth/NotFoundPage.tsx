@@ -1,11 +1,7 @@
-import { selectProfile } from "@/app/selectors";
 import { Button, Result } from "antd";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export const NotFoundPage = () => {
-  const profile = useSelector(selectProfile);
-  if(profile.role === 'user')
   return (
     <Result
       status="404"
@@ -18,5 +14,4 @@ export const NotFoundPage = () => {
       }
     />
   );
-  else return <div>dsofijsdfj</div>
 };

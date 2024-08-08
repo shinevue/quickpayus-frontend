@@ -10,7 +10,8 @@ import UserBanner from "./components/UserComponents/Banner/Banner";
 import {
   GetPermissionAsync,
   checkAuthAsync,
-} from  "./components/AdminComponents/Auth/authSlice";
+  selectPermission,
+} from "./components/AdminComponents/Auth/authSlice";
 import { selectProfile } from "@/app/selectors";
 
 // @types
@@ -23,6 +24,7 @@ import AutoSignOut from "./components/AdminComponents/Auth/AutoSignOut";
 import { ToastContainer } from "react-toastify";
 import { Sider } from "./components/UserComponents/Drawer/Sider";
 import { useDevice } from "./utils/Hooks/useDevice";
+import { getRequirementForPath, isAccessible } from "./utils/utils";
 
 const App: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,24 +33,37 @@ const App: React.FC = () => {
   const profile = useSelector(selectProfile);
   const device = useDevice();
   const navigate = useNavigate();
+  const permissions = useSelector(selectPermission);
 
   useEffect(() => {
-    console.log('hello!',location.pathname);
-    console.log(profile.role);
-    console.log(location.pathname.indexOf('admin') >= 0)
-    if(!isAuthPath&&profile.role === 'admin' && location.pathname.indexOf('admin') < 0) {
-      navigate('/404');
-      return;
-    }
-    if(!isAuthPath&&profile.role === 'user' && location.pathname.indexOf('admin') >= 0) {
-      navigate('/404');
-      return;
-    }
     dispatch(GetPermissionAsync());
     dispatch(checkAuthAsync());
+    if (profile.role) {
+      if (
+        !isAuthPath &&
+        profile.role !== "user" &&
+        location.pathname.indexOf("admin") < 0
+      ) {
+        navigate("/404");
+        return;
+      }
+      if (
+        !isAuthPath &&
+        profile.role === "user" &&
+        location.pathname.indexOf("admin") >= 0
+      ) {
+        navigate("/404");
+        return;
+      }
+      if (profile.role !== "user") {
+        const require = getRequirementForPath(location.pathname);
+        if (!isAuthPath && !isAccessible(permissions || [], require)) {
+          navigate("/404");
+        }
+      }
+    }
   }, [location.pathname, profile.role]);
 
-  
   const layoutStyle = {
     // borderRadius: 8,
     overflow: "hidden",
@@ -68,23 +83,23 @@ const App: React.FC = () => {
   return (
     <div>
       {profile.role === "" || profile.role === "user" || isAuthPath ? (
-         <>
-         <AutoSignOut />
-         <Layout style={layoutStyle}>
-           <UserBanner />
-           <ToastContainer />
-           <Layout
-             style={{
-               transition: "background 0.2s",
-             }}
-           >
-             {!isAuthPath && <Sider />}
-             <Content style={contentStyle}>
-               <Outlet />
-             </Content>
-           </Layout>
-         </Layout>
-       </>
+        <>
+          <AutoSignOut />
+          <Layout style={layoutStyle}>
+            <UserBanner />
+            <ToastContainer />
+            <Layout
+              style={{
+                transition: "background 0.2s",
+              }}
+            >
+              {!isAuthPath && <Sider />}
+              <Content style={contentStyle}>
+                <Outlet />
+              </Content>
+            </Layout>
+          </Layout>
+        </>
       ) : (
         <div className="w-full min-h-screen flex-col overflow-hidden">
           <AdminBanner />

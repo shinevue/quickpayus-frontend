@@ -136,7 +136,7 @@ const SignIn: React.FC = () => {
 
       API.defaults.headers.token = token;
 
-      if(user.role === 'admin') {
+      if(user.role !== 'user') {
         localStorage.setItem("token", token);
         API.defaults.headers.token = token;
         // Save user data in redux

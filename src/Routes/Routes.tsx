@@ -49,6 +49,7 @@ import FeedbackMechanism from "@/components/AdminComponents/Admin/FeedbackMechan
 import SignIn from "@/components/UserComponents/Auth/SignIn";
 import ForgotPassword from "@/components/UserComponents/Auth/ForgotPassword";
 import SignupForm from "@/components/UserComponents/Auth/Signup";
+import ReferralReports from "@/components/AdminComponents/Admin/ReferralProgram/ReferralManagement";
 
 const router = createBrowserRouter([
   {
@@ -140,6 +141,10 @@ const router = createBrowserRouter([
         path: "data-backup",
         element: <DataBackup />,
       },
+      {
+        path: "user-referrals",
+        element: <ReferralReports />
+      }
     ],
   },
   {
