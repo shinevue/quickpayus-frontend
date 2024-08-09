@@ -141,8 +141,10 @@ const SignIn: React.FC = () => {
         API.defaults.headers.token = token;
         // Save user data in redux
         dispatch(updateProfile({ data: { ...user } }));
-
-        navigate('/admin/dashboard');
+        if(user.role === 'admin')
+          navigate('/admin/dashboard');
+        else 
+          navigate('/admin/user-details');
        return; 
       }
       else {
