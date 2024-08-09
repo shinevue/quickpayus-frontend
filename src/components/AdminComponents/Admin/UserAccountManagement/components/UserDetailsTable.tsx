@@ -6,6 +6,9 @@ import { DownOutlined } from "@ant-design/icons";
 import { User } from "@/types/UserType";
 
 import { STATUS } from "@/constants";
+import { useSelector } from "react-redux";
+import profileSlice from "@/app/profileSlice";
+import { selectPermission } from "@/components/AdminComponents/Auth/authSlice";
 interface Props {
   users: User[];
   paginationProps: any;
@@ -30,13 +33,18 @@ const UsersTable: React.FC<Props> = ({
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [userId, setUserId] = useState<number>(0);
 
+  const permissions = useSelector(selectPermission);
+
   const genItems = (record: any) => {
-    const items: MenuProps["items"] = [
-      {
-        key: "1",
-        label: <a onClick={() => handleViewUser(record.id)}>View</a>,
-      },
-      {
+    const items: MenuProps["items"] = [];
+
+    items.push({
+      key: "1",
+      label: <a onClick={() => handleViewUser(record.id)}>View</a>,
+    });
+
+    if (permissions?.includes("Edit User" as never)) {
+      items.push({
         key: "2",
         label: (
           <a
@@ -48,21 +56,25 @@ const UsersTable: React.FC<Props> = ({
             Edit
           </a>
         ),
-      },
-      {
-        key: "3",
-        label: (
-          <a
-            onClick={() => {
-              setUserId(record.id);
-              record.isActive ? setModalSuspend(true) : setModalActive(true);
-            }}
-          >
-            {record.isActive ? "Suspend" : "Active"}
-          </a>
-        ),
-      },
-      {
+      });
+    }
+
+    items.push({
+      key: "3",
+      label: (
+        <a
+          onClick={() => {
+            setUserId(record.id);
+            record.isActive ? setModalSuspend(true) : setModalActive(true);
+          }}
+        >
+          {record.isActive ? "Suspend" : "Active"}
+        </a>
+      ),
+    });
+
+    if (permissions?.includes("Delete User" as never)) {
+      items.push({
         key: "4",
         label: (
           <a
@@ -74,8 +86,9 @@ const UsersTable: React.FC<Props> = ({
             Delete
           </a>
         ),
-      },
-    ];
+      });
+    }
+
     return items;
   };
 

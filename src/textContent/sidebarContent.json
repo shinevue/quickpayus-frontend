@@ -37,7 +37,7 @@
   {
     "id": "user-management",
     "title": "User Management",
-    "require": "Create User|Edit User|Delete User",
+    "require": "View Dashboard|Edit User|Delete User|Manage Content",
     "items": [
       {
         "title": "Users",

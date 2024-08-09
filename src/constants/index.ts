@@ -1,5 +1,4 @@
 export const DEF_PERMISSIONS = [
-  "Create User",
   "Edit User",
   "Delete User",
   "View Dashboard",
