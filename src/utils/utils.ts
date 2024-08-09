@@ -39,7 +39,8 @@ export function getRequirementForPath(path:string): string {
   for (const section of sidebarItems) {
     for (const item of section.items) {
       if (item.path === path) {
-        return section.require; // Return the require of the section
+        console.log(item.require || section.require)
+        return item.require || section.require; // Return the require of the section
       }
     }
   }
