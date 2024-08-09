@@ -44,7 +44,8 @@ const ProfileItem: React.FC<{
   profile: Profile;
   onDelete: (profileId: string) => void;
   onEdit: (loading: boolean) => void;
-}> = ({ roles, profile, onDelete, onEdit }) => {
+  onCancel: () => void;
+}> = ({ roles, profile, onDelete, onEdit, onCancel }) => {
   const [isEditing, setIsEditing] = useState<boolean>(
     profile.username === "" &&
       profile.email === "" &&
@@ -57,6 +58,7 @@ const ProfileItem: React.FC<{
 
   const handleEdit = () => {
     setIsEditing(true);
+    onCancel();
     editEnable = true;
     form.setFieldsValue(profile); // Set form fields to the current profile values
   };
@@ -74,6 +76,7 @@ const ProfileItem: React.FC<{
   const handleCancel = () => {
     setIsEditing(false);
     editEnable = false;
+    onCancel();
   };
 
   const handleDelete = () => {
@@ -230,6 +233,12 @@ const AdminProfile: React.FC = () => {
     editEnable = true;
   };
 
+  const handleCancel = () => {
+    const updatedProfiles: any = profiles.pop();
+    setProfiles(updatedProfiles);
+    editEnable = false;
+  }
+
   const handleEditProfile = async (loading: boolean) => {
     if (loading) loading = !loading;
     const tmp = await getProfile();
@@ -246,12 +255,13 @@ const AdminProfile: React.FC = () => {
   return (
     <Layout style={{ maxHeight: "calc(100vh - 50px)", padding: "25px"}}>
       <div style={{marginBottom: '25px'}}>
-        <Styled.MainHeader>Admin Profile</Styled.MainHeader>
+        <Styled.MainHeader>Manage Admin Profile</Styled.MainHeader>
         {profiles.length > 0 ? (
           profiles.map((profile) => (
             <ProfileItem
               key={profile.id}
               roles={roles}
+              onCancel={handleCancel}
               profile={profile}
               onDelete={handleDeleteProfile}
               onEdit={handleEditProfile}

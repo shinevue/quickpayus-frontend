@@ -28,7 +28,7 @@
         "icon": "<i class='ri-verified-badge-line'></i>"
       },
       {
-        "title": "Admin Profile",
+        "title": "Manage Admin Profile",
         "path": "/admin/profile",
         "icon": "<i class='ri-verified-badge-line'></i>"
       }

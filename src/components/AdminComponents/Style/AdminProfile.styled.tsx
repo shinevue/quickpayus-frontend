@@ -17,6 +17,7 @@ export const Header = styled.h2`
     line-height: 2.25rem /* 36px */;
     font-weight: 600;
     margin-bottom: 16px;
+    color: var(--color-text);
 `;
 
 export const Role = styled.p`

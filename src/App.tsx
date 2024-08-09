@@ -50,7 +50,7 @@ const App: React.FC = () => {
   };
 
   const contentStyle = {
-    marginLeft: device?.isBreakpoint("MD") && !isAuthPath && profile.role !== 'user' ? "250px" : "0px",
+    marginLeft: device?.isBreakpoint("MD") && !isAuthPath ? "250px" : "0px",
     minHeight: "calc(100vh - 44px)",
     marginTop: "44px",
     padding: "var(--padding-content)",
@@ -72,8 +72,8 @@ const App: React.FC = () => {
                   transition: "background 0.2s",
                 }}
               >
-                {!isAuthPath && <Sider />}
                 <Content style={contentStyle}>
+                 {!isAuthPath && <Sider />}
                   <Outlet />
                 </Content>
               </Layout>
