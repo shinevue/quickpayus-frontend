@@ -30,6 +30,7 @@ const RankChart: React.FC = () => {
         data: obj,
       },
     ];
+    console.log(daily);
     setDaily(setData);
   };
 

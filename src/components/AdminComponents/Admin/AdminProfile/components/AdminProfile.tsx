@@ -67,7 +67,6 @@ const ProfileItem: React.FC<{
 
   const handleEdit = () => {
     setIsEditing(true);
-    onCancel();
     editEnable = true;
     form.setFieldsValue(profile); // Set form fields to the current profile values
   };
@@ -256,6 +255,7 @@ const AdminProfile: React.FC = () => {
   };
 
   const handleCancel = () => {
+    console.log('hello!')
     profiles.pop();
     const updatedProfiles = [...profiles];
     setProfiles(updatedProfiles);
@@ -263,7 +263,9 @@ const AdminProfile: React.FC = () => {
 
   const handleEditProfile = async (loading: boolean) => {
     if (loading) loading = !loading;
+    console.log('hi!');
     const tmp = await getProfile();
+    console.log('temp', tmp);
     if (tmp?.data) setProfiles(tmp.data);
   };
 

@@ -109,6 +109,9 @@ export const PrivateRouter: React.FC<PrivateRouteProps> = ({ children }) => {
       }
       if (profile.role !== "user") {
         const require = getRequirementForPath(location.pathname);
+        console.log('requirement',location.pathname);
+        console.log(permissions);
+        console.log(isAccessible(permissions || [], require))
         if (!isAuthPath && !isAccessible(permissions || [], require)) {
           navigate("/404");
         }
