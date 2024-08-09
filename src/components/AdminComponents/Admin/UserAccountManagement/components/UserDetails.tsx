@@ -75,10 +75,10 @@ const UserDetails: React.FC = () => {
         page,
         pageSize,
       };
-      const users = await getAllGuests(query);
-
+      const allusers = await getAllGuests(query);
+      const users = allusers.data.filter((user: any) => user.role === 'user');
       const sorted = [
-        ...users.data.map((user: any) => {
+        ...users.map((user: any) => {
           const {
             _id,
             firstName,
@@ -92,27 +92,25 @@ const UserDetails: React.FC = () => {
             kyc,
             isActive,
           } = user;
-
-          return {
-            id: _id,
-            username,
-            email,
-            accountBalance: depositBalance + profitBalance,
-            equityBalance: referralCreditBalance + profitBalance,
-            depositBalance,
-            rewardBalance,
-            creditBalance: referralCreditBalance,
-            profitBalance,
-            isActive,
-            status: kyc?.status,
-            verificationDate: kyc?.updatedAt
-              ? moment(kyc?.updatedAt).format("YYYY-MM-DD HH:mm")
-              : "N/A",
-            name: `${firstName} ${lastName}`,
-          };
+            return {
+              id: _id,
+              username,
+              email,
+              accountBalance: depositBalance + profitBalance,
+              equityBalance: referralCreditBalance + profitBalance,
+              depositBalance,
+              rewardBalance,
+              creditBalance: referralCreditBalance,
+              profitBalance,
+              isActive,
+              status: kyc?.status,
+              verificationDate: kyc?.updatedAt
+                ? moment(kyc?.updatedAt).format("YYYY-MM-DD HH:mm")
+                : "N/A",
+              name: `${firstName} ${lastName}`,
+            };
         }),
       ];
-
       setSortedUsers(sorted);
     })();
   }, [dateRange, searchTerm, searchCriteria, page, pageSize]);
