@@ -583,7 +583,7 @@ a {
   border-bottom: 1px solid #d2d2d7;
 }
 .ant-dropdown-menu {
-  width: 127px;
+  min-width: 127px;
   transform: translateX(5px);
   box-shadow: 2px 4px 12px #00000014 !important;
 }
@@ -890,7 +890,7 @@ MARK: ADMIN CSS
 }
 
 .ant-menu-sub > .ant-menu-submenu > .ant-menu-submenu-title {
-  padding-left: 40px !important;
+  padding-left: 25px !important;
 }
 
 .ant-menu-sub > .ant-menu-item  {
