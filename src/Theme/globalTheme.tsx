@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 
 import { theme } from "antd";
@@ -97,7 +97,6 @@ export const GlobalTheme: React.FC = () => {
 
   const currentTheme =
     themeMode === "dark" ? themeColors.dark : themeColors.light;
-
   return (
     <GlobalStyle
       theme={{

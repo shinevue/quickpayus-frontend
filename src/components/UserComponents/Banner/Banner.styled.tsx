@@ -199,9 +199,9 @@ export const Verified = styled.img`
   height: 10px;
   z-index: 999;
   margin-left: 5px;
-  @media screen and (max-width: 768px) {
+  @media (max-width: 768px) {
     position: absolute;
-    right: -2px;
-    bottom: 0px;
+    left: 13px;
+    bottom: 5px;
   }
 `;

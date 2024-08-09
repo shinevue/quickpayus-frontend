@@ -76,9 +76,10 @@ export const IDVerificationForm: React.FC<IDVerificationFormProps> = ({
     "Place documents against a solid-colored background",
   ];
 
-  const getFileList = (images) => {
+  const getFileList = (images:any) => {
     setImages(images);
-    const filesWithSerializedDate = images.fileList?.map((file) => ({
+    console.log(images);
+    const filesWithSerializedDate = images.fileList?.map((file:any) => ({
       lastModified: file.lastModified,
       lastModifiedDate: file.lastModifiedDate.toISOString(),
       name: file.name,

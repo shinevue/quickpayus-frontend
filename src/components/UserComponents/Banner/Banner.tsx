@@ -20,6 +20,7 @@ import VerifiedBadge from "@/assets/images/verified.svg";
 
 // redux
 import {
+  api,
   useGetNotificationsQuery,
   useGetUnreadNotificationsCountQuery,
 } from "@/app/slice";
@@ -35,7 +36,7 @@ import { updateOtpStatus } from "@/app/slices/otpSlice";
 // styles
 import * as Styled from "./Banner.styled";
 import { APP_BASE_URL } from "@/utils/constants";
-import { setNotifications } from "@/app/slices/notificationsSlice";
+import { resetNotifications, setNotifications } from "@/app/slices/notificationsSlice";
 import { authPaths } from "@/constants";
 
 const AnnouncementIcon = () => (
@@ -256,6 +257,13 @@ export const Banner = () => {
   } = useGetNotificationsQuery({ page: 1 });
 
   useEffect(() => {
+    if (!isAuthPath) {
+      dispatch(api.util.invalidateTags(["getNotifications"]));
+      dispatch(resetNotifications());
+    }
+  }, [dispatch, location.pathname]);
+
+  useEffect(() => {
     if (notificationsList) {
       if (notificationsList.success) {
         dispatch(setNotifications(notificationsList));
@@ -272,6 +280,7 @@ export const Banner = () => {
     notificationsList?.data,
     dispatch,
     notificationsList,
+    location.pathname
   ]);
 
   useEffect(() => {
