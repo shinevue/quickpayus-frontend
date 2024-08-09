@@ -192,6 +192,10 @@ export const KycVerification: React.FC = () => {
       });
     } catch (error) {
       console.error("Error:", error);
+      messageApi.open({
+        type: "error",
+        content: "File is too large."
+      })
     }
     setCurrent(0);
     setConfirmSubmitModal(false);

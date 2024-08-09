@@ -51,17 +51,9 @@ export const Notifications = () => {
   const [putData] = useUpdateNotificationMutation();
 
   const handlePutData = useCallback(async () => {
-    try {
-      const result = await putData({
-        data: { isRead: true },
-      });
-      if ("data" in result && result.data.success) {
-        // refetchTotal();
-        dispatch(setNotificationsReadStatus());
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
+    notifications?.data?.map((notification) => {
+      handleRead(notification._id)
+    })
   }, [dispatch, putData]);
 
   const handleDeleteData = useCallback(async () => {
