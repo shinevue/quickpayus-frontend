@@ -47,17 +47,12 @@ export const Notifications = () => {
     }
   }, [dispatch, location.pathname]);
 
-  const handlePutData = useCallback(async () => {
-    try {
-      const result = await API.put("/notifications/");
-      if ("data" in result && result.data.success) {
-        // refetchTotal();
-        dispatch(setNotificationsReadStatus());
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  }, [dispatch]);
+  const handlePutData = async ( ) => {
+    console.log(notifications);
+    notifications?.data?.map((notification) => {
+      handleRead(notification._id)
+    })
+  }
 
   const handleDeleteData = useCallback(async () => {
     try {
