@@ -257,7 +257,7 @@ export const Banner = () => {
   } = useGetNotificationsQuery({ page: 1 });
 
   useEffect(() => {
-    if (!isAuthPath) {
+    if (!isAuthPath && location.pathname !== '/notifications') {
       dispatch(api.util.invalidateTags(["getNotifications"]));
       dispatch(resetNotifications());
     }

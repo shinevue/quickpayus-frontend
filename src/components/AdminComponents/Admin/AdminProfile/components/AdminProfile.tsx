@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Select, Space, Modal, Layout, Typography } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  Space,
+  Modal,
+  Layout,
+  Typography,
+} from "antd";
 import {
   addProfile,
   delProfile,
@@ -9,13 +18,13 @@ import {
 import { getRole } from "../../UserPermissionAndRoles/AdminUserPermissionAndRolesApi";
 import { RoleValues } from "../../UserPermissionAndRoles/components/UserPermissionAndRoles";
 
-import * as Styled from '../../../Style/AdminProfile.styled';
+import * as Styled from "../../../Style/AdminProfile.styled";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectPermission } from "@/components/AdminComponents/Auth/authSlice";
 import { isAccessible } from "@/utils/utils";
 
-const {Title, Text} = Typography;
+const { Title, Text } = Typography;
 
 const { Option } = Select;
 let editEnable = false;
@@ -24,9 +33,9 @@ const Card = styled.div`
   background-color: var(--color-bg-container);
   padding: 32px;
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
-            0 4px 6px -2px rgba(0, 0, 0, 0.05);
-`
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+`;
 
 export interface Profile {
   id: string;
@@ -97,14 +106,27 @@ const ProfileItem: React.FC<{
     <Styled.Layout>
       {!isEditing ? (
         <>
-          <Title level={2} className="text-3xl font-semibold mb-4">{profile.username}</Title>
+          <Title level={2} className="text-3xl font-semibold mb-4">
+            {profile.username}
+          </Title>
           <Text className="text-lg mb-4">{profile.role}</Text>
-          <br/>
+          <br />
           <Space>
-            { isAccessible(permissions || [], 'Edit User') && <Button style={{borderRadius: "8px"}} type="primary" onClick={handleEdit}>
-              Edit
-            </Button>}
-            <Button style={{borderRadius: "8px"}} type="primary" danger onClick={handleDelete}>
+            {isAccessible(permissions || [], "Edit User") && (
+              <Button
+                style={{ borderRadius: "8px" }}
+                type="primary"
+                onClick={handleEdit}
+              >
+                Edit
+              </Button>
+            )}
+            <Button
+              style={{ borderRadius: "8px" }}
+              type="primary"
+              danger
+              onClick={handleDelete}
+            >
               Delete
             </Button>
           </Space>
@@ -234,10 +256,10 @@ const AdminProfile: React.FC = () => {
   };
 
   const handleCancel = () => {
-    const updatedProfiles: any = profiles.pop();
+    profiles.pop();
+    const updatedProfiles = [...profiles];
     setProfiles(updatedProfiles);
-    editEnable = false;
-  }
+  };
 
   const handleEditProfile = async (loading: boolean) => {
     if (loading) loading = !loading;
@@ -253,8 +275,8 @@ const AdminProfile: React.FC = () => {
   };
 
   return (
-    <Layout style={{ maxHeight: "calc(100vh - 50px)", padding: "25px"}}>
-      <div style={{marginBottom: '25px'}}>
+    <Layout style={{ maxHeight: "calc(100vh - 50px)", padding: "25px" }}>
+      <div style={{ marginBottom: "25px" }}>
         <Styled.MainHeader>Manage Admin Profile</Styled.MainHeader>
         {profiles.length > 0 ? (
           profiles.map((profile) => (
@@ -269,16 +291,14 @@ const AdminProfile: React.FC = () => {
           ))
         ) : (
           <div className="">
-            <Card style={{borderRadius: "18px", padding: "25px"}}>
-              <Title style={{fontSize: "20px"}}>No Profile available</Title>
-              <Text>
-                There is no data to display at the moment.
-              </Text>
+            <Card style={{ borderRadius: "18px", padding: "25px" }}>
+              <Title style={{ fontSize: "20px" }}>No Profile available</Title>
+              <Text>There is no data to display at the moment.</Text>
             </Card>
           </div>
         )}
       </div>
-      <div style={{textAlign: "right"}}>
+      <div style={{ textAlign: "right" }}>
         {!editEnable && (
           <Button type="primary" onClick={handleAddProfile}>
             Add Profile

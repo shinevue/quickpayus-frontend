@@ -10,6 +10,7 @@ import { API } from "@/utils/api";
 import { AppDispatch } from "@/app/store";
 import { updateProfileField } from "@/app/profileSlice";
 import { InputOTP } from "antd-input-otp";
+import { useDevice } from "@/utils/Hooks/useDevice";
 
 const { Title } = Typography;
 
@@ -45,6 +46,8 @@ const App: React.FC = () => {
   const twofactor = useSelector(selectTwoFactor);
 
   const dispatch: AppDispatch = useDispatch();
+
+  const device = useDevice();
 
   useEffect(() => {
     if (twofactor) setCurrent(Object.keys(STEP).length - 1);
@@ -163,7 +166,7 @@ const App: React.FC = () => {
 
   const steps = [
     {
-      title: "Enter Username",
+      title: device.isBreakpoint(1100) ?"Enter Username" : '',
       content: (
         <Form name="usernameForm">
           <Form.Item
@@ -182,7 +185,7 @@ const App: React.FC = () => {
       ),
     },
     {
-      title: "Enter Password",
+      title: device.isBreakpoint(1100) ? "Enter Password" : "",
       content: (
         <Form name="passwordForm">
           <Form.Item
@@ -201,7 +204,7 @@ const App: React.FC = () => {
       ),
     },
     {
-      title: "Verify Email",
+      title: device.isBreakpoint(1100) ? "Verify Email" : "",
       content: (
         <Form name="emailForm">
           <Form.Item
@@ -216,7 +219,7 @@ const App: React.FC = () => {
       ),
     },
     {
-      title: "Enter OTP",
+      title: device.isBreakpoint(1100) ? "Enter OTP" : "",
       content: (
         <Form name="otpForm" onFinish={next}>
           <h1 className="text-xl mb-4 text-center font-semibold">
@@ -242,7 +245,7 @@ const App: React.FC = () => {
       ),
     },
     {
-      title: "Verify OTP",
+      title: device.isBreakpoint(1100) ? "Verify OTP" : "",
       content: (
         <Result
           status="success"
@@ -263,12 +266,12 @@ const App: React.FC = () => {
     <Styled.Layout>
       <Styled.Header level={1}>Security Features</Styled.Header>
       <Styled.Container>
-        <Steps current={current}>
+        <Steps progressDot={device.isBreakpoint('MD') ? false : true} current={current}  >
           {steps.map((item) => (
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
-        <div className="steps-content p-10">{steps[current].content}</div>
+        <div className="steps-content p-2 md:p-10">{steps[current].content}</div>
         <Styled.ActionContainer>
           {/* {current > 0 && (
             <Button
