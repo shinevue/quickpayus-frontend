@@ -110,10 +110,14 @@ export const StyledProfileAvatar = styled(Avatar)`
   height: 100px;
   font-size: 64px;
   border: 0px;
+  position: relative;
 `;
 export const StyledNameLabel = styled.h1`
   margin-bottom: 5px;
   color: var(--color-text);
+  font-size: 21px;
+  display: flex;
+  align-items: center;
 `;
 export const StyledLevelLabel = styled.p`
   font-size: 18px;
