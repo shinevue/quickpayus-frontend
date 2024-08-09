@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 // antd
-import { Layout, Skeleton, Empty, theme } from "antd";
+import { Layout, Empty } from "antd";
 
 // styled components
 import * as Styled from "./Notifications.styled";
@@ -21,7 +21,6 @@ import {
   readOne,
   deleteOne,
 } from "@/app/slices/notificationsSlice";
-import { useUpdateNotificationMutation } from "@/app/slice";
 
 // components
 import PageTitle from "../PageTitle";
@@ -48,13 +47,17 @@ export const Notifications = () => {
     }
   }, [dispatch, location.pathname]);
 
-  const [putData] = useUpdateNotificationMutation();
-
   const handlePutData = useCallback(async () => {
-    notifications?.data?.map((notification) => {
-      handleRead(notification._id)
-    })
-  }, [dispatch, putData]);
+    try {
+      const result = await API.put("/notifications/");
+      if ("data" in result && result.data.success) {
+        // refetchTotal();
+        dispatch(setNotificationsReadStatus());
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }, [dispatch]);
 
   const handleDeleteData = useCallback(async () => {
     try {
@@ -65,7 +68,7 @@ export const Notifications = () => {
     } catch (error) {
       console.log("error", error);
     }
-  }, [dispatch, putData]);
+  }, [dispatch]);
 
   const handleRead = async (id) => {
     try {
