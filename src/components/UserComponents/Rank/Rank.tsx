@@ -44,10 +44,12 @@ const MyComponent: React.FC = () => {
   const handleClaimed = async () => {
     API.post("/reward/claim-reward")
       .then((response) => {
+        console.log('claim result', response.data);
         setClaimResult(response.data);
         callRank();
       })
       .catch((error) => {
+        console.log('error result',error.response.data);
         setClaimResult(error.response.data);
       })
       .finally(() => {

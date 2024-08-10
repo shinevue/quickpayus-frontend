@@ -127,7 +127,7 @@ const ReceiverAddressManagement: React.FC = () => {
               Old Address:
             </Typography.Text>
             <Typography.Paragraph style={{ color: "var(--color-text)", marginBottom: "0px" }}>
-              {addressChanges?.length ? addressChanges[addressChanges.length - 1]?.newAddress : ""}
+              {addressChanges?.length ? addressChanges[0]?.newAddress : ""}
             </Typography.Paragraph>
             <Typography.Text
               style={{ fontWeight: 700, fontSize: "18px", marginTop: "16px" }}
