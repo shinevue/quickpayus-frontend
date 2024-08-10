@@ -8,8 +8,8 @@ export const Layout = styled.div`
     background-color: var(--color-bg-container);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border-radius: 18px;
-    padding: 40px;
-    margin-bottom: 40px;
+    padding: 25px;
+    margin-bottom: 25px;
 `
 
 export const Header = styled.h2`
