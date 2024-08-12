@@ -27,6 +27,7 @@ import { useDevice } from "./utils/Hooks/useDevice";
 import { getRequirementForPath, isAccessible } from "./utils/utils";
 import { PrivateRouter } from "./Routes/PrivateRouter";
 
+
 const App: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation();

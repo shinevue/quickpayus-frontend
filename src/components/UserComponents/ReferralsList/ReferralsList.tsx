@@ -10,6 +10,7 @@ import { REFERRAL_TYPE } from "./constants";
 
 // styles
 import * as Styled from "./ReferralsList.styled";
+import { useEffect } from "react";
 
 const { Option } = Select;
 
@@ -31,6 +32,10 @@ const Referrals: React.FC = () => {
     type,
     directLevel,
   } = useReferralsList();
+
+  useEffect(() => {
+    console.log('referrals', currentData);
+  }, [currentData])
   return (
     <Card>
       <Styled.ListHeader>
@@ -87,7 +92,7 @@ const Referrals: React.FC = () => {
         <Styled.TableWrapper>
           <Table
             columns={columns}
-            dataSource={isSuccess ? currentData : []}
+            dataSource={isSuccess ? currentData.slice((currentPage - 1)*15, (currentPage)* 15) : []}
             pagination={false}
             rowKey="username"
             showSorterTooltip={{ align: { offset: [0, -30] } }}
@@ -97,7 +102,7 @@ const Referrals: React.FC = () => {
       <Styled.PaginationWrapper>
         <Pagination
           defaultCurrent={1}
-          total={referrals?.total}
+          total={referrals?.total || 0}
           pageSize={pageSize}
           current={currentPage}
           prevIcon={<LeftOutlined className="color-black" />}

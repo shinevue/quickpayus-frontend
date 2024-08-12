@@ -366,10 +366,10 @@ const AdminDashboard: React.FC = () => {
                   />
                   {programEngagementStats.map((item, index) => (
                     <Row className="text-xl flex gap-2" key={index}>
-                      <span className="w-48">
+                      <span className="text-[14px] w-48">
                         {item.level} ({inventLevel[item.level]}) :
                       </span>
-                      <span className="font-bold">{item.users}</span>
+                      <span className=" text-[14px] font-bold">{item.users}</span>
                     </Row>
                   ))}
                 </Card>
