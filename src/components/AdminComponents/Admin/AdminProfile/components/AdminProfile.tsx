@@ -255,7 +255,6 @@ const AdminProfile: React.FC = () => {
   };
 
   const handleCancel = () => {
-    console.log('hello!')
     profiles.pop();
     const updatedProfiles = [...profiles];
     setProfiles(updatedProfiles);
@@ -263,9 +262,7 @@ const AdminProfile: React.FC = () => {
 
   const handleEditProfile = async (loading: boolean) => {
     if (loading) loading = !loading;
-    console.log('hi!');
     const tmp = await getProfile();
-    console.log('temp', tmp);
     if (tmp?.data) setProfiles(tmp.data);
   };
 

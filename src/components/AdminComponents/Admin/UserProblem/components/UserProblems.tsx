@@ -203,7 +203,7 @@ const SupportAndCommunication: React.FC = () => {
                 <Title level={4}>{ticket.title}</Title>
                 <Flex justify="space-between" style={{ width: "100%" }}>
                   <Space>
-                    <Text type="secondary">Created by: {ticket.createdBy.username}</Text>
+                    <Text type="secondary">Created by: {ticket.createdBy?.username}</Text>
                   </Space>
                   <Space>
                     <Tag

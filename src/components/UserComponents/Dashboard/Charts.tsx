@@ -82,8 +82,6 @@ const EChart: React.FC<props> = ({ analytics }) => {
   }, []);
 
   useEffect(() => {
-    console.log('fetch Result');
-    console.log(fetchResult);
     if (
       fetchResult.isSuccess &&
       fetchResult.data.length == defaultXValue[timeFrame].length

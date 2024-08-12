@@ -22,7 +22,7 @@ export function useReferralsList() {
   const referralQuery = {
     type: type,
     level: type === REFERRAL_TYPE.DIRECT ? directLevel : level,
-    page: currentPage,
+    page: 1,
   };
   const {
     data: referrals,
@@ -34,7 +34,7 @@ export function useReferralsList() {
     isSuccess,
   } = useGetReferralsListQuery(referralQuery);
 
-  const pageSize = 5;
+  const pageSize = 15;
 
   const newReferralList = referralsList?.map((obj) => ({
     ...obj,
@@ -44,6 +44,7 @@ export function useReferralsList() {
   const currentData = newReferralList;
 
   const handleTypeChange = (value) => {
+    setCurrentPage(1);
     setType(value);
     refetch();
   };

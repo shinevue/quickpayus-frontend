@@ -46,7 +46,7 @@ const UserDetails: React.FC = () => {
     creditBalance: 0,
     profitBalance: 0,
   });
-  const total = useSelector(selectTotalUsers);
+  const [total, setTotal] = useState(0);
 
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -76,6 +76,7 @@ const UserDetails: React.FC = () => {
         pageSize,
       };
       const allusers = await getAllGuests(query);
+      setTotal(allusers.totalPages)
       const users = allusers.data.filter((user: any) => user.role === 'user');
       const sorted = [
         ...users.map((user: any) => {

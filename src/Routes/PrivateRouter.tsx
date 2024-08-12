@@ -66,7 +66,6 @@ export const PrivateRouter: React.FC<PrivateRouteProps> = ({ children }) => {
       try {
         const response = await API.get(`/auth/check`);
         const data = await response.data;
-        console.log("checkauth", data);
         dispatch(updateKyc({ data: data?.kyc }));
       } catch (error) {}
       setCheckingAuth(false);
@@ -109,9 +108,6 @@ export const PrivateRouter: React.FC<PrivateRouteProps> = ({ children }) => {
       }
       if (profile.role !== "user") {
         const require = getRequirementForPath(location.pathname);
-        console.log('requirement',location.pathname);
-        console.log(permissions);
-        console.log(isAccessible(permissions || [], require))
         if (!isAuthPath && !isAccessible(permissions || [], require)) {
           navigate("/404");
         }
@@ -166,7 +162,10 @@ export const PrivateRouter: React.FC<PrivateRouteProps> = ({ children }) => {
           backgroundColor: backgroundColor,
         }}
       >
-        <Spin size="large" />
+        <Spin
+            style={{width: "120px"}}
+          indicator={<LoadingOutlined style={{ fontSize: "48px" }} spin />}
+        />
       </div>
       {children}
     </>
