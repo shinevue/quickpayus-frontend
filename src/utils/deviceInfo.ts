@@ -35,5 +35,7 @@ export const deviceInfo = () => {
     os = "unknown";
   }
 
-  return { browser, os };
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+
+  return { browser, os, timeZone };
 };
