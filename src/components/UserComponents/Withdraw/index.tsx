@@ -11,7 +11,6 @@ import { selectKycVerification, selectProfile } from "@/app/selectors";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useContainer from "@/utils/Hooks/useContainer";
-import axios from "axios";
 import moment from "moment";
 
 const { Option } = Select;
@@ -43,7 +42,6 @@ const Withdrawal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentBalance, setCurrentBalance] = useState<number>(0);
   const [isKycModalVisible, setIsKycModalVisible] = useState<boolean>(false);
-  const [today, setToday] = useState<Date>(new Date());
 
   const [messageApi, contextHolder] = message.useMessage();
   const [postData] = usePostDataMutation();
