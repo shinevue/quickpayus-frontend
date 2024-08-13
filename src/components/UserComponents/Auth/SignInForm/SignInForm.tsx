@@ -52,7 +52,7 @@ export const SignInForm: React.FC<Props> = ({ onSubmit }) => {
             help={touched.email && errors.email ? errors.email : null}
           >
             <Field name="email">
-              {({ field }) => (
+              {({ field }: {field: any}) => (
                 <FloatingInput
                   label="Email / Username"
                   name="email"
@@ -76,7 +76,7 @@ export const SignInForm: React.FC<Props> = ({ onSubmit }) => {
             className={`${errors.password ? "shake" : ""}`}
           >
             <Field name="password">
-              {({ field }) => (
+              {({ field }: {field: any}) => (
                 <FloatingLabelInputPassword
                   label="Password"
                   name="password"

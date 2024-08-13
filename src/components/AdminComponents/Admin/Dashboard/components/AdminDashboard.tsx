@@ -35,8 +35,7 @@ interface TicketMetrics {
 interface ProgramEngagementStats {
   level: string;
   users: number;
-}
-[];
+};
 
 interface TopCountry {
   country: string;
@@ -73,7 +72,7 @@ const AdminDashboard: React.FC = () => {
   );
   const [ticketMetricsConfig, setTicketMetricsConfig] = useState<any>(null);
   const [programEngagementStats, setProgramEngagementStats] =
-    useState<ProgramEngagementStats | null>(null);
+    useState<ProgramEngagementStats[] | null>(null);
   const [programEngagementStatsConfig, setProgramEngagementStatsConfig] =
     useState<any>(null);
   const [userDemographics, setUserDemographics] =
@@ -129,13 +128,13 @@ const AdminDashboard: React.FC = () => {
           ]);
         }
         if (result.hasOwnProperty("programStatistics")) {
-          const resProgramStatistics = result.programStatistics.sort((a, b) =>
+          const resProgramStatistics = result.programStatistics.sort((a: any, b: any) =>
             a.level > b.level ? 1 : -1
           );
           setProgramEngagementStats(resProgramStatistics);
 
           setProgramEngagementStatsConfig(
-            resProgramStatistics.map((item) => item.users)
+            resProgramStatistics.map((item: any) => item.users)
           );
           if (result.hasOwnProperty("ticketMetrics")) {
             setTicketMetrics(result.ticketMetrics);
@@ -350,7 +349,7 @@ const AdminDashboard: React.FC = () => {
                   <ReactApexChart
                     options={{
                       ...PieOption,
-                      labels: programEngagementStats.map((item) => item.level),
+                      labels: programEngagementStats.map((item:ProgramEngagementStats) => item.level),
                       legend: {
                         labels: {
                           colors: programEngagementStats.map(
@@ -367,7 +366,7 @@ const AdminDashboard: React.FC = () => {
                   {programEngagementStats.map((item, index) => (
                     <Row className="text-xl flex gap-2" key={index}>
                       <span className="text-[14px] w-48">
-                        {item.level} ({inventLevel[item.level]}) :
+                        {item.level} ({inventLevel[item.level as keyof typeof inventLevel]}) :
                       </span>
                       <span className=" text-[14px] font-bold">{item.users}</span>
                     </Row>

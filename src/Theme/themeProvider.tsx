@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext, ReactNode } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 // antd
 import { ConfigProvider, theme } from "antd";
@@ -9,11 +9,6 @@ import { lightTheme, darkTheme } from "@/constants";
 
 // redux
 import { selectSetting } from "@/app/selectors";
-
-interface GetIPInfoApiResponse {
-  datetime?: string;
-  timezone?: string;
-}
 
 export interface ThemeContextProps {
   themeMode: string;
@@ -27,8 +22,6 @@ const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [sThemeMode, setThemeMode] = useState<string>("light");
-
-  const dispatch = useDispatch();
 
   const setting = useSelector(selectSetting);
 

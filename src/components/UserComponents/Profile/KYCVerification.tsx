@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import * as Styled from "./Profile.styled.js";
 import { Link } from "react-router-dom";
 import { selectKycVerification } from "@/app/selectors";
-import { Spin, Steps } from "antd";
+import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 

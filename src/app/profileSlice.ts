@@ -1,7 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { checkAuthAsync } from "@/components/AdminComponents/Auth/authSlice";
 
-const initialState = {
+type profile = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  email: string;
+  gender: string;
+  countryCode: string;
+  phoneNumber: number;
+  alertNotifications: boolean;
+  emailNotifications: boolean;
+  avatarBg: string;
+  kyc: any;
+  role: string;
+  twofactor: boolean;
+  investmentLevel?: string; // Add this line
+  uuid?: string;
+  isEnableMFA?: boolean;
+  depositBalance?: number;
+  profitBalance?: number;
+  rewardBalance?: number;
+  id?: any;
+};
+
+const initialState: profile = {
   firstName: "",
   lastName: "",
   username: "",

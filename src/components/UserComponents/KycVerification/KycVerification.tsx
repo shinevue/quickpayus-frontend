@@ -168,10 +168,10 @@ export const KycVerification: React.FC = () => {
         "country",
         "documentType",
       ];
-      fields.forEach((field) => formData.append(field, kycRedux[field]));
+      fields.forEach((field) => formData.append(field, kycRedux[field as keyof typeof kycRedux]));
 
       ["documents", "images"].forEach((type) =>
-        kycRedux[type].forEach((file) => formData.append(type, file.fileObj))
+        kycRedux[type as keyof typeof kycRedux].forEach((file: any) => formData.append(type, file.fileObj))
       );
 
       const response = await API.post("/user/update/kyc", formData, {
@@ -215,7 +215,7 @@ export const KycVerification: React.FC = () => {
 
   const steps = [
     {
-      content: <CompleteForm state={kycState(kycRedux?.status)} />,
+      content: <CompleteForm state={kycState(kycRedux?.status || '')} />,
       title: "Complete",
     },
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import * as Styled from "./FloatingInput.styled";
 
-const FloatingLabelInputPassword = ({ label, field, name }) => {
+const FloatingLabelInputPassword = ({ label, field, name }: {label: string, field: any, name: string}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = (e) => {
+  const handleBlur = (e: any) => {
     setIsFocused(false);
     field.onBlur(e);
   };

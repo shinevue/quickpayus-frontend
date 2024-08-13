@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import LightBg from "@/assets/support/bg-2.svg";
 import DarkBg from "@/assets/support/bg-3.svg";
 
@@ -7,7 +6,6 @@ import type { SearchProps } from "antd/es/input/Search";
 import {
   FileProtectOutlined,
   QuestionCircleOutlined,
-  QuestionCircleTwoTone,
 } from "@ant-design/icons";
 
 // styles

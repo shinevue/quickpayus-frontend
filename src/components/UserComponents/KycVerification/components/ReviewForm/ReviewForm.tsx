@@ -1,7 +1,7 @@
 import * as Styled from "./ReviewForm.styled";
 import { Space } from "antd";
 import { useDevice } from "@/utils/Hooks/useDevice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
   selectKycVerification,
@@ -119,7 +119,7 @@ export const ReviewForm: React.FC = () => {
           <Styled.FieldTitle> Uploaded Documents</Styled.FieldTitle>
           <Styled.Heading>Documents:</Styled.Heading>
           <Styled.ImgGrp>
-            {kycFormData.documents?.map((item, index) => (
+            {kycFormData.documents?.map((item: any, index: number) => (
               // <Styled.UploadImg key={index} />
               <img
                 key={index}
@@ -130,7 +130,7 @@ export const ReviewForm: React.FC = () => {
           </Styled.ImgGrp>
           <Styled.Heading>User Info:</Styled.Heading>
           <Styled.ImgGrp>
-            {kycFormData.images?.map((item, index) => (
+            {kycFormData.images?.map((item: any, index: number) => (
               <img
                 key={index}
                 width={"120px"}

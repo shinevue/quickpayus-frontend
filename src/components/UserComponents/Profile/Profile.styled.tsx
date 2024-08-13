@@ -214,3 +214,6 @@ export const AvatarContainer = styled.div`
   position: relative;
   margin: 0px auto;
 `;
+
+export const ProfileHeroImageWrapper = styled.div`
+`

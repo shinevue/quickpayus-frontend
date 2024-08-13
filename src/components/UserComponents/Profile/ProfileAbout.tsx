@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import countries from "i18n-iso-countries";
-import enLocale from "i18n-iso-countries/langs/en.json";
+import { useSelector } from "react-redux";
 import { countryCodesToNames } from "./CountryInfo";
 
 import { Col } from "antd";
@@ -16,8 +14,8 @@ const ProfileAbout = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [countryName, setCountryName] = useState("");
 
-  const getCountryDetails = (countryCode) => {
-    const country = countryCodesToNames[`+${countryCode.replaceAll('+','')}`];
+  const getCountryDetails = (countryCode: string) => {
+    const country = countryCodesToNames[`+${countryCode.replaceAll('+','')}` as keyof typeof countryCodesToNames];
     if (country !== undefined) {
       return `${country.name} (${country.code || countryCode})`;
     } else {

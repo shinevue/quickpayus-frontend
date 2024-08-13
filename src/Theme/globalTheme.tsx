@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createGlobalStyle } from "styled-components";
 
 import { theme } from "antd";
@@ -91,7 +91,7 @@ const themeColors = {
 };
 
 export const GlobalTheme: React.FC = () => {
-  const { token } = useToken();
+  const { token }: { token: any } = useToken();
 
   const themeMode = localStorage.getItem("themeMode") || "light";
 

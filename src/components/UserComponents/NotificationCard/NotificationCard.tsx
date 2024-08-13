@@ -13,7 +13,14 @@ import {
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 
-export const NotificationCard = ({ cardItem, variant, onRead, onDelete }) => {
+interface props {
+  cardItem: any;
+  variant: string;
+  onRead: any;
+  onDelete: any;
+}
+
+export const NotificationCard: React.FC<props> = ({ cardItem, variant, onRead, onDelete }) => {
   const icon =
     variant === "notification" ? (
       cardItem.type === NOTIFICATION_TYPES.GENERAL ? (

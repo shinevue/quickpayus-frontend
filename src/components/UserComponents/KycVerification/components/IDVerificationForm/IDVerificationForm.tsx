@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountryCode, getCountryData } from "countries-list";
-import ReactFlagsSelect from "react-flags-select";
 
 // antd
 import { Form, Radio } from "antd";
@@ -43,7 +42,7 @@ export const IDVerificationForm: React.FC<IDVerificationFormProps> = ({
   );
   const [documentType, setDocumentType] = useState(kycFormData?.documentType);
 
-  const onChange = (e) => {
+  const onChange = (e: any) => {
     setDocumentType(e.target.value);
     if (e.target.value === DOCUMENT_TYPES.PASSPORT) {
       setMaxCount(1);
@@ -54,7 +53,7 @@ export const IDVerificationForm: React.FC<IDVerificationFormProps> = ({
   };
 
   const handleValuesChange = useCallback(
-    (changedValues, _allValues) => {
+    (changedValues: any, _allValues: any) => {
       setFormValues(changedValues);
       Object.entries(changedValues).forEach(([field, value]) => {
         console.log("field", field);
@@ -99,7 +98,7 @@ export const IDVerificationForm: React.FC<IDVerificationFormProps> = ({
     }
   };
 
-  const handleCountryChange = (value) => {
+  const handleCountryChange = (value: any) => {
     const countryData = getCountryData(value);
     // setCountry(countryData.name);
     setSelected(value);

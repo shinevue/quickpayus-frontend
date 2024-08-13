@@ -1,26 +1,16 @@
 import React from "react";
-import { LogoutOutlined } from "@ant-design/icons";
 import sidebarItems from "@/textContent/sidebarContent.json";
 
 import * as Styled from "./Style/Sidebar.styled";
 import { isAccessible } from "@/utils/utils";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectPermission } from "./Auth/authSlice";
-import { API } from "@/utils/api";
-import { updateProfileField } from "@/app/profileSlice";
 import { useLocation } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
   const permissions = useSelector(selectPermission);
 
-  const dispatch = useDispatch();
   const location = useLocation();
-
-  const signOut = () => {
-    dispatch(updateProfileField({ field: "username", value: null }));
-    localStorage.removeItem("token");
-    API.defaults.headers.token = "";
-  };
 
   return (
     <>

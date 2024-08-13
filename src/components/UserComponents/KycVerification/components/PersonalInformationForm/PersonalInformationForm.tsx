@@ -4,7 +4,7 @@ import { PhoneInput } from "react-international-phone";
 import dayjs from "dayjs";
 
 // antd
-import { Form, Select, Input, DatePicker, Row, Col } from "antd";
+import { Form, Select, Input } from "antd";
 
 // styled components
 import * as Styled from "./PersonalInformationForm.styled";
@@ -53,23 +53,12 @@ export const PersonalInformationForm: React.FC<
   //  useUpdateProfileDataMutation;
   const {
     data: user,
-    error,
-    isLoading,
-    isFetching,
   } = useGetUserQuery({
     uuid: profile.uuid,
   });
 
-  const span = {
-    xs: { span: 24 },
-    sm: { span: 24 },
-    md: { span: 12 },
-    lg: { span: 12 },
-    xxl: { span: 12 },
-  };
-
   const handleValuesChange = useCallback(
-    (changedValues, _allValues) => {
+    (changedValues: any, _allValues: any) => {
       setFormValues(changedValues);
       Object.entries(changedValues).forEach(([field, value]) => {
         if (
@@ -98,19 +87,19 @@ export const PersonalInformationForm: React.FC<
     [countryCode, dispatch, phone]
   );
 
-  const handleGenderChange = (value) => {
+  const handleGenderChange = (value: any) => {
     setSelectedGender(value);
   };
 
-  const handlePhoneNumberChange = (inputValue, country) => {
+  const handlePhoneNumberChange = (inputValue: any, country: any) => {
     const val = inputValue.replace(`+${country.country.dialCode}`, "");
     setCountryCode(`+${country.country.dialCode}`);
     setPhone(val);
   };
 
-  const handleChangeFloating = (value) => {};
+  const handleChangeFloating = () => {};
 
-  const makePhoneNumber = (countryCode, phoneNumber) => {
+  const makePhoneNumber = (countryCode: string, phoneNumber: any) => {
     return `${countryCode}${phoneNumber}`;
   };
 

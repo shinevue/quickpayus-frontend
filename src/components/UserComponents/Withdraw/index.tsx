@@ -75,7 +75,7 @@ const Withdrawal = () => {
   });
 
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timeout;
     if (otpSent && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => {
@@ -129,11 +129,11 @@ const Withdrawal = () => {
     }
   };
 
-  const handleInputChange = (value) => {
+  const handleInputChange = (value: any) => {
     setOtp(value);
   };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values: any) => {
     try {
       setFormValues(values);
 
@@ -184,16 +184,16 @@ const Withdrawal = () => {
     }
   };
 
-  const handleBalanceChange = (value, callback) => {
+  const handleBalanceChange = (value: any, callback: any) => {
     switch (value) {
       case "DEPOSIT":
-        setCurrentBalance(profile["depositBalance"]);
+        setCurrentBalance(profile["depositBalance" as keyof typeof profile]);
         break;
       case "PROFIT":
-        setCurrentBalance(profile["profitBalance"]);
+        setCurrentBalance(profile["profitBalance" as keyof typeof profile]);
         break;
       case "REWARD":
-        setCurrentBalance(profile["rewardBalance"]);
+        setCurrentBalance(profile["rewardBalance" as keyof typeof profile]);
         break;
     }
     callback("transactionType", value);
@@ -266,7 +266,7 @@ const Withdrawal = () => {
     return container ? container : document.body;
   };
 
-  const validateNumberInput = (event) => {
+  const validateNumberInput = (event: any) => {
     // Allow numbers, period, backspace, delete, arrows, enter, and tab
     if (
       !(
@@ -309,7 +309,7 @@ const Withdrawal = () => {
               <Styled.InputWrapper>
                 <label>Amount:</label>
                 <Field name="withdrawalAmount">
-                  {({ field }) => (
+                  {({ field }: {field: any}) => (
                     <Input
                       type="text"
                       {...field}
@@ -337,7 +337,7 @@ const Withdrawal = () => {
               <Styled.InputWrapper>
                 <label>Address:</label>
                 <Field name="withdrawalAddress">
-                  {({ field }) => (
+                  {({ field }: {field: any}) => (
                     <Input
                       type="text"
                       {...field}
@@ -365,7 +365,7 @@ const Withdrawal = () => {
                 <div>
                   <div style={{ marginBottom: "10px" }}>Type:</div>
                   <Field name="transactionType">
-                    {({ field }) => (
+                    {({ field }: {field: any}) => (
                       <Styled.StyledSelect
                         {...field}
                         onChange={(value) =>

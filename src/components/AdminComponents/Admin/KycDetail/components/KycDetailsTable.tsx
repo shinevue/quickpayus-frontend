@@ -225,7 +225,7 @@ const UsersTable: React.FC<Props> = ({
         columns={columns}
         dataSource={sortedUsers}
         rowKey="id"
-        onChange={(pagination, filters, sorter) => {
+        onChange={(pagination, filters, sorter: any) => {
           if (sorter && sorter.columnKey && sorter.order) {
             handleSortBy(sorter.columnKey);
           }

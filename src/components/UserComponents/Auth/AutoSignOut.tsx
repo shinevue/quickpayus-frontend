@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toastify } from "@/utils/toastify";
 import { updateProfileField } from "@/app/profileSlice";

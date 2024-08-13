@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect, useCallback, useState } from "react";
-import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import React, { ReactNode, useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { Spin } from "antd";
 import {
@@ -11,7 +11,6 @@ import { getRequirementForPath, isAccessible } from "@/utils/utils";
 import { selectProfile } from "@/app/selectors";
 import { updateSettingField } from "@/app/settingSlice";
 import type { AppDispatch } from "@/app/store";
-import type { Path, PathItem } from "@/types/SidebarType";
 import { authPaths } from "@/constants";
 import { LoadingOutlined } from "@ant-design/icons";
 import { API } from "@/utils/api";

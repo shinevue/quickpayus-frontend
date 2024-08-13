@@ -54,14 +54,14 @@ const KYCStatusComponent: React.FC = () => {
 
       setUsers(
         data
-          .filter((item) => item.kyc?.status)
-          .map((item) => {
+          .filter((item: any) => item.kyc?.status)
+          .map((item: any) => {
             return {
               id: item._id,
               status: item.kyc?.status,
               documentationType: item.kyc?.documentType,
-              images: item.kyc?.images.map((item) => item.name),
-              documents: item.kyc?.documents.map((item) => item.name),
+              images: item.kyc?.images.map((item: any) => item.name),
+              documents: item.kyc?.documents.map((item: any) => item.name),
               userInfo: {
                 username: item.username,
                 address: item.kyc?.addressLine,

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Col, Button, Skeleton, Modal, Progress, Flex } from "antd";
+import { Row, Col, Skeleton, Modal, Progress, Flex } from "antd";
 import * as Styled from "./Rank.styled";
 import { API } from "@/utils/api";
 import RankChart from "./Charts";
 
 import moment from "moment-timezone";
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
-
-const { Meta } = Card;
 
 const MyComponent: React.FC = () => {
   const [loading, setLoading] = useState(true);
