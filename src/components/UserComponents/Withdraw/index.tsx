@@ -11,6 +11,8 @@ import { selectKycVerification, selectProfile } from "@/app/selectors";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useContainer from "@/utils/Hooks/useContainer";
+import axios from "axios";
+import moment from "moment";
 
 const { Option } = Select;
 
@@ -41,6 +43,7 @@ const Withdrawal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentBalance, setCurrentBalance] = useState<number>(0);
   const [isKycModalVisible, setIsKycModalVisible] = useState<boolean>(false);
+  const [today, setToday] = useState<Date>(new Date());
 
   const [messageApi, contextHolder] = message.useMessage();
   const [postData] = usePostDataMutation();
@@ -136,13 +139,21 @@ const Withdrawal = () => {
   const handleSubmit = async (values: any) => {
     try {
       setFormValues(values);
+      const todayEST = new Date().toLocaleString("en-US", {
+        timeZone: "America/New_York",
+      });
 
-      if (currentBalance < parseFloat(values.withdrawalAmount)) {
-      }
-      if (!isValidKyc) {
-        setIsKycModalVisible(true);
+      if (moment(todayEST).day() === 0 || moment(todayEST).day() === 6) {
+        if (currentBalance < parseFloat(values.withdrawalAmount)) {
+          message.error("Your current balance is not enough");
+        }
+        if (!isValidKyc) {
+          setIsKycModalVisible(true);
+        } else {
+          await sendOTP();
+        }
       } else {
-        await sendOTP();
+        message.error("You can withdraw at your weekend");
       }
     } catch (error) {
       console.error("Failed to send OTP:", error);
@@ -246,7 +257,7 @@ const Withdrawal = () => {
         if (response.data.success) {
           messageApi.open({
             type: "success",
-            content: 'Withdrawal succeed!',
+            content: "Withdrawal succeed!",
           });
           setTimeout(() => {
             navigate("/transaction");
@@ -290,7 +301,7 @@ const Withdrawal = () => {
 
   const handleModalCancel = () => {
     setConfirmModalVisible(false);
-  }
+  };
 
   return (
     <>
@@ -454,7 +465,7 @@ const Withdrawal = () => {
         onOk={handleRedirectKyc}
         onCancel={() => setIsKycModalVisible(false)}
       />
-      
+
       <Modal
         title="Confirmation"
         open={isConfirmModalVisible}
