@@ -1,6 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+type kyc = {
+  dateOfBirth: any;
+  gender: string;
+  occupation: string;
+  addressLine: string;
+  addressLine2: string;
+  country: string;
+  documentType: string;
+  images: any;
+  documents: any;
+  status?: string;
+}
+
+const initialState: kyc = {
   dateOfBirth: "",
   gender: "Male",
   occupation: "",

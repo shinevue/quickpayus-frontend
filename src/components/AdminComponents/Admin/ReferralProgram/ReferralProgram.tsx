@@ -18,14 +18,6 @@ import {
   ReferralSubProgramType,
 } from "@/types/ProgramType";
 
-import ReferralReports from "./ReferralManagement";
-
-interface User {
-  id: number;
-  name: string;
-  referredBy?: number;
-}
-
 const ReferralProgramComponent: React.FC = () => {
   const [referralProgram, setReferralProgram] = useState<ReferralProgramType[]>(
     () => {
@@ -48,8 +40,6 @@ const ReferralProgramComponent: React.FC = () => {
     }
   );
   const [currentLevel, setCurrentLevel] = useState<number>(0);
-
-  const [users, setUsers] = useState<User[]>([]);
 
   const dispatch: AppDispatch = useDispatch();
   const programsState = useSelector(selectPrograms);

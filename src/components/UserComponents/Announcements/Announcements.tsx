@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Layout, Skeleton, Empty } from "antd";
 import { NotificationCard } from "../NotificationCard";
 
@@ -24,7 +24,7 @@ export const Announcements: React.FC = () => {
   const dispatch = useDispatch();
 
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       const response = await API.delete(`/announcements/${id}`);
       if (response.data.success) {
@@ -33,7 +33,7 @@ export const Announcements: React.FC = () => {
     } catch (error) {}
   };
 
-  const handleRead = async (id) => {
+  const handleRead = async (id: string) => {
     try {
       const response = await API.put(`/announcements/${id}`);
       if (response.data.success) {

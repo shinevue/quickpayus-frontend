@@ -1,32 +1,22 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
 
 import { Row, Col } from "antd";
 import * as Styled from "./Style/Dashboard.styled";
 import {
-  ChartConfig,
   daily,
   defaultXValue,
-  generateChartItemWidth,
-  largestPowerOfTen,
   monthly,
-  useChartData,
   weekly,
 } from "./ChartData";
 import { useFetchBalanceAnalticsForChartQuery } from "@/app/slice";
 
-import { produce } from "immer";
-
-interface ChartProps {
-  eChart: ChartConfig;
-}
 
 type props = {
   analytics: any;
 };
 
-const EChart: React.FC<props> = ({ analytics }) => {
+const EChart: React.FC<props> = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [balanceFrame, setBalanceFrame] = useState<string>("profits");
   const [timeFrame, setTimeFrame] = useState<string>("day");
@@ -84,7 +74,7 @@ const EChart: React.FC<props> = ({ analytics }) => {
   useEffect(() => {
     if (
       fetchResult.isSuccess &&
-      fetchResult.data.length == defaultXValue[timeFrame].length
+      fetchResult.data.length == defaultXValue[timeFrame as keyof typeof defaultXValue].length
     ) {
       setChartData([
         {

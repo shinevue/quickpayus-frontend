@@ -11,7 +11,7 @@ interface DailyProfit {
   profitPercentage: number;
 }
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const DailyProfitComponent: React.FC = () => {
   const defaultRange: Record<string, [number, number]> = {
@@ -90,7 +90,7 @@ const DailyProfitComponent: React.FC = () => {
       );
     }
     if (history.length) {
-      const temp = history.map((item, index) => {
+      const temp = history.map((item: any, index: number) => {
         if (index == history.length-1) return item;
         else return { ...item, oldProfit: history[index + 1].profit };
       });

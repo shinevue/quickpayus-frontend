@@ -17,7 +17,6 @@ import {
 import {
   setNotifications,
   resetNotifications,
-  setNotificationsReadStatus,
   readOne,
   deleteOne,
 } from "@/app/slices/notificationsSlice";
@@ -36,8 +35,6 @@ export const Notifications = () => {
   const notifications = useSelector(selectNotifications);
   const counter = useSelector(selectUnreadNotificationCount);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (location.pathname === "/notifications") {
@@ -65,7 +62,7 @@ export const Notifications = () => {
     }
   }, [dispatch]);
 
-  const handleRead = async (id) => {
+  const handleRead = async (id: string) => {
     try {
       const response = await API.put(`/notifications/${id}`);
       if (response.data.success) {
@@ -74,7 +71,7 @@ export const Notifications = () => {
     } catch (error) {}
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       const response = await API.delete(`/notifications/${id}`);
       if (response.data.success) {

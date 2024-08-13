@@ -17,7 +17,7 @@ export const FloatingInput: React.FC<FloatingInputProps> = ({
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = (e) => {
+  const handleBlur = (e: any) => {
     setIsFocused(false);
     field.onBlur(e);
   };

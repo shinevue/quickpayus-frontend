@@ -2,8 +2,13 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { StyledUpload } from "./UploadButton.styled";
 
-export const UploadButton = ({ getFileList, maxCount }) => {
-  const handleUploadFileList = (fileList) => {
+interface props {
+  getFileList: any;
+  maxCount: number;
+}
+
+export const UploadButton: React.FC<props> = ({ getFileList, maxCount }) => {
+  const handleUploadFileList = (fileList: any) => {
     getFileList(fileList);
   };
 

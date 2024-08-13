@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Form, Input, Button, Typography, List } from "antd";
+import { Form, Input, Button, Typography, List, FormInstance } from "antd";
 import { addNotification, getNotification } from "../UserNotificationsApi";
 import moment from "moment";
 // import "antd/dist/antd.css";
@@ -24,7 +24,7 @@ const UserNotifications: React.FC = () => {
   const [notificationTitle, setNotificationTitle] = useState<string>("");
   const [notificationMessage, setNotificationMessage] = useState<string>("");
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const formRef = useRef(null);
+  const formRef = useRef<FormInstance>(null);
 
   useEffect(() => {
     (async () => {

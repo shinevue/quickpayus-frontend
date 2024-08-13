@@ -43,23 +43,23 @@ export function useReferralsList() {
 
   const currentData = newReferralList;
 
-  const handleTypeChange = (value) => {
+  const handleTypeChange = (value: any) => {
     setCurrentPage(1);
     setType(value);
     refetch();
   };
 
-  const handleLevelChange = (value) => {
+  const handleLevelChange = (value: any) => {
     setLevel(value);
     refetch();
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: any) => {
     setCurrentPage(page);
     refetch();
   };
 
-  const handleSearch = (value) => {
+  const handleSearch = (value: any) => {
     if (!value) return setReferralsList(referrals.data);
     const filteredData = newReferralList.filter(
       (referral) =>
@@ -102,26 +102,26 @@ export function useReferralsList() {
       title: "Name",
       dataIndex: "fullName",
       key: "name",
-      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
+      sorter: (a: any, b: any) => a.fullName.localeCompare(b.fullName),
     },
     {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      sorter: (a, b) => a.username.localeCompare(b.username),
+      sorter: (a: any, b: any) => a.username.localeCompare(b.username),
     },
     {
       title: "Investment Level",
       dataIndex: "investmentLevel",
       key: "investment",
-      render: (investmentLevel) => investmentLevel || "N/A",
+      render: (investmentLevel: string) => investmentLevel || "N/A",
     },
     {
       title: "Joining Date",
       dataIndex: "createdAt",
       key: "joiningDate",
-      render: (date) => dayjs(date).format("DD-MM-YYYY"),
-      sorter: (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      render: (date: Date) => dayjs(date).format("DD-MM-YYYY"),
+      sorter: (a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
     },
   ];
 

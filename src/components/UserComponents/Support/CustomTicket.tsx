@@ -15,15 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 const { TextArea } = Input;
 
-interface File {
-  name: string;
-  size: number;
-  lastModifiedDate: string;
-  lastModified: any;
-}
-
 const CustomTicket: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [subject, setSubject] = useState("");
@@ -64,8 +56,8 @@ const CustomTicket: React.FC = () => {
     setOpen(false);
   };
 
-  const getFileList = (images) => {
-    const filesWithSerializedDate = images.fileList.map((file) => ({
+  const getFileList = (images: any) => {
+    const filesWithSerializedDate = images.fileList.map((file: any) => ({
       // ...file,
       lastModified: file.lastModified,
       lastModifiedDate: file.lastModifiedDate.toISOString(), // Convert Date to string

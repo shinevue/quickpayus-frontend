@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import rightArrow from "@/assets/images/red-right-arrow.svg";
 import { Switch, Tooltip, message } from "antd";
 import * as Styled from "./settings.styled.js";
 import { useEffect, useState } from "react";
@@ -9,7 +7,6 @@ import { API } from "@/utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProfile } from "@/app/selectors";
 import { updateProfileField } from "@/app/profileSlice";
-import { toastify, toastify_success } from "@/utils/toastify";
 
 const GeneralSettings = () => {
   const [iskycDone, setiskycDone] = useState(false);
@@ -18,10 +15,9 @@ const GeneralSettings = () => {
 
   const dispatch = useDispatch();
   const { isEnableMFA } = useSelector(selectProfile);
-  const res = useSelector(selectProfile);
 
   useEffect(() => {
-    setEnableMFA(isEnableMFA);
+    setEnableMFA(isEnableMFA || false);
   }, [isEnableMFA]);
 
   const onChange = (checked: boolean) => {

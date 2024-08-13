@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Formik, Field, ErrorMessage } from "formik";
-import axios, { HeadersDefaults, AxiosHeaderValue } from "axios";
+import axios from "axios";
 
 // hooks
 import useNavbarheight from "@/utils/Hooks/useNavbarheight";
@@ -15,9 +14,6 @@ import { updateKyc } from "@/app/slices/KycVerificationSlice";
 // styled components
 import * as Styled from "./SignIn.styled";
 import { API, setToken } from "@/utils/api";
-import { requireOTP, verifyOTP } from "./OTPApi";
-
-import { defaultSecurityQuestions } from "./Signup";
 import { SecurityQuestionForm } from "./SignInForm/SecurityQuestionForm";
 import { BackupCodeForm } from "./SignInForm/BackupCodeForm";
 import { SignInForm } from "./SignInForm/SignInForm";
@@ -91,7 +87,7 @@ const SignIn: React.FC = () => {
   };
 
   const handleCheckBackup = async (
-    values: { backupCode },
+    values: { backupCode: any },
     { setSubmitting, setErrors }: FormikBag
   ): Promise<void> => {
     try {

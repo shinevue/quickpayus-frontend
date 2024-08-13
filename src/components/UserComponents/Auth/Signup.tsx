@@ -60,20 +60,9 @@ export const steps = [
   "Otp",
 ];
 
-interface TransportConfig {
-  secure?: boolean | "STARTTLS";
-  auth: {
-    user: string;
-    pass: string;
-  };
-}
-
 const SignupForm = () => {
   const [otp, setOtp] = useState([]);
   const [showMoreInfo, setShowMoreInfo] = useState<boolean>(false);
-  // const [phone, setPhone] = useState<string>("");
-  // const [dial, setDial] = useState<string>("");
-  const [countryCode, setCountryCode] = useState("");
 
   const [countDownValue, setCountDownValue] = useState<number>(0);
   const navigate = useNavigate();
@@ -81,26 +70,10 @@ const SignupForm = () => {
   const navbarheight = useNavbarheight();
   const [token, setToken] = useState("");
 
-  // const handleChangePhone = (dial, phone) => {
-  //   setPhone(phone);
-  //   setDial(dial);
-  // };
-
   const { username } = useParams();
   const clientInfo = deviceInfo();
   const handleRequireOTP = async () => {
     setCountDownValue(5);
-    const otpResult = await axios.post(
-      "/api/v1/otp/create",
-      {
-        request_type: "signup",
-      },
-      {
-        headers: {
-          token,
-        },
-      }
-    );
   };
 
   useEffect(() => {
@@ -121,7 +94,7 @@ const SignupForm = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values: any, { setSubmitting }: {setSubmitting: any}) => {
     try {
       const response = await axios.post("/api/v1/auth/signup", {...values, ...clientInfo});
       if (response.data.success) {
@@ -145,7 +118,7 @@ const SignupForm = () => {
     }
   };
 
-  const validate = (values): FormErrors => {
+  const validate = (values: any): FormErrors => {
     const errors: FormErrors = {};
 
     if (currentStep === 1) {
@@ -205,7 +178,7 @@ const SignupForm = () => {
     return errors;
   };
 
-  const handleOtpInput = async (value) => {
+  const handleOtpInput = async (value: any) => {
     setOtp(value);
   };
 
@@ -233,7 +206,7 @@ const SignupForm = () => {
   }, [otp]);
 
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timeout;
     if (countDownValue > 0) {
       interval = setInterval(() => {
         setCountDownValue((prevTimer): number => {
@@ -304,7 +277,7 @@ const SignupForm = () => {
                       className={`${errors.firstName ? "shake" : ""}`}
                     >
                       <Field name="firstName">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             {/* <Styled.InputLabel htmlFor="firstName" >
                               First Name
@@ -336,7 +309,7 @@ const SignupForm = () => {
                       className={`${errors.lastName ? "shake" : ""}`}
                     >
                       <Field name="lastName">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             {/* <Styled.InputLabel htmlFor="lastName">
                               Last Name
@@ -360,11 +333,11 @@ const SignupForm = () => {
                 )}
                 {steps[currentStep] === "Number" && (
                   <Field name="phoneNumber">
-                    {({ field }) => (
+                    {({ field }: {field: any}) => (
                       <Styled.InputWrapper>
                         <AntPhone
                           {...field}
-                          handleChange={(countryCode, value) => {
+                          handleChange={(countryCode: string, value: string) => {
                             setFieldValue("countryCode", countryCode);
                             setFieldValue("phoneNumber", value);
                           }}
@@ -391,7 +364,7 @@ const SignupForm = () => {
                       className={`${errors.email ? "shake" : ""}`}
                     >
                       <Field name="email">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             <FloatingInput
                               label="Email"
@@ -418,7 +391,7 @@ const SignupForm = () => {
                       className={`${errors.username ? "shake" : ""}`}
                     >
                       <Field name="username">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             <FloatingInput
                               label="Username"
@@ -449,7 +422,7 @@ const SignupForm = () => {
                       className={`${errors.password ? "shake" : ""}`}
                     >
                       <Field name="password">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             <Styled.InputLabel htmlFor="password">
                               Password
@@ -483,7 +456,7 @@ const SignupForm = () => {
                       className={`${errors.confirmPassword ? "shake" : ""}`}
                     >
                       <Field name="confirmPassword">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             <Styled.InputLabel htmlFor="confirmPassword">
                               Confirm Password
@@ -507,7 +480,7 @@ const SignupForm = () => {
                 {steps[currentStep] === "Referral" && (
                   <>
                     <Field name="referral">
-                      {({ field }) => (
+                      {({ field }: {field: any}) => (
                         <Styled.InputWrapper>
                           <ReferralInput
                             field={field}
@@ -524,7 +497,7 @@ const SignupForm = () => {
                       )}
                     </Field>
                     <Field name="termsAndConditions">
-                      {({ field }) => (
+                      {({ field }: {field: any}) => (
                         <Styled.InputWrapper>
                           <Styled.StyledCheckbox
                             checked={field.value}
@@ -571,7 +544,7 @@ const SignupForm = () => {
                       className={`${errors.question ? "shake" : ""}`}
                     >
                       <Field name="question">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             <Select
                               size="large"
@@ -606,7 +579,7 @@ const SignupForm = () => {
                       className={`${errors.answer ? "shake" : ""}`}
                     >
                       <Field name="answer">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             <FloatingInput
                               label="Answer"

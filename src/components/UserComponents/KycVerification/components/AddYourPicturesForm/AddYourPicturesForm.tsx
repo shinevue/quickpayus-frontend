@@ -1,11 +1,10 @@
-import { Form, Select, Radio, Divider } from "antd";
+import { Form } from "antd";
 import * as Styled from "./AddYourPicturesForm.styled";
 import { UploadButton } from "../../../UploadButton/UploadButton";
 import { updateKycField } from "@/app/slices/KycVerificationSlice";
 
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-const { Option } = Select;
+import { useDispatch } from "react-redux";
 
 interface AddYourPicturesFormProps {
   errors: {
@@ -18,24 +17,15 @@ export const AddYourPicturesForm: React.FC<AddYourPicturesFormProps> = ({
 }) => {
   const [form] = Form.useForm();
   const [formValues, setFormValues] = useState({});
-  const [value, setValue] = useState(1);
 
   const dispatch = useDispatch();
 
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleValuesChange = (changedValues, allValues) => {
+  const handleValuesChange = (changedValues: any, allValues: any) => {
     setFormValues(allValues);
   };
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
-  const getFileList = (images) => {
-    const filesWithSerializedDate = images.fileList.map((file) => ({
+  const getFileList = (images: any) => {
+    const filesWithSerializedDate = images.fileList.map((file: any) => ({
       // ...file,
       lastModified: file.lastModified,
       lastModifiedDate: file.lastModifiedDate.toISOString(), // Convert Date to string

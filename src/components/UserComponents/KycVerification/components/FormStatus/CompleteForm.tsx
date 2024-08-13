@@ -1,11 +1,8 @@
-import { faHourglassHalf } from "@fortawesome/free-regular-svg-icons";
-
 import * as Styled from "./CompleteForm.styled";
-import { Progress, Spin } from "antd";
+import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface CompleteFormProps {
   state: number;

@@ -57,7 +57,7 @@ const Deposit: React.FC = () => {
     setTimeout(() => setCopied(false), 3000);
   };
 
-  const handleConfirm = (values) => {
+  const handleConfirm = (values: any) => {
     setFormValues(values);
     setIsModalVisible(true);
   };
@@ -115,7 +115,7 @@ const Deposit: React.FC = () => {
                     </Styled.StyledLabel>
                     <Styled.FieldCover>
                       <Field name="investmentAmount">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.SelectOne
                             className="select"
                             style={{
@@ -128,9 +128,9 @@ const Deposit: React.FC = () => {
                             }}
                           >
                             {programsData &&
-                              programsData?.data?.map((item) => {
+                              programsData?.data?.map((item: any) => {
                                 if ("data" in item) {
-                                  return item.data.map((program) => {
+                                  return item.data.map((program: any) => {
                                     if ("investment" in program) {
                                       const { investment } = program;
                                       return (
@@ -172,7 +172,7 @@ const Deposit: React.FC = () => {
                     </Styled.StyledLabel>
                     <Styled.FieldCover>
                       <Field name="receiverAddress">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputWrapper>
                             <Styled.InputBox
                               style={{ background: "transparent" }}
@@ -201,7 +201,7 @@ const Deposit: React.FC = () => {
                     </Styled.StyledLabel>
                     <Styled.FieldCover>
                       <Field name="senderAddress">
-                        {({ field }) => (
+                        {({ field }: {field: any}) => (
                           <Styled.InputBox
                             style={{
                               overflow: "hidden",

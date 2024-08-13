@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 // antd
@@ -22,7 +22,6 @@ import VerifiedBadge from "@/assets/images/verified.svg";
 import {
   api,
   useGetNotificationsQuery,
-  useGetUnreadNotificationsCountQuery,
 } from "@/app/slice";
 import { updateSettingField } from "@/app/settingSlice";
 import {
@@ -35,7 +34,6 @@ import { updateOtpStatus } from "@/app/slices/otpSlice";
 
 // styles
 import * as Styled from "./Banner.styled";
-import { APP_BASE_URL } from "@/utils/constants";
 import { resetNotifications, setNotifications } from "@/app/slices/notificationsSlice";
 import { authPaths } from "@/constants";
 
@@ -125,7 +123,7 @@ export const Banner = () => {
 
   const isAuthPath = authPaths.indexOf(location.pathname) > -1;
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (event: any) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       if (event.target.parentNode.className.includes("avatarMenu0")) {
         return;
@@ -175,7 +173,7 @@ export const Banner = () => {
     }
   }, [collapsed]);
 
-  const handleClick = (key) => {
+  const handleClick = (key: string) => {
     if (key === "dark" || key === "light" || key === "auto") {
       setSelectedKey(key);
       dispatch(updateSettingField({ field: "themeMode", value: key }));

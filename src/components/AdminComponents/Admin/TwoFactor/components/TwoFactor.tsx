@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Steps, Form, Input, Modal, Typography, Result } from "antd";
+import { Button, Steps, Form, Input, Modal, Result } from "antd";
 
 import { requireOTP, sendAuthPayload, verifyOTP } from "../TwoFactorAPI";
 
@@ -11,8 +11,6 @@ import { AppDispatch } from "@/app/store";
 import { updateProfileField } from "@/app/profileSlice";
 import { InputOTP } from "antd-input-otp";
 import { useDevice } from "@/utils/Hooks/useDevice";
-
-const { Title } = Typography;
 
 const { Step } = Steps;
 

@@ -7,13 +7,11 @@ import {
   TablePaginationConfig,
   DatePicker,
   Select,
-  Divider,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import { fetchUserAsync } from "@/app/actions/userAction";
 import {
-  selectStatusUsersSlice,
   selectTotalUsers,
   selectUsers,
 } from "@/app/slices/userSlice";
@@ -33,7 +31,6 @@ const ReferralReports: React.FC = () => {
 
   const dispatch: AppDispatch = useDispatch();
   const usersState = useSelector(selectUsers);
-  const loading = useSelector(selectStatusUsersSlice);
   const total = useSelector(selectTotalUsers);
 
   const [page, setPage] = useState<number>(1);

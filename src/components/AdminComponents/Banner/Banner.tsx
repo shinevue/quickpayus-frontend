@@ -7,7 +7,6 @@ import { Menu, Popover, Radio, MenuProps } from "antd";
 
 // styles
 import * as Styled from "./Banner.styled";
-import { useDevice } from "@/utils/Hooks/useDevice";
 import { updateProfileField } from "@/app/profileSlice";
 import { selectProfile, selectSetting } from "@/app/selectors";
 import { updateSettingField } from "@/app/settingSlice";
@@ -239,13 +238,6 @@ export const Banner = () => {
     />
   );
 
-  const device = useDevice();
-  const [openCloseNav, setOpenCloseNav] = useState(false);
-  const handleNavigation = () => {
-    setOpenCloseNav(!openCloseNav);
-  };
-
-  const [counter, setCounter] = useState(0);
   //   const {
   //     data: notifications,
   //     isError,

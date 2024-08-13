@@ -1,15 +1,13 @@
 import ReactApexChart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
 import {
   ChartConfig,
   eChartDaily,
   eChartMonthly,
   eChartWeekly,
 } from "./ChartData";
-import { Row, Select, Col, Skeleton } from "antd";
+import { Row, Select, Col } from "antd";
 import { useEffect, useState } from "react";
 import { API } from "@/utils/api";
-import { updateProfileField } from "@/app/profileSlice";
 
 const RankChart: React.FC = () => {
   const [chartData, setChartData] = useState<ChartConfig>(eChartDaily);
@@ -123,6 +121,3 @@ const RankChart: React.FC = () => {
 };
 
 export default RankChart;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}

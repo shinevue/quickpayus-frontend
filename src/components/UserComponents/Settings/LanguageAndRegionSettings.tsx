@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import rightArrow from "@/assets/images/red-right-arrow.svg";
 import * as Styled from "./settings.styled.js"; 
 

@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
-import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { Button, Layout } from "antd";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Layout } from "antd";
 // hooks
 import { useDevice } from "@/utils/Hooks/useDevice";
 // components
@@ -28,7 +28,6 @@ import DeactivateAccount from "../Settings/DeactivateAccount";
 import SignIn from "../Auth/SignIn";
 import SignupForm from "../Auth/Signup";
 import ForgotPassword from "../Auth/ForgotPassword";
-import PrivateRoute from "../PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NotFoundPage } from "../Auth/NotFoundPage";

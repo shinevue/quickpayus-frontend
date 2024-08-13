@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
-import { DatePicker, Select, TablePaginationConfig, Typography } from "antd";
+import { DatePicker, Select, TablePaginationConfig } from "antd";
 import UserDetailsTable from "./UserDetailsTable";
 import moment from "moment";
 
@@ -16,10 +16,6 @@ import { User } from "@/types/UserType";
 import * as Styled from "../../../Style/UserDetails.styled";
 import UserEditModal from "./UserEditModal";
 import UserViewModal from "./UserViewModal";
-import { useSelector } from "react-redux";
-import { selectTotalUsers } from "@/app/slices/userSlice";
-
-const { Title } = Typography;
 
 const { Option } = Select;
 
@@ -75,7 +71,7 @@ const UserDetails: React.FC = () => {
         page,
         pageSize,
       };
-      const allusers = await getAllGuests(query);
+      const allusers = await getAllGuests(query as any);
       setTotal(allusers.totalPages)
       const users = allusers.data.filter((user: any) => user.role === 'user');
       const sorted = [

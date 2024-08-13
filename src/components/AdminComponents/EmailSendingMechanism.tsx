@@ -15,15 +15,23 @@ const Card = styled.div`
   border-radius: 8px;
 `
 
+interface Email {
+  id: number;
+  subject: string;
+  content: string;
+  timestamp: string;
+  attachment: any; // Change 'any' to a more specific type if possible
+}
+
 const EmailSending = () => {
   const [emailContent, setEmailContent] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
   const [attachment, setAttachment] = useState(null);
-  const [sentEmails, setSentEmails] = useState([]);
+  const [sentEmails, setSentEmails] = useState<Email[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalAttachmentUrl, setModalAttachmentUrl] = useState("");
 
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = (e: any) => {
     e.preventDefault();
 
     if (!emailSubject || !emailContent) {
@@ -47,7 +55,7 @@ const EmailSending = () => {
     message.success("Email sent successfully");
   };
 
-  const handleViewAttachment = (attachmentUrl) => {
+  const handleViewAttachment = (attachmentUrl: string) => {
     setModalAttachmentUrl(attachmentUrl);
     setModalVisible(true);
   };
@@ -84,7 +92,7 @@ const EmailSending = () => {
               onChange={(info) => {
                 const { status, originFileObj } = info.file;
                 if (status === "done") {
-                  setAttachment(originFileObj);
+                  setAttachment(originFileObj as any);
                   message.success(
                     `${info.file.name} file uploaded successfully.`
                   );

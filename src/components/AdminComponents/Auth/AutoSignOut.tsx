@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toastify } from "@/utils/toastify";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { updateProfileField } from "@/app/profileSlice";
 import { API } from "@/utils/api";
+import { useEffect } from "react";
 
 const AutoSignOut = () => {
   const location = useLocation();

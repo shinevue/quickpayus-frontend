@@ -7,7 +7,6 @@ import { User } from "@/types/UserType";
 
 import { STATUS } from "@/constants";
 import { useSelector } from "react-redux";
-import profileSlice from "@/app/profileSlice";
 import { selectPermission } from "@/components/AdminComponents/Auth/authSlice";
 interface Props {
   users: User[];
