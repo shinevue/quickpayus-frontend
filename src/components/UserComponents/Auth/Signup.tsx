@@ -63,6 +63,9 @@ export const steps = [
 const SignupForm = () => {
   const [otp, setOtp] = useState([]);
   const [showMoreInfo, setShowMoreInfo] = useState<boolean>(false);
+  // const [phone, setPhone] = useState<string>("");
+  // const [dial, setDial] = useState<string>("");
+  const [countryCode, setCountryCode] = useState("");
 
   const [countDownValue, setCountDownValue] = useState<number>(0);
   const navigate = useNavigate();
@@ -70,10 +73,27 @@ const SignupForm = () => {
   const navbarheight = useNavbarheight();
   const [token, setToken] = useState("");
 
+  // const handleChangePhone = (dial, phone) => {
+  //   setPhone(phone);
+  //   setDial(dial);
+  // };
+
   const { username } = useParams();
   const clientInfo = deviceInfo();
   const handleRequireOTP = async () => {
     setCountDownValue(5);
+    const otpResult = await axios.post(
+      "/api/v1/otp/create",
+      {
+        request_type: "signup",
+      },
+      {
+        headers: {
+          token,
+        },
+      }
+    );
+    console.log(otpResult);
   };
 
   useEffect(() => {
@@ -94,9 +114,15 @@ const SignupForm = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
-  const handleSubmit = async (values: any, { setSubmitting }: {setSubmitting: any}) => {
+  const handleSubmit = async (
+    values: any,
+    { setSubmitting }: { setSubmitting: any }
+  ) => {
     try {
-      const response = await axios.post("/api/v1/auth/signup", {...values, ...clientInfo});
+      const response = await axios.post("/api/v1/auth/signup", {
+        ...values,
+        ...clientInfo,
+      });
       if (response.data.success) {
         Modal.info({
           title: "Registration successful",
@@ -277,7 +303,7 @@ const SignupForm = () => {
                       className={`${errors.firstName ? "shake" : ""}`}
                     >
                       <Field name="firstName">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             {/* <Styled.InputLabel htmlFor="firstName" >
                               First Name
@@ -309,7 +335,7 @@ const SignupForm = () => {
                       className={`${errors.lastName ? "shake" : ""}`}
                     >
                       <Field name="lastName">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             {/* <Styled.InputLabel htmlFor="lastName">
                               Last Name
@@ -333,11 +359,14 @@ const SignupForm = () => {
                 )}
                 {steps[currentStep] === "Number" && (
                   <Field name="phoneNumber">
-                    {({ field }: {field: any}) => (
+                    {({ field }: { field: any }) => (
                       <Styled.InputWrapper>
                         <AntPhone
                           {...field}
-                          handleChange={(countryCode: string, value: string) => {
+                          handleChange={(
+                            countryCode: string,
+                            value: string
+                          ) => {
                             setFieldValue("countryCode", countryCode);
                             setFieldValue("phoneNumber", value);
                           }}
@@ -364,7 +393,7 @@ const SignupForm = () => {
                       className={`${errors.email ? "shake" : ""}`}
                     >
                       <Field name="email">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             <FloatingInput
                               label="Email"
@@ -391,7 +420,7 @@ const SignupForm = () => {
                       className={`${errors.username ? "shake" : ""}`}
                     >
                       <Field name="username">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             <FloatingInput
                               label="Username"
@@ -422,7 +451,7 @@ const SignupForm = () => {
                       className={`${errors.password ? "shake" : ""}`}
                     >
                       <Field name="password">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             <Styled.InputLabel htmlFor="password">
                               Password
@@ -456,7 +485,7 @@ const SignupForm = () => {
                       className={`${errors.confirmPassword ? "shake" : ""}`}
                     >
                       <Field name="confirmPassword">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             <Styled.InputLabel htmlFor="confirmPassword">
                               Confirm Password
@@ -480,7 +509,7 @@ const SignupForm = () => {
                 {steps[currentStep] === "Referral" && (
                   <>
                     <Field name="referral">
-                      {({ field }: {field: any}) => (
+                      {({ field }: { field: any }) => (
                         <Styled.InputWrapper>
                           <ReferralInput
                             field={field}
@@ -497,7 +526,7 @@ const SignupForm = () => {
                       )}
                     </Field>
                     <Field name="termsAndConditions">
-                      {({ field }: {field: any}) => (
+                      {({ field }: { field: any }) => (
                         <Styled.InputWrapper>
                           <Styled.StyledCheckbox
                             checked={field.value}
@@ -544,7 +573,7 @@ const SignupForm = () => {
                       className={`${errors.question ? "shake" : ""}`}
                     >
                       <Field name="question">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             <Select
                               size="large"
@@ -579,7 +608,7 @@ const SignupForm = () => {
                       className={`${errors.answer ? "shake" : ""}`}
                     >
                       <Field name="answer">
-                        {({ field }: {field: any}) => (
+                        {({ field }: { field: any }) => (
                           <Styled.InputWrapper>
                             <FloatingInput
                               label="Answer"
